@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us — AgroChain Cart</title>
+    <meta name="description" content="Get in touch with AgroChain Cart. Whether you're a farmer ready to list, a buyer looking to source locally, or an institution exploring procurement — we're here." />
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+
+    <!-- OG TAGS -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.agrochaincart.com/contact/" />
+    <meta property="og:title" content="Contact Us — AgroChain Cart" />
+    <meta property="og:description" content="Reach out to AgroChain Cart. Farmers, buyers, restaurants, institutions — we respond within 2 hours on business days." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&q=80" />
+    <meta property="og:site_name" content="AgroChain Cart" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@agrochaincart" />
+    <meta name="theme-color" content="#2d6a4f" />
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ═══════════════════════════════════════
+           DESIGN TOKENS — exact match to homepage
+        ═══════════════════════════════════════ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --amber: #f4a261;
+            --earth: #6b4226; --ink: #0f1f17; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --radius-lg: 20px; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+            --nav-height: 68px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--white); color: var(--ink); line-height: 1.6;
+            overflow-x: hidden; padding-top: var(--nav-height);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* ═══════════════════════════════════════
+           NAV — exact copy from homepage
+        ═══════════════════════════════════════ */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+            transition: var(--transition);
+        }
+        nav.scrolled { box-shadow: 0 4px 24px rgba(26,58,42,0.1); }
+        .nav-logo {
+            display: flex; align-items: center; gap: 0; text-decoration: none;
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem;
+            color: var(--forest); letter-spacing: -0.01em; line-height: 1; z-index: 102; flex-shrink: 0;
+        }
+        .nav-logo-agro { color: var(--forest); }
+        .nav-logo-chain { color: var(--grove); }
+        .nav-logo-cart {
+            color: var(--white); background: var(--grove); padding: 2px 8px 2px 6px;
+            border-radius: 6px; margin-left: 4px; font-size: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; letter-spacing: 0.01em;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--smoke); font-size: 0.9rem; font-weight: 500;
+            transition: color var(--transition); position: relative; white-space: nowrap;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px;
+            background: var(--grove); transform: scaleX(0); transform-origin: left;
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover { color: var(--grove); }
+        .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--grove); font-weight: 600; }
+        .nav-cta { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+        .btn-ghost {
+            padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
+            background: transparent; color: var(--grove); font-size: 0.875rem;
+            font-weight: 600; cursor: pointer; transition: var(--transition); font-family: inherit;
+            white-space: nowrap;
+        }
+        .btn-ghost:hover { background: var(--mist); }
+        .btn-primary {
+            padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
+            border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition); font-family: inherit; white-space: nowrap;
+        }
+        .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
+
+        /* HAMBURGER */
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px;
+            z-index: 102; background: none; border: none; -webkit-tap-highlight-color: transparent;
+        }
+        .nav-hamburger span {
+            display: block; width: 24px; height: 2px; background: var(--forest);
+            border-radius: 2px; transition: var(--transition); transform-origin: center;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* MOBILE MENU OVERLAY */
+        .mobile-menu-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(15,31,23,0.5);
+            z-index: 98; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+
+        /* BREADCRUMB BAR */
+        .breadcrumb-bar {
+            display: none; background: var(--cream); border-bottom: 1px solid #e8f0eb;
+            padding: 10px 5%; font-size: 0.8rem; color: var(--smoke);
+            align-items: center; gap: 6px; flex-wrap: wrap;
+        }
+        .breadcrumb-bar a { color: var(--leaf); text-decoration: none; font-weight: 500; transition: color var(--transition); }
+        .breadcrumb-bar a:hover { color: var(--grove); }
+        .breadcrumb-sep { color: #c0cfc6; font-size: 0.7rem; }
+        .breadcrumb-current { color: var(--forest); font-weight: 600; }
+
+        /* SCROLL PROGRESS + CURSOR GLOW */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+            background: linear-gradient(90deg, var(--sage), var(--gold)); width: 0%; pointer-events: none;
+        }
+        .cursor-glow {
+            position: fixed; width: 300px; height: 300px; border-radius: 50%;
+            pointer-events: none; z-index: 0;
+            background: radial-gradient(circle, rgba(116,198,157,0.06) 0%, transparent 70%);
+            transform: translate(-50%, -50%); transition: left 0.15s ease, top 0.15s ease;
+        }
+
+        /* ═══════════════════════════════════════
+           CONTACT HERO
+        ═══════════════════════════════════════ */
+        .contact-hero {
+            background: linear-gradient(160deg, var(--forest) 0%, #224436 40%, #1e4d38 70%, #163323 100%);
+            position: relative; overflow: hidden;
+            padding: 80px 5% 120px;
+            display: flex; flex-direction: column; justify-content: center;
+            min-height: 52vh;
+        }
+        .contact-hero::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 90px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90'%3E%3Cpath fill='%23ffffff' d='M0,40L60,44C120,48,240,56,360,54C480,52,600,42,720,36C840,30,960,38,1080,46C1200,54,1320,58,1380,60L1440,62L1440,90L0,90Z'/%3E%3C/svg%3E");
+            background-size: cover; z-index: 3;
+        }
+        .hero-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .particle {
+            position: absolute; border-radius: 50%; background: rgba(116,198,157,0.13);
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; } 90% { opacity: 0.5; }
+            100% { transform: translateY(-20vh) scale(1.1); opacity: 0; }
+        }
+        .contact-hero-inner {
+            position: relative; z-index: 2;
+            max-width: 1200px; margin: 0 auto; width: 100%;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(116,198,157,0.15); border: 1px solid rgba(116,198,157,0.3);
+            color: var(--sage); padding: 6px 14px; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 1.4rem;
+            animation: fadeUp 0.6s ease both;
+        }
+        .badge-dot { width: 7px; height: 7px; background: #52d68a; border-radius: 50%; animation: pulse 1.8s infinite; }
+        .contact-hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1;
+            color: white; letter-spacing: -0.03em; margin-bottom: 1.2rem;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+        .contact-hero h1 em {
+            font-style: italic; font-family: 'Lora', serif;
+            background: linear-gradient(90deg, var(--sage), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .contact-hero-sub {
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: rgba(255,255,255,0.68);
+            max-width: 560px; line-height: 1.75; animation: fadeUp 0.7s 0.2s ease both;
+        }
+        /* floating response-time pill */
+        .response-pill {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 100px; padding: 8px 18px;
+            color: rgba(255,255,255,0.75); font-size: 0.82rem; font-weight: 500;
+            margin-top: 1.6rem; animation: fadeUp 0.7s 0.3s ease both;
+            backdrop-filter: blur(8px);
+        }
+        .response-dot { width: 8px; height: 8px; background: #52d68a; border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
+
+        /* ═══════════════════════════════════════
+           SHARED UTILITIES
+        ═══════════════════════════════════════ */
+        .section { padding: 80px 5%; }
+        .section-inner { max-width: 1200px; margin: 0 auto; }
+        .eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--leaf); margin-bottom: 14px; display: block; }
+        .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--forest); letter-spacing: -0.03em; line-height: 1.15; }
+        .section-title em { font-style: italic; font-family: 'Lora', serif; color: var(--grove); }
+        .section-sub { font-size: 1rem; color: var(--smoke); line-height: 1.75; max-width: 560px; margin-top: 14px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ═══════════════════════════════════════
+           CONTACT INTENT TABS (who are you?)
+        ═══════════════════════════════════════ */
+        .intent-section { background: var(--cream); }
+        .intent-tabs {
+            display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px;
+        }
+        .intent-tab {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 22px; border-radius: 100px;
+            border: 1.5px solid #ddeee4; background: white;
+            font-size: 0.88rem; font-weight: 600; cursor: pointer;
+            color: var(--smoke); transition: var(--transition); font-family: inherit;
+        }
+        .intent-tab .tab-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; transition: var(--transition); }
+        .intent-tab:hover, .intent-tab.active {
+            background: var(--grove); border-color: var(--grove); color: white;
+        }
+        .intent-tab.active .tab-dot, .intent-tab:hover .tab-dot { background: rgba(255,255,255,0.5); }
+
+        /* ═══════════════════════════════════════
+           MAIN CONTACT LAYOUT — form + sidebar
+        ═══════════════════════════════════════ */
+        .contact-main { background: white; padding: 0 5% 80px; }
+        .contact-layout {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 400px; gap: 60px; align-items: start;
+        }
+
+        /* ── FORM PANEL ── */
+        .form-panel {
+            background: white; border-radius: var(--radius-lg);
+            border: 1.5px solid #e8f0eb; padding: 48px;
+            position: relative; overflow: hidden;
+        }
+        .form-panel::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--leaf), var(--sage), var(--gold));
+        }
+        .form-heading { font-size: 1.35rem; font-weight: 800; color: var(--forest); margin-bottom: 6px; letter-spacing: -0.02em; }
+        .form-subheading { font-size: 0.88rem; color: var(--smoke); margin-bottom: 32px; line-height: 1.6; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+        .form-group label {
+            font-size: 0.82rem; font-weight: 700; color: var(--forest); letter-spacing: 0.01em;
+        }
+        .form-group label span { color: var(--leaf); margin-left: 2px; }
+        .form-control {
+            padding: 13px 16px; border-radius: var(--radius);
+            border: 1.5px solid #ddeee4; background: var(--cream);
+            font-size: 0.9rem; color: var(--ink); font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            outline: none; width: 100%;
+        }
+        .form-control:focus {
+            border-color: var(--leaf); background: white;
+            box-shadow: 0 0 0 3px rgba(64,145,108,0.12);
+        }
+        .form-control::placeholder { color: #a0b8ac; }
+        textarea.form-control { resize: vertical; min-height: 130px; line-height: 1.6; }
+        select.form-control { appearance: none; -webkit-appearance: none; cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%234a5e52' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px;
+        }
+
+        /* character counter */
+        .char-counter { font-size: 0.75rem; color: #a0b8ac; text-align: right; margin-top: 4px; }
+        .char-counter.warn { color: var(--amber); }
+        .char-counter.over { color: #e57373; }
+
+        /* inline validation */
+        .form-control.valid { border-color: var(--leaf); }
+        .form-control.invalid { border-color: #e57373; }
+        .field-error { font-size: 0.75rem; color: #e57373; margin-top: 4px; display: none; }
+        .form-group.has-error .field-error { display: block; }
+        .form-group.has-error .form-control { border-color: #e57373; box-shadow: 0 0 0 3px rgba(229,115,115,0.1); }
+
+        /* subject pill row */
+        .subject-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .subject-pill {
+            padding: 7px 16px; border-radius: 100px;
+            border: 1.5px solid #ddeee4; background: white;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            color: var(--smoke); transition: var(--transition); font-family: inherit;
+        }
+        .subject-pill.selected { background: var(--mist); border-color: var(--leaf); color: var(--grove); }
+        .subject-pill:hover { border-color: var(--leaf); color: var(--grove); }
+
+        /* attachment zone */
+        .attachment-zone {
+            border: 2px dashed #ddeee4; border-radius: var(--radius);
+            padding: 20px; text-align: center; cursor: pointer;
+            transition: border-color 0.2s, background 0.2s; margin-bottom: 20px;
+            background: var(--cream);
+        }
+        .attachment-zone:hover, .attachment-zone.dragover { border-color: var(--leaf); background: var(--mist); }
+        .attachment-zone svg { width: 28px; height: 28px; color: var(--leaf); margin-bottom: 8px; }
+        .attachment-zone p { font-size: 0.82rem; color: var(--smoke); line-height: 1.5; }
+        .attachment-zone strong { color: var(--grove); }
+        .attachment-list { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+        .attachment-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: white; border: 1px solid #e8f0eb; border-radius: 8px;
+            padding: 8px 12px; font-size: 0.8rem; color: var(--smoke);
+        }
+        .attachment-remove { background: none; border: none; cursor: pointer; color: #e57373; font-size: 1rem; line-height: 1; padding: 0 4px; }
+
+        /* privacy notice */
+        .privacy-note {
+            display: flex; align-items: flex-start; gap: 10px;
+            background: var(--mist); border-radius: 10px; padding: 12px 16px; margin-bottom: 24px;
+        }
+        .privacy-note svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--leaf); margin-top: 1px; }
+        .privacy-note p { font-size: 0.78rem; color: var(--smoke); line-height: 1.55; }
+        .privacy-note a { color: var(--grove); text-decoration: none; font-weight: 600; }
+
+        /* submit button */
+        .submit-btn {
+            width: 100%; padding: 15px 24px; border-radius: 11px;
+            background: var(--grove); color: white; border: none;
+            font-size: 0.95rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition); font-family: inherit;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            position: relative; overflow: hidden;
+        }
+        .submit-btn::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+            transform: translateX(-100%); transition: transform 0.5s ease;
+        }
+        .submit-btn:hover::after { transform: translateX(100%); }
+        .submit-btn:hover { background: var(--forest); box-shadow: 0 8px 28px rgba(45,106,79,0.4); transform: translateY(-1px); }
+        .submit-btn:disabled { background: #9ab8a8; cursor: not-allowed; transform: none; box-shadow: none; }
+        .submit-btn svg { width: 18px; height: 18px; }
+        .btn-spinner {
+            width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3);
+            border-top-color: white; border-radius: 50%;
+            animation: spin 0.7s linear infinite; display: none;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* success state */
+        .form-success {
+            display: none; text-align: center; padding: 40px 20px;
+        }
+        .success-icon {
+            width: 72px; height: 72px; background: var(--mist); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            animation: successPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+        @keyframes successPop {
+            from { transform: scale(0); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .success-icon svg { width: 36px; height: 36px; }
+        .form-success h3 { font-size: 1.4rem; font-weight: 800; color: var(--forest); margin-bottom: 10px; }
+        .form-success p { color: var(--smoke); font-size: 0.92rem; line-height: 1.7; max-width: 380px; margin: 0 auto; }
+        .form-success .email-confirm {
+            background: var(--mist); border-radius: 10px; padding: 14px 18px;
+            margin-top: 20px; font-size: 0.85rem; color: var(--grove); font-weight: 600;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+
+        /* ── SIDEBAR ── */
+        .contact-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 88px; }
+
+        /* Email card */
+        .email-card {
+            background: var(--forest); border-radius: var(--radius-lg); padding: 32px;
+            position: relative; overflow: hidden;
+        }
+        .email-card::before {
+            content: ''; position: absolute;
+            top: -40px; right: -40px; width: 140px; height: 140px; border-radius: 50%;
+            background: rgba(116,198,157,0.1);
+        }
+        .email-icon {
+            width: 52px; height: 52px; background: rgba(116,198,157,0.15);
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 18px;
+        }
+        .email-icon svg { width: 26px; height: 26px; }
+        .email-card h3 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 8px; }
+        .email-card p { font-size: 0.83rem; color: rgba(255,255,255,0.58); line-height: 1.6; margin-bottom: 18px; }
+        .email-address {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
+            transition: background 0.2s; cursor: pointer;
+        }
+        .email-address:hover { background: rgba(255,255,255,0.14); }
+        .email-address svg { width: 18px; height: 18px; color: var(--sage); flex-shrink: 0; }
+        .email-address span { font-size: 0.88rem; font-weight: 600; color: white; word-break: break-all; }
+        .copy-badge {
+            font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 100px;
+            background: rgba(116,198,157,0.2); color: var(--sage);
+            margin-left: auto; flex-shrink: 0; white-space: nowrap; transition: var(--transition);
+        }
+        .copy-badge.copied { background: var(--sage); color: var(--forest); }
+        .response-time {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.78rem; color: rgba(255,255,255,0.5); padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .rt-dot { width: 7px; height: 7px; background: #52d68a; border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
+
+        /* Info cards */
+        .info-card {
+            background: var(--cream); border-radius: var(--radius-lg); padding: 24px;
+            border: 1.5px solid #e8f0eb; transition: var(--transition);
+        }
+        .info-card:hover { border-color: var(--sage); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(64,145,108,0.1); }
+        .info-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .info-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            background: white; box-shadow: 0 2px 8px rgba(64,145,108,0.1);
+        }
+        .info-icon svg { width: 20px; height: 20px; }
+        .info-card h4 { font-size: 0.92rem; font-weight: 700; color: var(--forest); }
+        .info-card p  { font-size: 0.82rem; color: var(--smoke); line-height: 1.65; }
+        .info-card a  { color: var(--grove); font-weight: 600; text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; transition: gap 0.2s ease; }
+        .info-card a:hover { gap: 8px; }
+
+        /* Office hours live indicator */
+        .office-hours {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-top: 10px;
+        }
+        .hours-status {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 100px;
+        }
+        .hours-status.open { background: rgba(82,214,138,0.15); color: #1e7a47; }
+        .hours-status.closed { background: rgba(229,115,115,0.12); color: #c0392b; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+        .hours-status.open .status-dot { background: #52d68a; animation: pulse 2s infinite; }
+        .hours-status.closed .status-dot { background: #e57373; }
+
+        /* Social sidebar card */
+        .social-card {
+            background: white; border-radius: var(--radius-lg); padding: 24px;
+            border: 1.5px solid #e8f0eb;
+        }
+        .social-card h4 { font-size: 0.82rem; font-weight: 700; color: var(--smoke); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+        .social-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .social-btn {
+            flex: 1; min-width: 44px; height: 44px; border-radius: 10px;
+            background: var(--cream); display: flex; align-items: center; justify-content: center;
+            color: var(--smoke); text-decoration: none; transition: var(--transition);
+            border: 1.5px solid #e8f0eb;
+        }
+        .social-btn:hover { background: var(--grove); color: white; border-color: var(--grove); transform: translateY(-2px); }
+        .social-btn svg { width: 18px; height: 18px; }
+
+        /* ═══════════════════════════════════════
+           FAQ SECTION
+        ═══════════════════════════════════════ */
+        .faq-section { background: var(--cream); }
+        .faq-grid-contact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 40px; }
+        .faq-item-contact {
+            background: white; border-radius: var(--radius); border: 1.5px solid #e8f0eb;
+            overflow: hidden; transition: border-color 0.2s;
+        }
+        .faq-item-contact.open { border-color: var(--sage); }
+        .faq-q {
+            padding: 18px 22px; display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; font-weight: 600; color: var(--forest); font-size: 0.88rem;
+            gap: 12px; transition: background 0.2s; line-height: 1.4;
+        }
+        .faq-q:hover { background: var(--cream); }
+        .faq-chevron { flex-shrink: 0; width: 20px; height: 20px; transition: transform 0.3s ease; color: var(--leaf); }
+        .faq-item-contact.open .faq-chevron { transform: rotate(180deg); }
+        .faq-a {
+            max-height: 0; overflow: hidden;
+            font-size: 0.85rem; color: var(--smoke); line-height: 1.7;
+            transition: max-height 0.4s ease, padding 0.3s ease; padding: 0 22px;
+        }
+        .faq-item-contact.open .faq-a { max-height: 300px; padding: 0 22px 18px; }
+
+        /* ═══════════════════════════════════════
+           AUDIENCE CARDS — who reaches out for what
+        ═══════════════════════════════════════ */
+        .audience-section { background: white; }
+        .audience-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+        .audience-card {
+            background: var(--cream); border-radius: var(--radius-lg);
+            padding: 28px 22px; border: 1.5px solid #e8f0eb;
+            transition: var(--transition); position: relative; overflow: hidden; cursor: pointer;
+        }
+        .audience-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .aud-farmer::after  { background: linear-gradient(90deg, var(--leaf), var(--sage)); }
+        .aud-buyer::after   { background: linear-gradient(90deg, var(--gold), var(--amber)); }
+        .aud-business::after { background: linear-gradient(90deg, #2d6a4f, #74c69d); }
+        .aud-institution::after { background: linear-gradient(90deg, var(--earth), var(--gold)); }
+        .audience-card:hover::after { opacity: 1; }
+        .audience-card:hover { border-color: var(--sage); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(64,145,108,0.14); }
+        .aud-icon {
+            width: 48px; height: 48px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 16px; background: white;
+            box-shadow: 0 2px 8px rgba(64,145,108,0.1);
+        }
+        .aud-icon svg { width: 24px; height: 24px; }
+        .audience-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--forest); margin-bottom: 8px; }
+        .audience-card p  { font-size: 0.8rem; color: var(--smoke); line-height: 1.6; margin-bottom: 12px; }
+        .aud-email-link {
+            font-size: 0.8rem; font-weight: 700; color: var(--grove);
+            text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+            transition: gap 0.2s;
+        }
+        .aud-email-link:hover { gap: 8px; }
+
+        /* ═══════════════════════════════════════
+           MAP / LOCATION SECTION
+        ═══════════════════════════════════════ */
+        .location-section { background: var(--forest); padding: 80px 5%; }
+        .location-inner { max-width: 1200px; margin: 0 auto; }
+        .location-inner .eyebrow { color: var(--sage); }
+        .location-inner .section-title { color: white; }
+        .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 40px; }
+        .coverage-map {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-lg); padding: 32px;
+            display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
+        }
+        .state-chip {
+            background: rgba(116,198,157,0.12); border: 1px solid rgba(116,198,157,0.2);
+            border-radius: 8px; padding: 8px 6px; text-align: center;
+            font-size: 0.72rem; font-weight: 700; color: var(--sage);
+            letter-spacing: 0.04em; transition: var(--transition); cursor: default;
+        }
+        .state-chip:hover { background: rgba(116,198,157,0.25); transform: scale(1.04); }
+        .state-chip.coming { opacity: 0.4; border-style: dashed; color: rgba(255,255,255,0.4); background: transparent; }
+        .location-info h3 { font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 16px; }
+        .location-info p  { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.75; margin-bottom: 20px; }
+        .location-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+        .loc-stat {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius); padding: 16px; text-align: center;
+        }
+        .loc-stat-val { font-size: 1.5rem; font-weight: 800; color: var(--sage); font-family: 'Lora', serif; letter-spacing: -0.04em; }
+        .loc-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+        /* ═══════════════════════════════════════
+           FOOTER — exact copy from homepage
+        ═══════════════════════════════════════ */
+        footer { background: var(--ink); color: rgba(255,255,255,0.55); padding: 64px 5% 32px; }
+        .footer-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+            padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand-logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.3rem;
+            color: white; margin-bottom: 14px; letter-spacing: -0.01em;
+            display: inline-flex; align-items: center; gap: 0;
+        }
+        .footer-logo-cart {
+            color: var(--forest); background: var(--sage);
+            padding: 2px 8px; border-radius: 5px; margin-left: 4px;
+            font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+        .footer-col h4 { color: rgba(255,255,255,0.8); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; transition: color var(--transition); }
+        .footer-col a:hover { color: var(--sage); }
+        .footer-bottom {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 28px; font-size: 0.8rem; flex-wrap: wrap; gap: 12px;
+        }
+        .footer-socials { display: flex; gap: 12px; }
+        .social-link {
+            width: 38px; height: 38px; background: rgba(255,255,255,0.07); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.5); text-decoration: none;
+            transition: var(--transition); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-link:hover { background: var(--grove); color: white; border-color: var(--grove); transform: translateY(-2px); }
+        .social-link svg { width: 16px; height: 16px; }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE BREAKPOINTS
+        ═══════════════════════════════════════ */
+        @media (max-width: 1024px) {
+            .contact-layout { grid-template-columns: 1fr 360px; gap: 40px; }
+            .audience-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            /* Nav — exact same as homepage */
+            .nav-links {
+                display: none; flex-direction: column; position: fixed;
+                top: var(--nav-height); left: 0; right: 0; background: white;
+                padding: 20px 5% 28px; gap: 1.2rem;
+                box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+                z-index: 99; border-bottom: 2px solid var(--mist);
+            }
+            .nav-links.mobile-open { display: flex; }
+            .nav-links a { font-size: 1rem; padding: 8px 0; display: block; }
+            .nav-hamburger { display: flex; }
+            .mobile-menu-overlay { display: block; }
+            .breadcrumb-bar { display: flex; }
+            .nav-cta { display: none; }
+            .mobile-cta-group { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+            .mobile-cta-group .btn-ghost, .mobile-cta-group .btn-primary { width: 100%; text-align: center; padding: 12px; }
+
+            /* Layout */
+            .contact-layout { grid-template-columns: 1fr; gap: 32px; }
+            .contact-sidebar { position: static; }
+            .form-panel { padding: 32px 24px; }
+            .form-row { grid-template-columns: 1fr; }
+            .faq-grid-contact { grid-template-columns: 1fr; }
+            .audience-grid { grid-template-columns: repeat(2, 1fr); }
+            .location-grid { grid-template-columns: 1fr; }
+            .coverage-map { grid-template-columns: repeat(3, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .footer-brand { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .contact-hero { padding: 60px 5% 100px; min-height: auto; }
+            .contact-hero h1 { font-size: 1.9rem; }
+            .section { padding: 56px 5%; }
+            .contact-main { padding: 0 5% 56px; }
+            .form-panel { padding: 24px 18px; }
+            .audience-grid { grid-template-columns: 1fr; }
+            .coverage-map { grid-template-columns: repeat(2, 1fr); }
+            .intent-tab { font-size: 0.8rem; padding: 10px 16px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
+            .breadcrumb-bar { font-size: 0.72rem; padding: 8px 5%; }
+            .location-stats { grid-template-columns: 1fr 1fr; }
+            .social-row { justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ═══════ NAV — exact copy from homepage ═══════ -->
+<nav id="mainNav">
+    <a href="/" class="nav-logo">
+        <span class="nav-logo-agro">Agro</span><span class="nav-logo-chain">Chain</span><span class="nav-logo-cart">Cart</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/marketplace/">Marketplace</a></li>
+        <li><a href="/contact/" class="active">Contact</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li class="mobile-cta-group" id="mobileCtaGroup" style="display:none;">
+            <button class="btn-ghost">Sign In</button>
+            <button class="btn-primary">Get Started Free</button>
+        </li>
+    </ul>
+    <div class="nav-cta" id="desktopCta">
+        <button class="btn-ghost">Sign In</button>
+        <button class="btn-primary">Get Started Free</button>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- MOBILE OVERLAY -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<!-- BREADCRUMB (mobile/tablet) -->
+<div class="breadcrumb-bar" id="breadcrumbBar">
+    <a href="/">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">Contact</span>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="contact-hero">
+    <div class="hero-particles" id="heroParticles"></div>
+    <div class="contact-hero-inner">
+        <div class="hero-badge"><span class="badge-dot"></span>We reply within 2 hours</div>
+        <h1>Let's talk about<br/><em>fresh food &amp; fair prices.</em></h1>
+        <p class="contact-hero-sub">Whether you're a farmer ready to list your harvest, a buyer looking for local sourcing, a restaurant seeking reliable supply, or an institution exploring procurement — one email reaches the right person.</p>
+        <div class="response-pill">
+            <span class="response-dot"></span>
+            Average response time: <strong style="color:white; margin-left:4px;">under 2 hours</strong> on business days
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ WHO ARE YOU? INTENT TABS ═══════ -->
+<section class="section intent-section">
+    <div class="section-inner">
+        <span class="eyebrow">Get in Touch</span>
+        <h2 class="section-title">Tell us who you are<br/>and <em>we'll make it easy.</em></h2>
+        <div class="intent-tabs reveal">
+            <button class="intent-tab active" onclick="setIntent(this,'general')">
+                <span class="tab-dot" style="background:var(--leaf);"></span> General Inquiry
+            </button>
+            <button class="intent-tab" onclick="setIntent(this,'farmer')">
+                <span class="tab-dot" style="background:var(--sage);"></span> I'm a Farmer
+            </button>
+            <button class="intent-tab" onclick="setIntent(this,'buyer')">
+                <span class="tab-dot" style="background:var(--gold);"></span> I'm a Buyer / Consumer
+            </button>
+            <button class="intent-tab" onclick="setIntent(this,'restaurant')">
+                <span class="tab-dot" style="background:var(--amber);"></span> Restaurant / Retailer
+            </button>
+            <button class="intent-tab" onclick="setIntent(this,'institution')">
+                <span class="tab-dot" style="background:#a78bfa;"></span> School / Institution
+            </button>
+            <button class="intent-tab" onclick="setIntent(this,'press')">
+                <span class="tab-dot" style="background:#60a5fa;"></span> Press / Media
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ MAIN: FORM + SIDEBAR ═══════ -->
+<div class="contact-main">
+    <div class="contact-layout">
+
+        <!-- FORM -->
+        <div class="form-panel reveal" id="formPanel">
+            <h2 class="form-heading" id="formHeading">Send us a message</h2>
+            <p class="form-subheading" id="formSubheading">All messages go directly to <strong>info@agrochaincart.com</strong>. We read every one and respond personally.</p>
+
+            <!-- SUCCESS STATE -->
+            <div class="form-success" id="formSuccess">
+                <div class="success-icon">
+                    <svg viewBox="0 0 36 36" fill="none" stroke="#40916c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="18" r="16"/>
+                        <path d="M11 18l5 5 9-10"/>
+                    </svg>
+                </div>
+                <h3>Message received!</h3>
+                <p>Thank you for reaching out. Your message has been sent to our team and we'll respond within 2 hours on business days.</p>
+                <div class="email-confirm">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16" stroke-linecap="round">
+                        <path d="M2 4h16v12H2z" rx="2"/><path d="M2 4l8 7 8-7"/>
+                    </svg>
+                    Confirmation sent to your email
+                </div>
+            </div>
+
+            <!-- ACTUAL FORM -->
+            <form id="contactForm" novalidate>
+                <div class="form-row">
+                    <div class="form-group" id="fg-fname">
+                        <label for="fname">First Name <span>*</span></label>
+                        <input type="text" id="fname" name="fname" class="form-control" placeholder="Mary" autocomplete="given-name" />
+                        <span class="field-error">Please enter your first name.</span>
+                    </div>
+                    <div class="form-group" id="fg-lname">
+                        <label for="lname">Last Name <span>*</span></label>
+                        <input type="text" id="lname" name="lname" class="form-control" placeholder="Nyamvumba" autocomplete="family-name" />
+                        <span class="field-error">Please enter your last name.</span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="fg-email">
+                    <label for="email">Email Address <span>*</span></label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="you@example.com" autocomplete="email" />
+                    <span class="field-error" id="emailError">Please enter a valid email address.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="org">Organisation / Farm Name</label>
+                    <input type="text" id="org" name="org" class="form-control" placeholder="Green Valley Farm" autocomplete="organization" />
+                </div>
+
+                <div class="form-group">
+                    <label for="role">I am a <span>*</span></label>
+                    <select id="role" name="role" class="form-control">
+                        <option value="">Select your role…</option>
+                        <option value="farmer">Farmer / Grower</option>
+                        <option value="consumer">Household / Consumer</option>
+                        <option value="restaurant">Restaurant / Chef</option>
+                        <option value="retailer">Retailer / Grocery</option>
+                        <option value="school">School / University</option>
+                        <option value="hospital">Hospital / Healthcare</option>
+                        <option value="government">Government Agency</option>
+                        <option value="investor">Investor / Partner</option>
+                        <option value="press">Press / Media</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Subject</label>
+                    <div class="subject-pills" id="subjectPills">
+                        <button type="button" class="subject-pill" onclick="selectSubject(this)">Getting started</button>
+                        <button type="button" class="subject-pill" onclick="selectSubject(this)">Pricing & plans</button>
+                        <button type="button" class="subject-pill" onclick="selectSubject(this)">Logistics question</button>
+                        <button type="button" class="subject-pill" onclick="selectSubject(this)">Partnership</button>
+                        <button type="button" class="subject-pill" onclick="selectSubject(this)">Technical support</button>
+                        <button type="button" class="subject-pill" onclick="selectSubject(this)">Media inquiry</button>
+                        <button type="button" class="subject-pill" onclick="selectSubject(this)">Other</button>
+                    </div>
+                    <input type="hidden" id="subjectVal" name="subject" value="" />
+                </div>
+
+                <div class="form-group" id="fg-message">
+                    <label for="message">Message <span>*</span></label>
+                    <textarea id="message" name="message" class="form-control" placeholder="Tell us what's on your mind. The more detail you share, the better we can help you." maxlength="2000"></textarea>
+                    <div class="char-counter" id="charCounter">0 / 2000</div>
+                    <span class="field-error">Please write a message (at least 20 characters).</span>
+                </div>
+
+                <div class="attachment-zone" id="attachZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21.44 11.05L12.25 20.24a5.5 5.5 0 0 1-7.78-7.78l9.19-9.19a3.5 3.5 0 0 1 4.95 4.95L9.41 17.41a1.5 1.5 0 0 1-2.12-2.12l8.48-8.48"/></svg>
+                    <p><strong>Attach a file</strong> (optional) — drag &amp; drop or click<br/><span style="font-size:0.75rem; color:#b0c4ba;">Max 10 MB · PDF, JPG, PNG, XLSX</span></p>
+                    <ul class="attachment-list" id="attachList"></ul>
+                </div>
+                <input type="file" id="fileInput" style="display:none;" accept=".pdf,.jpg,.jpeg,.png,.xlsx" multiple />
+
+                <div class="privacy-note">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M10 2L3 6v5c0 4.5 3.1 8.1 7 9 3.9-.9 7-4.5 7-9V6L10 2z"/></svg>
+                    <p>Your information is sent directly to <a href="mailto:info@agrochaincart.com">info@agrochaincart.com</a> and will never be shared with third parties. Read our <a href="/privacy/">Privacy Policy</a>.</p>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 10l16-8-6 16-3-7-7-1z"/></svg>
+                    <span id="submitLabel">Send Message</span>
+                    <div class="btn-spinner" id="btnSpinner"></div>
+                </button>
+            </form>
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="contact-sidebar reveal">
+
+            <!-- Email card -->
+            <div class="email-card">
+                <div class="email-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8" stroke-linecap="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                </div>
+                <h3>One email. Direct access.</h3>
+                <p>All enquiries — farmer onboarding, buyer support, institutional procurement, press, partnerships — go to the same address and reach the right person immediately.</p>
+                <div class="email-address" onclick="copyEmail()" title="Click to copy">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                        <path d="M2 4h16v12H2z" rx="2"/><path d="M2 4l8 7 8-7"/>
+                    </svg>
+                    <span>info@agrochaincart.com</span>
+                    <span class="copy-badge" id="copyBadge">Copy</span>
+                </div>
+                <div class="response-time">
+                    <span class="rt-dot"></span>
+                    Typical response in under 2 hours · Mon–Fri, 8am–6pm EST
+                </div>
+            </div>
+
+            <!-- Office Hours -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#40916c" stroke-width="1.8" stroke-linecap="round">
+                            <circle cx="10" cy="10" r="8"/><path d="M10 5v5l3 3"/>
+                        </svg>
+                    </div>
+                    <h4>Office Hours</h4>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:6px; font-size:0.82rem; color:var(--smoke);">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>Monday – Friday</span><span style="font-weight:600; color:var(--forest);">8:00 am – 6:00 pm EST</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>Saturday</span><span style="font-weight:600; color:var(--forest);">10:00 am – 2:00 pm EST</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>Sunday</span><span style="color:#a0b8ac;">Closed</span>
+                    </div>
+                </div>
+                <div class="office-hours">
+                    <span style="font-size:0.78rem; color:var(--smoke);">Current status:</span>
+                    <div class="hours-status" id="officeStatus">
+                        <span class="status-dot"></span>
+                        <span id="officeStatusText">Checking…</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Response promise -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#40916c" stroke-width="1.8" stroke-linecap="round">
+                            <path d="M17 3H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3l4 3 4-3h3a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/>
+                        </svg>
+                    </div>
+                    <h4>Our Response Promise</h4>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <div style="display:flex; align-items:center; gap:10px; font-size:0.82rem; color:var(--smoke);">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M2 8l4 4 8-8"/></svg>
+                        Farmers get onboarding help within 4 hours
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; font-size:0.82rem; color:var(--smoke);">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M2 8l4 4 8-8"/></svg>
+                        Buyer support questions answered same day
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; font-size:0.82rem; color:var(--smoke);">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M2 8l4 4 8-8"/></svg>
+                        Institutional enquiries escalated immediately
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; font-size:0.82rem; color:var(--smoke);">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M2 8l4 4 8-8"/></svg>
+                        Every message read by a real human
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social -->
+            <div class="social-card">
+                <h4>Follow Us</h4>
+                <div class="social-row">
+                    <a href="https://linkedin.com/company/agrochaincart" class="social-btn" aria-label="LinkedIn" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="https://x.com/agrochaincart" class="social-btn" aria-label="X" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="https://facebook.com/agrochaincart" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="https://youtube.com/@agrochaincart" class="social-btn" aria-label="YouTube" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f1f17"/></svg>
+                    </a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- ═══════ AUDIENCE CARDS ═══════ -->
+<section class="section audience-section">
+    <div class="section-inner">
+        <span class="eyebrow">Who We Help</span>
+        <h2 class="section-title">What brings people<br/><em>to our inbox.</em></h2>
+        <div class="audience-grid reveal">
+            <div class="audience-card aud-farmer">
+                <div class="aud-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8" stroke-linecap="round">
+                        <path d="M12 2C9 6 8 9 10 12c2 3 6 1 6-2s-3-5-4-8z" fill="#40916c" opacity="0.15"/><path d="M12 20v-9"/>
+                        <rect x="3" y="20" width="18" height="2" rx="1"/>
+                    </svg>
+                </div>
+                <h4>Farmers &amp; Growers</h4>
+                <p>Ready to list your produce? Questions about onboarding, pricing tools, or logistics support? We walk every new farmer through setup personally.</p>
+                <a href="mailto:info@agrochaincart.com?subject=Farmer%20Onboarding" class="aud-email-link">Email us about farming →</a>
+            </div>
+            <div class="audience-card aud-buyer">
+                <div class="aud-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#b5852a" stroke-width="1.8" stroke-linecap="round">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                </div>
+                <h4>Buyers &amp; Families</h4>
+                <p>Issues with an order? Looking to find specific local produce? Need help setting up a household subscription? We're here to help you source better food.</p>
+                <a href="mailto:info@agrochaincart.com?subject=Buyer%20Support" class="aud-email-link" style="color:#b5852a;">Email us as a buyer →</a>
+            </div>
+            <div class="audience-card aud-business">
+                <div class="aud-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2d6a4f" stroke-width="1.8" stroke-linecap="round">
+                        <rect x="3" y="11" width="18" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+                    </svg>
+                </div>
+                <h4>Restaurants &amp; Retailers</h4>
+                <p>Looking to lock in reliable local supply? Questions about POS integration, standing orders, or business account setup? Our team handles commercial accounts directly.</p>
+                <a href="mailto:info@agrochaincart.com?subject=Business%20Account" class="aud-email-link">Email us about business →</a>
+            </div>
+            <div class="audience-card aud-institution">
+                <div class="aud-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#6b4226" stroke-width="1.8" stroke-linecap="round">
+                        <rect x="3" y="9" width="18" height="13" rx="2"/><path d="M12 2L3 9h18L12 2z"/>
+                        <rect x="9" y="16" width="6" height="6" rx="1"/>
+                    </svg>
+                </div>
+                <h4>Schools &amp; Institutions</h4>
+                <p>Exploring our institutional procurement portal? Need compliance documentation, volume pricing, or a product demo? We prioritise institutional enquiries.</p>
+                <a href="mailto:info@agrochaincart.com?subject=Institutional%20Procurement" class="aud-email-link" style="color:#6b4226;">Email us about procurement →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="section faq-section">
+    <div class="section-inner">
+        <span class="eyebrow">Before You Write</span>
+        <h2 class="section-title">Quick answers to<br/><em>common questions.</em></h2>
+        <p class="section-sub">These might save you time — but if your question isn't here, just email us.</p>
+        <div class="faq-grid-contact reveal">
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">How quickly will I get a response?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">We respond to all emails within 2 hours on business days (Monday–Friday, 8am–6pm EST) and within 4 hours on Saturdays. Sunday emails are answered first thing Monday morning. We never use auto-responders — every reply comes from a real person.</div>
+            </div>
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">I'm a farmer. How do I get listed?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">Email us at info@agrochaincart.com with your farm name, location, what you grow, and approximate annual volume. We'll schedule a 20-minute onboarding call and get your listings live within 48 hours of verification. Starter listings are completely free.</div>
+            </div>
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">Can restaurants set up recurring orders?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">Yes. Business accounts on our Growth and Institutional plans can configure standing weekly or bi-weekly orders from preferred farms, with automated reorder triggers and budget controls. Email us and we'll set up a demo of the business procurement dashboard.</div>
+            </div>
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">Do you work with school districts?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">Absolutely. Our institutional portal handles USDA procurement compliance documentation, volume pricing, multi-school contracts, and budget reporting automatically. Email info@agrochaincart.com with the subject "Institutional Procurement" and we'll fast-track your enquiry.</div>
+            </div>
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">Is AgroChain Cart available in my state?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">We're currently live in California, Oregon, Washington, Colorado, Minnesota, Iowa, Illinois, New York, New Jersey, Pennsylvania, Virginia, and Texas. We're expanding to 12 additional states in Q3 2026. If you're outside these states, email us — we may be able to accommodate you on our waitlist.</div>
+            </div>
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">I'm a journalist. Who should I contact?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">Email info@agrochaincart.com with the subject line "Media Inquiry" and include your publication, deadline, and the angle you're covering. We turn around press requests within 4 hours and can arrange interviews with our founder, Mary Nyamvumba, and farmer partners.</div>
+            </div>
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">How do farmers receive payment?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">Farmers on Growth and Institutional plans receive payouts within 2 business days of order confirmation. Starter plan farmers receive weekly batch payouts. All payments are processed through our secure payments infrastructure with full transaction history available in your dashboard.</div>
+            </div>
+            <div class="faq-item-contact" onclick="toggleFaq(this)">
+                <div class="faq-q">Can I invest in or partner with AgroChain Cart?
+                    <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>
+                </div>
+                <div class="faq-a">We're always open to conversations with aligned investors, logistics partners, agricultural co-operatives, and technology partners. Email info@agrochaincart.com with a brief description of who you are and what you have in mind. Strategic conversations are handled directly by our founder.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ COVERAGE / LOCATION ═══════ -->
+<section class="location-section">
+    <div class="location-inner">
+        <span class="eyebrow">Where We Operate</span>
+        <h2 class="section-title" style="color:white;">12 states live.<br/><em>More coming soon.</em></h2>
+        <div class="location-grid reveal">
+            <div>
+                <div class="coverage-map">
+                    <div class="state-chip">CA</div>
+                    <div class="state-chip">OR</div>
+                    <div class="state-chip">WA</div>
+                    <div class="state-chip">CO</div>
+                    <div class="state-chip">MN</div>
+                    <div class="state-chip">IA</div>
+                    <div class="state-chip">IL</div>
+                    <div class="state-chip">NY</div>
+                    <div class="state-chip">NJ</div>
+                    <div class="state-chip">PA</div>
+                    <div class="state-chip">VA</div>
+                    <div class="state-chip">TX</div>
+                    <div class="state-chip coming">FL*</div>
+                    <div class="state-chip coming">GA*</div>
+                    <div class="state-chip coming">NC*</div>
+                    <div class="state-chip coming">OH*</div>
+                </div>
+                <p style="color:rgba(255,255,255,0.35); font-size:0.72rem; margin-top:12px;">* Coming Q3 2026</p>
+            </div>
+            <div class="location-info">
+                <h3>Can't find your state? We still want to hear from you.</h3>
+                <p>We're expanding rapidly and actively building our waitlist for incoming states. If you're a farmer or buyer outside our current coverage area, email us at <a href="mailto:info@agrochaincart.com" style="color:var(--sage); font-weight:600;">info@agrochaincart.com</a> — we track demand by region and it directly influences our expansion roadmap.</p>
+                <div class="location-stats">
+                    <div class="loc-stat">
+                        <div class="loc-stat-val">12</div>
+                        <div class="loc-stat-label">States currently live</div>
+                    </div>
+                    <div class="loc-stat">
+                        <div class="loc-stat-val">12+</div>
+                        <div class="loc-stat-label">States launching Q3 2026</div>
+                    </div>
+                    <div class="loc-stat">
+                        <div class="loc-stat-val">48hr</div>
+                        <div class="loc-stat-label">Average farm-to-delivery</div>
+                    </div>
+                    <div class="loc-stat">
+                        <div class="loc-stat-val">1,200+</div>
+                        <div class="loc-stat-label">Active farm partners</div>
+                    </div>
+                </div>
+                <div style="margin-top:28px;">
+                    <a href="mailto:info@agrochaincart.com?subject=Waitlist%20-%20New%20State"
+                       style="display:inline-flex; align-items:center; gap:8px; background:var(--gold); color:var(--forest); padding:13px 24px; border-radius:10px; font-weight:700; font-size:0.9rem; text-decoration:none; transition:var(--transition);"
+                       onmouseover="this.style.background='#f0c84a'" onmouseout="this.style.background='var(--gold)'">
+                        Join the waitlist for your state
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ FOOTER — exact copy from homepage ═══════ -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <div class="footer-brand-logo">
+                <span>Agro</span><span style="color:var(--sage);">Chain</span><span class="footer-logo-cart">Cart</span>
+            </div>
+            <p>Digital marketplace connecting farmers directly with consumers, restaurants, retailers, and institutions across the United States. Farm to buyer — direct.</p>
+            <p style="margin-top:12px; font-size:0.8rem;">© 2026 AgroChain Cart LLC. All rights reserved.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Platform</h4>
+            <ul>
+                <li><a href="#">Marketplace</a></li>
+                <li><a href="#">For Farmers</a></li>
+                <li><a href="#">For Restaurants</a></li>
+                <li><a href="#">For Institutions</a></li>
+                <li><a href="#">Logistics</a></li>
+                <li><a href="#">Analytics</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Our Mission</a></li>
+                <li><a href="#">Newsroom</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Investors</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="#">Farmer Guides</a></li>
+                <li><a href="#">Buyer Help Center</a></li>
+                <li><a href="#">API Docs</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>Helping American farmers thrive since 2024.</span>
+        <div class="footer-socials">
+            <a href="https://linkedin.com/company/agrochaincart" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/agrochaincart" class="social-link" aria-label="X (Twitter)" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://facebook.com/agrochaincart" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://youtube.com/@agrochaincart" class="social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f1f17"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    /* ── NAV TOGGLE — exact copy from homepage ── */
+    const navHamburger = document.getElementById('navHamburger');
+    const navLinks     = document.getElementById('navLinks');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const breadcrumbBar     = document.getElementById('breadcrumbBar');
+    const mobileCtaGroup    = document.getElementById('mobileCtaGroup');
+    const desktopCta        = document.getElementById('desktopCta');
+
+    function openMobileMenu() {
+        navLinks.classList.add('mobile-open');
+        navHamburger.classList.add('open');
+        navHamburger.setAttribute('aria-expanded', 'true');
+        mobileMenuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+        navLinks.classList.remove('mobile-open');
+        navHamburger.classList.remove('open');
+        navHamburger.setAttribute('aria-expanded', 'false');
+        mobileMenuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    navHamburger.addEventListener('click', () => {
+        navLinks.classList.contains('mobile-open') ? closeMobileMenu() : openMobileMenu();
+    });
+    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => { if (navLinks.classList.contains('mobile-open')) closeMobileMenu(); });
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && navLinks.classList.contains('mobile-open')) closeMobileMenu(); });
+
+    function updateMobileCtaVisibility() {
+        const isSmall = window.innerWidth <= 900;
+        mobileCtaGroup.style.display = isSmall ? 'flex' : 'none';
+        desktopCta.style.display     = isSmall ? 'none' : 'flex';
+        breadcrumbBar.style.display  = isSmall ? 'flex' : 'none';
+        if (!isSmall && navLinks.classList.contains('mobile-open')) closeMobileMenu();
+    }
+    updateMobileCtaVisibility();
+    window.addEventListener('resize', updateMobileCtaVisibility);
+
+    /* ── SCROLL PROGRESS ── */
+    const scrollProgress = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        scrollProgress.style.width = pct + '%';
+        document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    /* ── CURSOR GLOW ── */
+    const cursorGlow = document.getElementById('cursorGlow');
+    if (window.matchMedia('(pointer: fine)').matches) {
+        document.addEventListener('mousemove', e => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top  = e.clientY + 'px';
+        });
+    }
+
+    /* ── HERO PARTICLES ── */
+    (function() {
+        const c = document.getElementById('heroParticles');
+        if (!c) return;
+        for (let i = 0; i < 16; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const sz = 8 + Math.random() * 36;
+            p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;animation-duration:${9+Math.random()*12}s;animation-delay:${Math.random()*10}s;`;
+            c.appendChild(p);
+        }
+    })();
+
+    /* ── REVEAL ON SCROLL ── */
+    const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── OFFICE HOURS STATUS ── */
+    function updateOfficeStatus() {
+        const now = new Date();
+        const day = now.getDay(); // 0=Sun, 6=Sat
+        const hr  = now.getHours() + now.getMinutes() / 60;
+        // EST offset approximation (UTC-5 standard)
+        const estOffset = now.getTimezoneOffset() / 60 - 5;
+        const estHr = (hr - estOffset + 24) % 24;
+        let open = false;
+        if (day >= 1 && day <= 5 && estHr >= 8 && estHr < 18) open = true;
+        if (day === 6 && estHr >= 10 && estHr < 14) open = true;
+        const el = document.getElementById('officeStatus');
+        const txt = document.getElementById('officeStatusText');
+        el.className = 'hours-status ' + (open ? 'open' : 'closed');
+        txt.textContent = open ? 'Open now' : 'Closed';
+    }
+    updateOfficeStatus();
+
+    /* ── COPY EMAIL ── */
+    function copyEmail() {
+        navigator.clipboard.writeText('info@agrochaincart.com').catch(() => {});
+        const badge = document.getElementById('copyBadge');
+        badge.textContent = 'Copied!';
+        badge.classList.add('copied');
+        setTimeout(() => { badge.textContent = 'Copy'; badge.classList.remove('copied'); }, 2500);
+    }
+
+    /* ── INTENT TABS ── */
+    const intentMessages = {
+        general:     { h: 'Send us a message', sub: 'All messages go directly to <strong>info@agrochaincart.com</strong>. We read every one and respond personally.' },
+        farmer:      { h: 'Get listed as a farmer', sub: 'Tell us about your farm — what you grow, your location, and your approximate volume. We\'ll get you live within 48 hours.' },
+        buyer:       { h: 'Find fresh local food', sub: 'Let us know what you\'re looking for and your area. We\'ll connect you with verified farms near you.' },
+        restaurant:  { h: 'Set up a business account', sub: 'Share your restaurant name, cuisine type, and current sourcing needs. We\'ll have our commercial team reach out within 4 hours.' },
+        institution: { h: 'Explore institutional procurement', sub: 'Tell us about your institution, your student/patient count, and your procurement timeline. We fast-track these requests.' },
+        press:       { h: 'Media &amp; press enquiry', sub: 'Share your publication, deadline, and story angle. We turn around press requests within 4 hours and can arrange founder interviews.' }
+    };
+    function setIntent(btn, key) {
+        document.querySelectorAll('.intent-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const msg = intentMessages[key];
+        document.getElementById('formHeading').textContent = msg.h.replace('&amp;', '&');
+        document.getElementById('formSubheading').innerHTML = msg.sub;
+        // pre-select role in dropdown
+        const roleMap = { farmer:'farmer', buyer:'consumer', restaurant:'restaurant', institution:'school', press:'press' };
+        const select = document.getElementById('role');
+        if (roleMap[key]) select.value = roleMap[key];
+        // scroll to form on mobile
+        if (window.innerWidth <= 900) {
+            document.getElementById('formPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    /* ── SUBJECT PILLS ── */
+    function selectSubject(pill) {
+        document.querySelectorAll('.subject-pill').forEach(p => p.classList.remove('selected'));
+        pill.classList.add('selected');
+        document.getElementById('subjectVal').value = pill.textContent;
+    }
+
+    /* ── CHAR COUNTER ── */
+    const msgField = document.getElementById('message');
+    const counter  = document.getElementById('charCounter');
+    msgField.addEventListener('input', () => {
+        const len = msgField.value.length;
+        counter.textContent = `${len} / 2000`;
+        counter.className = 'char-counter' + (len > 1800 ? ' warn' : '') + (len >= 2000 ? ' over' : '');
+    });
+
+    /* ── INLINE VALIDATION ── */
+    function validateField(input, groupId, test) {
+        const group = document.getElementById(groupId);
+        if (!group) return test(input.value);
+        if (test(input.value)) {
+            group.classList.remove('has-error'); input.classList.add('valid'); input.classList.remove('invalid');
+            return true;
+        } else {
+            group.classList.add('has-error'); input.classList.add('invalid'); input.classList.remove('valid');
+            return false;
+        }
+    }
+    document.getElementById('fname').addEventListener('blur', function() { validateField(this,'fg-fname', v => v.trim().length > 0); });
+    document.getElementById('lname').addEventListener('blur', function() { validateField(this,'fg-lname', v => v.trim().length > 0); });
+    document.getElementById('email').addEventListener('blur', function() { validateField(this,'fg-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)); });
+    document.getElementById('message').addEventListener('blur', function() { validateField(this,'fg-message', v => v.trim().length >= 20); });
+
+    /* ── FILE ATTACHMENTS ── */
+    const fileInput  = document.getElementById('fileInput');
+    const attachList = document.getElementById('attachList');
+    let attachedFiles = [];
+
+    fileInput.addEventListener('change', e => { handleFiles(e.target.files); });
+    function handleFiles(files) {
+        Array.from(files).forEach(file => {
+            if (file.size > 10 * 1024 * 1024) { alert(`"${file.name}" exceeds 10 MB limit.`); return; }
+            if (attachedFiles.find(f => f.name === file.name)) return;
+            attachedFiles.push(file);
+            const li = document.createElement('li');
+            li.className = 'attachment-item';
+            li.dataset.name = file.name;
+            li.innerHTML = `<span>📎 ${file.name} <span style="color:#b0c4ba;">(${(file.size/1024).toFixed(0)} KB)</span></span>
+                <button class="attachment-remove" onclick="removeAttachment('${file.name}', this.closest('li'))" title="Remove">✕</button>`;
+            attachList.appendChild(li);
+        });
+    }
+    function removeAttachment(name, el) {
+        attachedFiles = attachedFiles.filter(f => f.name !== name);
+        el.remove();
+    }
+    function handleDragOver(e) { e.preventDefault(); document.getElementById('attachZone').classList.add('dragover'); }
+    function handleDragLeave(e) { document.getElementById('attachZone').classList.remove('dragover'); }
+    function handleDrop(e) {
+        e.preventDefault();
+        document.getElementById('attachZone').classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    }
+
+    /* ── FORM SUBMIT ── */
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // validate
+        const v1 = validateField(document.getElementById('fname'),'fg-fname', v => v.trim().length > 0);
+        const v2 = validateField(document.getElementById('lname'),'fg-lname', v => v.trim().length > 0);
+        const v3 = validateField(document.getElementById('email'),'fg-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+        const v4 = validateField(document.getElementById('message'),'fg-message', v => v.trim().length >= 20);
+        if (!v1 || !v2 || !v3 || !v4) {
+            const firstErr = document.querySelector('.has-error .form-control');
+            if (firstErr) firstErr.scrollIntoView({ behavior:'smooth', block:'center' });
+            return;
+        }
+        // show spinner
+        const btn = document.getElementById('submitBtn');
+        const lbl = document.getElementById('submitLabel');
+        const spn = document.getElementById('btnSpinner');
+        btn.disabled = true; lbl.textContent = 'Sending…'; spn.style.display = 'block';
+        // simulate send (replace with real fetch to your backend)
+        setTimeout(() => {
+            this.style.display = 'none';
+            document.getElementById('formHeading').style.display = 'none';
+            document.getElementById('formSubheading').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+        }, 1600);
+    });
+
+    /* ── FAQ ACCORDION ── */
+    function toggleFaq(item) {
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item-contact').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+    }
+</script>
+</body>
+</html>

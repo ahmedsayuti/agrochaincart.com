@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog & Insights — AgroChain Cart</title>
+    <meta name="description" content="Stories, insights, and research from the frontlines of agricultural supply chain transformation. Read AgroChain Cart's blog." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --amber: #f4a261;
+            --earth: #6b4226; --ink: #0f1f17; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --radius-lg: 20px; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+            --nav-height: 68px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--white); color: var(--ink); line-height: 1.6;
+            overflow-x: hidden; padding-top: var(--nav-height);
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.94); backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+            box-shadow: 0 2px 16px rgba(26,58,42,0.07);
+        }
+        .nav-logo {
+            display: flex; align-items: center; text-decoration: none;
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem;
+            color: var(--forest); letter-spacing: -0.01em; line-height: 1;
+        }
+        .nav-logo-chain { color: var(--grove); }
+        .nav-logo-cart {
+            color: var(--white); background: var(--grove); padding: 2px 8px 2px 6px;
+            border-radius: 6px; margin-left: 4px; font-size: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--smoke); font-size: 0.9rem; font-weight: 500;
+            transition: color var(--transition); position: relative; white-space: nowrap;
+        }
+        .nav-links a.active, .nav-links a:hover { color: var(--grove); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px;
+            background: var(--grove); transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease;
+        }
+        .nav-links a.active::after, .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-cta { display: flex; gap: 12px; align-items: center; }
+        .btn-ghost {
+            padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
+            background: transparent; color: var(--grove); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: var(--transition); font-family: inherit; text-decoration: none; display: inline-block;
+        }
+        .btn-ghost:hover { background: var(--mist); }
+        .btn-primary {
+            padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
+            border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition); font-family: inherit; text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
+
+        /* ── BLOG HERO ── */
+        .blog-hero {
+            background: linear-gradient(160deg, var(--forest) 0%, #224436 50%, #1e4d38 100%);
+            padding: 80px 5% 100px; text-align: center; position: relative; overflow: hidden;
+        }
+        .blog-hero::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 80px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80'%3E%3Cpath fill='%23ffffff' d='M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z'/%3E%3C/svg%3E");
+            background-size: cover;
+        }
+        .blog-hero-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 2; }
+        .blog-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(116,198,157,0.15); border: 1px solid rgba(116,198,157,0.3);
+            color: var(--sage); padding: 6px 16px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .blog-eyebrow-dot { width: 6px; height: 6px; background: var(--sage); border-radius: 50%; animation: pulse 2s infinite; }
+        .blog-hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; color: white;
+            letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.2rem;
+        }
+        .blog-hero h1 em {
+            font-style: normal; background: linear-gradient(90deg, var(--sage), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .blog-hero-sub { color: rgba(255,255,255,0.68); font-size: 1.05rem; line-height: 1.75; max-width: 560px; margin: 0 auto 2.5rem; }
+        .blog-search-bar {
+            display: flex; gap: 12px; max-width: 480px; margin: 0 auto;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 6px 6px 6px 18px; align-items: center;
+        }
+        .blog-search-bar input {
+            flex: 1; background: transparent; border: none; outline: none;
+            color: white; font-family: inherit; font-size: 0.9rem;
+        }
+        .blog-search-bar input::placeholder { color: rgba(255,255,255,0.45); }
+        .blog-search-btn {
+            padding: 8px 18px; border-radius: 8px; background: var(--gold); border: none;
+            color: var(--forest); font-size: 0.85rem; font-weight: 700; cursor: pointer;
+            font-family: inherit; transition: var(--transition); white-space: nowrap;
+        }
+        .blog-search-btn:hover { background: #f0c84a; }
+
+        /* ── CATEGORY PILLS ── */
+        .category-bar {
+            background: var(--white); border-bottom: 1px solid #e8f0eb;
+            position: sticky; top: var(--nav-height); z-index: 50;
+            padding: 0 5%;
+        }
+        .category-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; gap: 8px; overflow-x: auto;
+            padding: 14px 0; scrollbar-width: none;
+        }
+        .category-inner::-webkit-scrollbar { display: none; }
+        .cat-pill {
+            padding: 7px 18px; border-radius: 100px; border: 1.5px solid #dde8e2;
+            background: white; color: var(--smoke); font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: var(--transition); white-space: nowrap; font-family: inherit;
+        }
+        .cat-pill:hover { border-color: var(--leaf); color: var(--grove); }
+        .cat-pill.active { background: var(--grove); color: white; border-color: var(--grove); }
+
+        /* ── FEATURED POST ── */
+        .featured-section { padding: 64px 5% 0; }
+        .featured-inner { max-width: 1200px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--leaf); margin-bottom: 24px; display: flex; align-items: center; gap: 8px;
+        }
+        .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--leaf); }
+
+        .featured-card {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius-lg);
+            overflow: hidden; border: 1.5px solid #e8f0eb; text-decoration: none; color: inherit;
+            transition: var(--transition); box-shadow: 0 4px 24px rgba(26,58,42,0.06);
+        }
+        .featured-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(26,58,42,0.13); border-color: var(--sage); }
+        .featured-img {
+            height: 420px; overflow: hidden; position: relative;
+        }
+        .featured-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .featured-card:hover .featured-img img { transform: scale(1.04); }
+        .featured-img-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(26,58,42,0.15) 0%, transparent 60%);
+        }
+        .featured-badge {
+            position: absolute; top: 20px; left: 20px;
+            background: var(--gold); color: var(--forest);
+            padding: 4px 12px; border-radius: 100px; font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .featured-body {
+            padding: 48px 44px; display: flex; flex-direction: column; justify-content: center;
+            background: var(--cream);
+        }
+        .post-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+        .post-category {
+            font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+            color: var(--grove); background: rgba(64,145,108,0.1); padding: 4px 10px; border-radius: 6px;
+        }
+        .post-date { font-size: 0.82rem; color: var(--smoke); }
+        .post-read-time {
+            font-size: 0.82rem; color: var(--smoke);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .featured-body h2 {
+            font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; color: var(--forest);
+            letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; font-family: 'Lora', serif;
+        }
+        .featured-body p { font-size: 0.93rem; color: var(--smoke); line-height: 1.75; margin-bottom: 28px; }
+        .author-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+        .author-avatar {
+            width: 42px; height: 42px; border-radius: 50%; overflow: hidden;
+            border: 2px solid var(--sage); flex-shrink: 0;
+            background: var(--mist); display: flex; align-items: center; justify-content: center;
+        }
+        .author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .author-initials { font-size: 0.85rem; font-weight: 700; color: var(--grove); }
+        .author-info { display: flex; flex-direction: column; gap: 1px; }
+        .author-name { font-size: 0.88rem; font-weight: 700; color: var(--forest); }
+        .author-title { font-size: 0.76rem; color: var(--smoke); }
+        .read-more-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--grove); font-weight: 700; font-size: 0.9rem; text-decoration: none;
+            border-bottom: 2px solid var(--sage); padding-bottom: 2px; transition: var(--transition);
+            align-self: flex-start;
+        }
+        .read-more-btn:hover { color: var(--forest); border-color: var(--gold); gap: 12px; }
+
+        /* ── BLOG GRID ── */
+        .blog-grid-section { padding: 64px 5% 80px; }
+        .blog-grid-inner { max-width: 1200px; margin: 0 auto; }
+        .blog-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 36px;
+        }
+        .blog-card {
+            border-radius: var(--radius-lg); border: 1.5px solid #e8f0eb; overflow: hidden;
+            text-decoration: none; color: inherit; background: white;
+            transition: var(--transition); display: flex; flex-direction: column;
+            box-shadow: 0 2px 12px rgba(26,58,42,0.04);
+        }
+        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 16px 44px rgba(26,58,42,0.12); border-color: var(--sage); }
+        .blog-card-img { height: 220px; overflow: hidden; position: relative; }
+        .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .blog-card:hover .blog-card-img img { transform: scale(1.06); }
+        .blog-card-img-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(26,58,42,0.18) 0%, transparent 50%);
+        }
+        .blog-card-cat {
+            position: absolute; bottom: 14px; left: 14px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+            color: white; background: var(--grove); padding: 4px 10px; border-radius: 6px;
+        }
+        .blog-card-body { padding: 24px 26px 28px; flex: 1; display: flex; flex-direction: column; }
+        .blog-card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .blog-card-date { font-size: 0.78rem; color: var(--smoke); }
+        .blog-card-time { font-size: 0.78rem; color: var(--smoke); display: flex; align-items: center; gap: 4px; }
+        .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: #c0cfc6; display: inline-block; }
+        .blog-card h3 {
+            font-size: 1.05rem; font-weight: 800; color: var(--forest); line-height: 1.35;
+            margin-bottom: 10px; font-family: 'Lora', serif; letter-spacing: -0.01em;
+        }
+        .blog-card p { font-size: 0.85rem; color: var(--smoke); line-height: 1.72; flex: 1; margin-bottom: 20px; }
+        .blog-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+        .card-author { display: flex; align-items: center; gap: 8px; }
+        .card-author-avatar {
+            width: 32px; height: 32px; border-radius: 50%; background: var(--mist);
+            border: 1.5px solid var(--sage); display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: 700; color: var(--grove); flex-shrink: 0; overflow: hidden;
+        }
+        .card-author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .card-author-name { font-size: 0.8rem; font-weight: 600; color: var(--forest); }
+        .card-arrow {
+            width: 34px; height: 34px; border-radius: 50%; background: var(--mist);
+            display: flex; align-items: center; justify-content: center; transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .blog-card:hover .card-arrow { background: var(--grove); }
+        .blog-card:hover .card-arrow svg { stroke: white; }
+        .card-arrow svg { width: 16px; height: 16px; stroke: var(--grove); transition: var(--transition); }
+
+        /* ── NEWSLETTER BAND ── */
+        .newsletter-band {
+            background: linear-gradient(130deg, var(--grove) 0%, var(--forest) 100%);
+            padding: 64px 5%; text-align: center; position: relative; overflow: hidden;
+        }
+        .newsletter-band::before {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: radial-gradient(circle at 20% 50%, rgba(116,198,157,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(233,196,106,0.1) 0%, transparent 50%);
+        }
+        .newsletter-inner { max-width: 560px; margin: 0 auto; position: relative; z-index: 1; }
+        .newsletter-icon {
+            width: 56px; height: 56px; background: rgba(116,198,157,0.15); border-radius: 16px;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+            border: 1px solid rgba(116,198,157,0.25);
+        }
+        .newsletter-icon svg { width: 26px; height: 26px; }
+        .newsletter-band h2 { font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .newsletter-band p { color: rgba(255,255,255,0.65); margin-bottom: 28px; font-size: 0.95rem; line-height: 1.65; }
+        .newsletter-form { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
+        .newsletter-form input {
+            flex: 1; padding: 12px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1); color: white; font-family: inherit; font-size: 0.9rem; outline: none;
+        }
+        .newsletter-form input::placeholder { color: rgba(255,255,255,0.45); }
+        .newsletter-form input:focus { border-color: rgba(116,198,157,0.5); background: rgba(255,255,255,0.15); }
+        .newsletter-form button {
+            padding: 12px 22px; border-radius: 10px; background: var(--gold); border: none;
+            color: var(--forest); font-weight: 700; font-size: 0.9rem; cursor: pointer;
+            font-family: inherit; transition: var(--transition); white-space: nowrap;
+        }
+        .newsletter-form button:hover { background: #f0c84a; transform: translateY(-1px); }
+        .newsletter-note { color: rgba(255,255,255,0.4); font-size: 0.78rem; margin-top: 12px; }
+
+        /* ── TOPICS SIDEBAR-STYLE ROW ── */
+        .topics-row { background: var(--cream); padding: 56px 5%; }
+        .topics-inner { max-width: 1200px; margin: 0 auto; }
+        .topics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+        .topic-card {
+            background: white; border-radius: var(--radius); padding: 24px 20px;
+            border: 1.5px solid #e8f0eb; text-decoration: none; color: inherit;
+            display: flex; align-items: center; gap: 14px; transition: var(--transition);
+        }
+        .topic-card:hover { border-color: var(--sage); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(64,145,108,0.1); }
+        .topic-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--mist); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .topic-icon svg { width: 22px; height: 22px; }
+        .topic-title { font-size: 0.9rem; font-weight: 700; color: var(--forest); }
+        .topic-count { font-size: 0.78rem; color: var(--smoke); margin-top: 2px; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--ink); color: rgba(255,255,255,0.55); padding: 64px 5% 32px;
+        }
+        .footer-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+            padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand-logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.3rem;
+            color: white; margin-bottom: 14px; display: inline-flex; align-items: center;
+        }
+        .footer-logo-cart {
+            color: var(--forest); background: var(--sage);
+            padding: 2px 8px; border-radius: 5px; margin-left: 4px;
+            font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+        .footer-col h4 { color: rgba(255,255,255,0.8); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; transition: color var(--transition); }
+        .footer-col a:hover { color: var(--sage); }
+        .footer-bottom {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 28px; font-size: 0.8rem; flex-wrap: wrap; gap: 12px;
+        }
+        .footer-socials { display: flex; gap: 12px; }
+        .social-link {
+            width: 38px; height: 38px; background: rgba(255,255,255,0.07); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5);
+            text-decoration: none; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-link:hover { background: var(--grove); color: white; border-color: var(--grove); transform: translateY(-2px); }
+        .social-link svg { width: 16px; height: 16px; }
+
+        /* ── ANIMATIONS ── */
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);} }
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .featured-card { grid-template-columns: 1fr; }
+            .featured-img { height: 280px; }
+            .featured-body { padding: 32px 28px; }
+            .blog-grid { grid-template-columns: 1fr 1fr; }
+            .topics-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links, .nav-cta { display: none; }
+        }
+        @media (max-width: 600px) {
+            .blog-grid { grid-template-columns: 1fr; }
+            .topics-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .newsletter-form { flex-direction: column; }
+            .blog-hero { padding: 60px 5% 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <span class="nav-logo-agro">Agro</span><span class="nav-logo-chain">Chain</span><span class="nav-logo-cart">Cart</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#marketplace">Marketplace</a></li>
+            <li><a href="index.html#how">How it works</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="index.html" class="btn-ghost">Log in</a>
+            <a href="index.html" class="btn-primary">Get started →</a>
+        </div>
+    </nav>
+
+    <!-- BLOG HERO -->
+    <section class="blog-hero">
+        <div class="blog-hero-inner">
+            <div class="blog-eyebrow"><span class="blog-eyebrow-dot"></span>Insights & Stories</div>
+            <h1>The AgroChain <em>Field Journal</em></h1>
+            <p class="blog-hero-sub">Dispatches from the intersection of agriculture, technology, and community. Real stories from the farmers, buyers, and innovators reshaping America's food system.</p>
+            <div class="blog-search-bar">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><path d="M11 11l3 3" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <input type="text" placeholder="Search articles, topics, farmers…" />
+                <button class="blog-search-btn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORY BAR -->
+    <div class="category-bar">
+        <div class="category-inner">
+            <button class="cat-pill active" onclick="filterCat(this,'all')">All Posts</button>
+            <button class="cat-pill" onclick="filterCat(this,'farmer-stories')">Farmer Stories</button>
+            <button class="cat-pill" onclick="filterCat(this,'agri-tech')">Agri-Tech</button>
+            <button class="cat-pill" onclick="filterCat(this,'market-insights')">Market Insights</button>
+            <button class="cat-pill" onclick="filterCat(this,'sustainability')">Sustainability</button>
+            <button class="cat-pill" onclick="filterCat(this,'policy')">Policy & Advocacy</button>
+            <button class="cat-pill" onclick="filterCat(this,'supply-chain')">Supply Chain</button>
+        </div>
+    </div>
+
+    <!-- FEATURED POST -->
+    <section class="featured-section">
+        <div class="featured-inner">
+            <div class="section-label">Featured Article</div>
+            <a href="blog-post-1.html" class="featured-card reveal">
+                <div class="featured-img">
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&q=80&fit=crop" alt="Sunrise over a farm field in Iowa" loading="lazy"/>
+                    <div class="featured-img-overlay"></div>
+                    <span class="featured-badge">⭐ Editor's Pick</span>
+                </div>
+                <div class="featured-body">
+                    <div class="post-meta">
+                        <span class="post-category">Farmer Stories</span>
+                        <span class="post-date">March 14, 2025</span>
+                        <span class="post-read-time">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#4a5e52" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="#4a5e52" stroke-width="1.2" stroke-linecap="round"/></svg>
+                            8 min read
+                        </span>
+                    </div>
+                    <h2>How One Iowa Corn Farmer Doubled His Profit Margin Without Growing a Single Extra Acre</h2>
+                    <p>Marcus Trevino had been farming the same 280 acres in Ames, Iowa for seventeen years — watching margins shrink every season as consolidation squeezed out the middlemen he still depended on. Then he joined AgroChain Cart. This is the story of what changed, and why it matters for every independent grower in America.</p>
+                    <div class="author-row">
+                        <div class="author-avatar">
+                            <span class="author-initials">SL</span>
+                        </div>
+                        <div class="author-info">
+                            <span class="author-name">Sarah Lin</span>
+                            <span class="author-title">Senior Reporter, AgroChain Journal</span>
+                        </div>
+                    </div>
+                    <span class="read-more-btn">
+                        Read full story
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- BLOG GRID (5 remaining posts) -->
+    <section class="blog-grid-section">
+        <div class="blog-grid-inner">
+            <div class="section-label">Latest Articles</div>
+            <div class="blog-grid" id="blogGrid">
+
+                <!-- Card 2 -->
+                <a href="blog-post-2.html" class="blog-card reveal">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1628352081506-83a6e0e86e77?w=600&q=80&fit=crop" alt="Farmer using smartphone in field" loading="lazy"/>
+                        <div class="blog-card-img-overlay"></div>
+                        <span class="blog-card-cat">Agri-Tech</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">June 3, 2025</span>
+                            <span class="meta-dot"></span>
+                            <span class="blog-card-time">
+                                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#4a5e52" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="#4a5e52" stroke-width="1.2" stroke-linecap="round"/></svg>
+                                6 min read
+                            </span>
+                        </div>
+                        <h3>AI-Powered Demand Forecasting Is Finally Putting Farmers in the Driver's Seat</h3>
+                        <p>For decades, farmers planted in the dark — guessing what buyers would want months before harvest. AgroChain's new predictive analytics suite is changing that calculus entirely, giving growers real-time demand signals from restaurants, retailers, and institutions before a single seed goes in the ground.</p>
+                        <div class="blog-card-footer">
+                            <div class="card-author">
+                                <div class="card-author-avatar"><span>DP</span></div>
+                                <span class="card-author-name">Dev Patel</span>
+                            </div>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="blog-post-3.html" class="blog-card reveal">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80&fit=crop" alt="Fresh produce at a farmers market" loading="lazy"/>
+                        <div class="blog-card-img-overlay"></div>
+                        <span class="blog-card-cat">Market Insights</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">September 22, 2025</span>
+                            <span class="meta-dot"></span>
+                            <span class="blog-card-time">
+                                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#4a5e52" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="#4a5e52" stroke-width="1.2" stroke-linecap="round"/></svg>
+                                10 min read
+                            </span>
+                        </div>
+                        <h3>The $340 Billion Local Food Opportunity: Why Institutional Buyers Are Finally Ready</h3>
+                        <p>School districts, hospital systems, and university dining halls collectively spend $340 billion on food annually — yet less than 5% of that spend reaches local farms. New procurement reforms, combined with platforms like AgroChain Cart, are beginning to crack open this massive, underserved market.</p>
+                        <div class="blog-card-footer">
+                            <div class="card-author">
+                                <div class="card-author-avatar"><span>RT</span></div>
+                                <span class="card-author-name">Rosa Theodorou</span>
+                            </div>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="blog-post-4.html" class="blog-card reveal">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=600&q=80&fit=crop" alt="Hands holding rich dark soil" loading="lazy"/>
+                        <div class="blog-card-img-overlay"></div>
+                        <span class="blog-card-cat">Sustainability</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">November 10, 2025</span>
+                            <span class="meta-dot"></span>
+                            <span class="blog-card-time">
+                                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#4a5e52" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="#4a5e52" stroke-width="1.2" stroke-linecap="round"/></svg>
+                                7 min read
+                            </span>
+                        </div>
+                        <h3>Regenerative Agriculture Is Having Its Moment — But Can It Scale Without Selling Out?</h3>
+                        <p>Carbon sequestration credits, soil health certifications, and climate-conscious consumers are driving unprecedented interest in regenerative farming practices. We examine how AgroChain farmers are navigating the fine line between scaling impact and maintaining the integrity that makes regenerative agriculture worth the name.</p>
+                        <div class="blog-card-footer">
+                            <div class="card-author">
+                                <div class="card-author-avatar"><span>MK</span></div>
+                                <span class="card-author-name">Maya Kowalski</span>
+                            </div>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 5 -->
+                <a href="blog-post-5.html" class="blog-card reveal">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1534483509719-3feaee7c30da?w=600&q=80&fit=crop" alt="Capitol building and farmland montage" loading="lazy"/>
+                        <div class="blog-card-img-overlay"></div>
+                        <span class="blog-card-cat">Policy & Advocacy</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">January 8, 2026</span>
+                            <span class="meta-dot"></span>
+                            <span class="blog-card-time">
+                                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#4a5e52" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="#4a5e52" stroke-width="1.2" stroke-linecap="round"/></svg>
+                                9 min read
+                            </span>
+                        </div>
+                        <h3>The 2026 Farm Bill Debate: What Independent Growers Actually Need Congress to Do</h3>
+                        <p>With the Farm Bill reauthorization now underway on Capitol Hill, small and mid-sized farmers — the backbone of the direct-sale movement — are watching closely. AgroChain surveyed over 800 platform farmers to understand what policy changes would most meaningfully shift outcomes on the ground.</p>
+                        <div class="blog-card-footer">
+                            <div class="card-author">
+                                <div class="card-author-avatar"><span>JN</span></div>
+                                <span class="card-author-name">James Nguyen</span>
+                            </div>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 6 -->
+                <a href="blog-post-6.html" class="blog-card reveal">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1617881770125-6fb0d039ecb3?w=600&q=80&fit=crop" alt="Cold chain logistics warehouse with produce" loading="lazy"/>
+                        <div class="blog-card-img-overlay"></div>
+                        <span class="blog-card-cat">Supply Chain</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">February 27, 2026</span>
+                            <span class="meta-dot"></span>
+                            <span class="blog-card-time">
+                                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#4a5e52" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="#4a5e52" stroke-width="1.2" stroke-linecap="round"/></svg>
+                                11 min read
+                            </span>
+                        </div>
+                        <h3>Inside AgroChain's Cold-Chain Network: How We Keep Produce Fresh Across 1,400 Miles</h3>
+                        <p>Getting a tomato from a California farm to a Manhattan restaurant kitchen in less than 48 hours — without a single distribution center — sounds impossible. It isn't. Our logistics team breaks down the refrigerated relay network, route optimization algorithms, and partner carrier protocols that make AgroChain's freshness guarantee real.</p>
+                        <div class="blog-card-footer">
+                            <div class="card-author">
+                                <div class="card-author-avatar"><span>AL</span></div>
+                                <span class="card-author-name">Anika Larsen</span>
+                            </div>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER BAND -->
+    <section class="newsletter-band">
+        <div class="newsletter-inner">
+            <div class="newsletter-icon">
+                <svg viewBox="0 0 26 26" fill="none" stroke="var(--sage)" stroke-width="1.8"><rect x="3" y="6" width="20" height="14" rx="2"/><path d="M3 9l10 7 10-7"/></svg>
+            </div>
+            <h2>The Weekly Harvest</h2>
+            <p>Curated stories, market data, and agri-tech insights — delivered every Thursday morning to readers who care about where their food comes from.</p>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Your email address" />
+                <button type="button">Subscribe free</button>
+            </div>
+            <p class="newsletter-note">No spam, ever. Unsubscribe in one click.</p>
+        </div>
+    </section>
+
+    <!-- TOPICS ROW -->
+    <section class="topics-row">
+        <div class="topics-inner">
+            <div class="section-label">Browse by Topic</div>
+            <div class="topics-grid">
+                <a href="#" class="topic-card">
+                    <div class="topic-icon">
+                        <svg viewBox="0 0 22 22" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M11 18V10"/><path d="M11 10C11 10 7 8 6 4c0 0 4-1 7 3 1 1.5-2 3-2 3z" fill="#40916c" opacity="0.25" stroke="#40916c"/><path d="M11 14c0 0 3.5-2 5-5.5 0 0-3-1-5.5 2.5" fill="#40916c" opacity="0.4" stroke="#40916c"/></svg>
+                    </div>
+                    <div>
+                        <div class="topic-title">Farmer Stories</div>
+                        <div class="topic-count">14 articles</div>
+                    </div>
+                </a>
+                <a href="#" class="topic-card">
+                    <div class="topic-icon">
+                        <svg viewBox="0 0 22 22" fill="none" stroke="#40916c" stroke-width="1.8"><rect x="3" y="6" width="6" height="6" rx="1.5"/><rect x="13" y="6" width="6" height="6" rx="1.5"/><rect x="3" y="14" width="6" height="5" rx="1.5"/><rect x="13" y="14" width="6" height="5" rx="1.5"/></svg>
+                    </div>
+                    <div>
+                        <div class="topic-title">Agri-Tech</div>
+                        <div class="topic-count">9 articles</div>
+                    </div>
+                </a>
+                <a href="#" class="topic-card">
+                    <div class="topic-icon">
+                        <svg viewBox="0 0 22 22" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M3 16l5-5 4 4 5-7 3 3"/><circle cx="19" cy="11" r="1.5" fill="#40916c" opacity="0.4"/></svg>
+                    </div>
+                    <div>
+                        <div class="topic-title">Market Insights</div>
+                        <div class="topic-count">11 articles</div>
+                    </div>
+                </a>
+                <a href="#" class="topic-card">
+                    <div class="topic-icon">
+                        <svg viewBox="0 0 22 22" fill="none" stroke="#40916c" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M11 7v4l3 2"/></svg>
+                    </div>
+                    <div>
+                        <div class="topic-title">Supply Chain</div>
+                        <div class="topic-count">7 articles</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-brand-logo">AgroChain<span class="footer-logo-cart">Cart</span></div>
+                <p>Connecting farmers directly with consumers, restaurants, retailers, and institutions. No middlemen. Better prices. Fresher food.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#">Marketplace</a></li>
+                    <li><a href="#">For Farmers</a></li>
+                    <li><a href="#">For Restaurants</a></li>
+                    <li><a href="#">For Institutions</a></li>
+                    <li><a href="#">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 AgroChain Cart Inc. All rights reserved.</span>
+            <div class="footer-socials">
+                <a href="#" class="social-link" aria-label="Twitter">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="#" class="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+
+        // Category filter (visual only — full impl would filter cards)
+        function filterCat(btn, cat) {
+            document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

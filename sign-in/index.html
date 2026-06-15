@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In — AgroChain Cart</title>
+    <meta name="description" content="Sign in to your AgroChain Cart account. Access your farmer dashboard, buyer marketplace, and order history." />
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --amber: #f4a261;
+            --earth: #6b4226; --ink: #0f1f17; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --radius-lg: 20px; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+            --nav-height: 68px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--white); color: var(--ink); line-height: 1.6;
+            overflow-x: hidden; padding-top: var(--nav-height); min-height: 100vh;
+        }
+
+        /* ── NAV (identical to index) ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+            transition: var(--transition);
+        }
+        nav.scrolled { box-shadow: 0 4px 24px rgba(26,58,42,0.1); }
+        .nav-logo {
+            display: flex; align-items: center; gap: 0; text-decoration: none;
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem;
+            color: var(--forest); letter-spacing: -0.01em; line-height: 1; z-index: 102; flex-shrink: 0;
+        }
+        .nav-logo-agro { color: var(--forest); }
+        .nav-logo-chain { color: var(--grove); }
+        .nav-logo-cart {
+            color: var(--white); background: var(--grove); padding: 2px 8px 2px 6px;
+            border-radius: 6px; margin-left: 4px; font-size: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; letter-spacing: 0.01em;
+        }
+        .nav-links {
+            display: flex; align-items: center; gap: 2rem; list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none; color: var(--smoke); font-size: 0.9rem; font-weight: 500;
+            transition: color var(--transition); position: relative; white-space: nowrap;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px;
+            background: var(--grove); transform: scaleX(0); transform-origin: left;
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover { color: var(--grove); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-cta { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+        .btn-ghost {
+            padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
+            background: transparent; color: var(--grove); font-size: 0.875rem;
+            font-weight: 600; cursor: pointer; transition: var(--transition); font-family: inherit;
+            white-space: nowrap; text-decoration: none; display: inline-block;
+        }
+        .btn-ghost:hover { background: var(--mist); }
+        .btn-primary {
+            padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
+            border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition); font-family: inherit; white-space: nowrap;
+            text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
+
+        /* HAMBURGER */
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px;
+            z-index: 102; background: none; border: none; -webkit-tap-highlight-color: transparent;
+        }
+        .nav-hamburger span {
+            display: block; width: 24px; height: 2px; background: var(--forest);
+            border-radius: 2px; transition: var(--transition); transform-origin: center;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-menu-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(15, 31, 23, 0.5);
+            z-index: 98; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+
+        /* ── SCROLL PROGRESS ── */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+            background: linear-gradient(90deg, var(--sage), var(--gold)); width: 0%; pointer-events: none;
+        }
+
+        /* ── CURSOR GLOW ── */
+        .cursor-glow {
+            position: fixed; width: 300px; height: 300px; border-radius: 50%;
+            pointer-events: none; z-index: 0;
+            background: radial-gradient(circle, rgba(116,198,157,0.06) 0%, transparent 70%);
+            transform: translate(-50%, -50%); transition: left 0.15s ease, top 0.15s ease;
+        }
+
+        /* ── PAGE LAYOUT ── */
+        .page-wrapper {
+            min-height: calc(100vh - var(--nav-height));
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* ── LEFT PANEL (hero/visual side) ── */
+        .panel-left {
+            position: relative;
+            background: linear-gradient(160deg, var(--forest) 0%, #224436 40%, #1e4d38 70%, #163323 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 60px 5%;
+            overflow: hidden;
+            min-height: calc(100vh - var(--nav-height));
+        }
+
+        /* Particles */
+        .hero-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .particle {
+            position: absolute; border-radius: 50%; background: rgba(116,198,157,0.15);
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Wave bottom */
+        .panel-left::after {
+            content: ''; position: absolute; top: 0; right: -2px; bottom: 0; width: 80px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 900'%3E%3Cpath fill='%23ffffff' d='M80,0 C60,100 20,200 40,300 C60,400 80,450 60,550 C40,650 10,750 40,850 L40,900 L80,900 L80,0Z'/%3E%3C/svg%3E");
+            background-size: cover; z-index: 3; pointer-events: none;
+        }
+
+        .panel-left-content { position: relative; z-index: 2; max-width: 460px; text-align: center; }
+
+        .panel-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(116,198,157,0.15); border: 1px solid rgba(116,198,157,0.3);
+            color: var(--sage); padding: 6px 14px; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 2rem;
+            animation: fadeUp 0.6s ease both;
+        }
+        .badge-dot { width: 7px; height: 7px; background: var(--sage); border-radius: 50%; animation: pulse 2s infinite; }
+
+        .panel-left h1 {
+            font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; line-height: 1.15;
+            color: white; letter-spacing: -0.03em; margin-bottom: 1.2rem;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+        .panel-left h1 em {
+            font-style: normal; background: linear-gradient(90deg, var(--sage), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .panel-left p {
+            color: rgba(255,255,255,0.65); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2.5rem;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        /* Live marketplace mini-card */
+        .signin-preview {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-lg); backdrop-filter: blur(16px); padding: 20px;
+            text-align: left; animation: fadeUp 0.8s 0.25s ease both;
+            margin-bottom: 2rem; width: 100%;
+        }
+        .sp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .sp-title { color: white; font-weight: 700; font-size: 0.85rem; font-family: 'Lora', serif; }
+        .sp-live { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--sage); font-weight: 600; }
+        .live-dot { width: 6px; height: 6px; background: #52d68a; border-radius: 50%; animation: pulse 1.5s infinite; }
+        .sp-rows { display: flex; flex-direction: column; gap: 8px; }
+        .sp-row {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; padding: 10px 12px;
+        }
+        .sp-thumb {
+            width: 36px; height: 36px; border-radius: 7px; object-fit: cover; flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+        .sp-info { flex: 1; }
+        .sp-name { color: white; font-weight: 600; font-size: 0.82rem; }
+        .sp-farm { color: rgba(255,255,255,0.45); font-size: 0.7rem; }
+        .sp-price { color: var(--gold); font-weight: 700; font-size: 0.88rem; text-align: right; }
+        .sp-unit { color: rgba(255,255,255,0.35); font-size: 0.65rem; }
+
+        /* Trust pills */
+        .trust-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; animation: fadeUp 0.8s 0.35s ease both; }
+        .trust-pill {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(116,198,157,0.1); border: 1px solid rgba(116,198,157,0.2);
+            color: rgba(255,255,255,0.7); padding: 5px 12px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 500;
+        }
+        .trust-pill-check { color: var(--sage); font-size: 0.65rem; }
+
+        /* ── RIGHT PANEL (form side) ── */
+        .panel-right {
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 60px 5%;
+            background: var(--white);
+        }
+        .form-container { width: 100%; max-width: 440px; }
+
+        .form-header { margin-bottom: 2rem; }
+        .form-header .eyebrow {
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--leaf); margin-bottom: 8px; display: block;
+        }
+        .form-header h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--forest);
+            letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 8px;
+        }
+        .form-header h2 em { font-style: italic; font-family: 'Lora', serif; color: var(--grove); }
+        .form-header p { color: var(--smoke); font-size: 0.9rem; }
+        .form-header a { color: var(--grove); font-weight: 600; text-decoration: none; }
+        .form-header a:hover { text-decoration: underline; }
+
+        /* Social sign-in */
+        .social-signin { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.8rem; }
+        .social-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 11px 20px; border-radius: 10px;
+            border: 1.5px solid #e0e8e3; background: white; font-family: inherit;
+            font-size: 0.88rem; font-weight: 600; color: var(--ink); cursor: pointer;
+            transition: var(--transition);
+        }
+        .social-btn:hover { border-color: var(--sage); background: var(--cream); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(64,145,108,0.1); }
+        .social-btn svg { flex-shrink: 0; }
+
+        /* Divider */
+        .divider {
+            display: flex; align-items: center; gap: 14px; margin-bottom: 1.8rem;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: #e8f0eb;
+        }
+        .divider span { color: var(--smoke); font-size: 0.78rem; font-weight: 500; white-space: nowrap; }
+
+        /* Form fields */
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 0.82rem; font-weight: 600; color: var(--forest);
+            margin-bottom: 7px;
+        }
+        .form-label a { color: var(--grove); font-weight: 500; text-decoration: none; font-size: 0.8rem; }
+        .form-label a:hover { text-decoration: underline; }
+        .form-input-wrap { position: relative; }
+        .form-input-icon {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            color: #9ab5a5; pointer-events: none; display: flex;
+        }
+        .form-input {
+            width: 100%; padding: 12px 14px 12px 42px;
+            border: 1.5px solid #ddeee4; border-radius: var(--radius);
+            font-family: inherit; font-size: 0.9rem; color: var(--ink);
+            background: var(--cream); outline: none; transition: var(--transition);
+            appearance: none; -webkit-appearance: none;
+        }
+        .form-input:focus { border-color: var(--leaf); background: white; box-shadow: 0 0 0 3px rgba(64,145,108,0.12); }
+        .form-input.error { border-color: #e05c5c; background: #fff8f8; box-shadow: 0 0 0 3px rgba(224,92,92,0.1); }
+        .form-input::placeholder { color: #b0c5ba; }
+        .input-toggle {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer; color: #9ab5a5;
+            padding: 4px; display: flex; align-items: center; transition: color 0.2s;
+        }
+        .input-toggle:hover { color: var(--grove); }
+        .error-msg {
+            font-size: 0.76rem; color: #c0392b; margin-top: 5px; display: none; align-items: center; gap: 5px;
+        }
+        .error-msg.show { display: flex; }
+
+        /* Remember me */
+        .form-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+        .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.83rem; color: var(--smoke); }
+        .checkbox-label input[type="checkbox"] { display: none; }
+        .custom-checkbox {
+            width: 18px; height: 18px; border: 1.5px solid #c0d5c8; border-radius: 5px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: var(--transition); background: var(--cream);
+        }
+        .checkbox-label input:checked + .custom-checkbox {
+            background: var(--grove); border-color: var(--grove);
+        }
+        .custom-checkbox svg { opacity: 0; transition: opacity 0.15s; }
+        .checkbox-label input:checked + .custom-checkbox svg { opacity: 1; }
+
+        /* Submit btn */
+        .submit-btn {
+            width: 100%; padding: 14px; border-radius: var(--radius);
+            background: var(--grove); color: white; border: none;
+            font-family: inherit; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            position: relative; overflow: hidden; margin-bottom: 1.2rem;
+        }
+        .submit-btn::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+        }
+        .submit-btn:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,106,79,0.35); }
+        .submit-btn:active { transform: translateY(0); }
+        .submit-btn.loading { pointer-events: none; opacity: 0.85; }
+        .btn-spinner {
+            width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white; border-radius: 50%;
+            animation: spin 0.7s linear infinite; display: none;
+        }
+        .submit-btn.loading .btn-text { display: none; }
+        .submit-btn.loading .btn-spinner { display: block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Sign up link */
+        .form-footer { text-align: center; font-size: 0.85rem; color: var(--smoke); }
+        .form-footer a { color: var(--grove); font-weight: 600; text-decoration: none; }
+        .form-footer a:hover { text-decoration: underline; }
+
+        /* Role selector */
+        .role-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.5rem; }
+        .role-option { display: none; }
+        .role-label {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 12px 10px; border: 1.5px solid #ddeee4; border-radius: var(--radius);
+            cursor: pointer; transition: var(--transition); text-align: center;
+            background: var(--cream);
+        }
+        .role-label:hover { border-color: var(--sage); background: var(--mist); }
+        .role-option:checked + .role-label {
+            border-color: var(--grove); background: rgba(45,106,79,0.06);
+            box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+        }
+        .role-icon { font-size: 1.4rem; }
+        .role-name { font-size: 0.78rem; font-weight: 700; color: var(--forest); }
+        .role-desc { font-size: 0.7rem; color: var(--smoke); line-height: 1.3; }
+
+        /* Toast notification */
+        .toast {
+            position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--ink); color: white; padding: 14px 24px; border-radius: var(--radius);
+            font-size: 0.88rem; font-weight: 500; z-index: 500; transition: transform 0.4s ease;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            min-width: 260px; max-width: 380px; text-align: center; justify-content: center;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.success { background: var(--grove); }
+        .toast.error-toast { background: #c0392b; }
+
+        /* Success state */
+        .success-state {
+            display: none; text-align: center; padding: 20px 0;
+            animation: fadeUp 0.5s ease both;
+        }
+        .success-icon {
+            width: 72px; height: 72px; background: var(--mist); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+            animation: successPop 0.4s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+        @keyframes successPop { from { transform: scale(0); } to { transform: scale(1); } }
+        .success-state h3 { font-size: 1.4rem; font-weight: 800; color: var(--forest); margin-bottom: 8px; }
+        .success-state p { color: var(--smoke); font-size: 0.9rem; }
+
+        /* Security badges */
+        .security-row {
+            display: flex; align-items: center; justify-content: center; gap: 16px;
+            padding-top: 1.5rem; border-top: 1px solid #edf3ef; margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .security-badge {
+            display: flex; align-items: center; gap: 5px; color: #8fac9e;
+            font-size: 0.72rem; font-weight: 500;
+        }
+        .security-badge svg { width: 13px; height: 13px; }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+
+        /* ── TRUST STRIP ── */
+        .trust-strip { background: var(--forest); padding: 14px 5%; overflow: hidden; position: relative; }
+        .trust-strip::before, .trust-strip::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+        }
+        .trust-strip::before { left: 0; background: linear-gradient(to right, var(--forest), transparent); }
+        .trust-strip::after { right: 0; background: linear-gradient(to left, var(--forest), transparent); }
+        .trust-inner {
+            display: flex; align-items: center; gap: 3rem;
+            animation: scrollX 25s linear infinite; white-space: nowrap; width: max-content;
+        }
+        .trust-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 0.8rem; font-weight: 500; }
+        .trust-check { width: 16px; height: 16px; background: rgba(116,198,157,0.2); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--sage); font-size: 0.62rem; font-weight: 700; flex-shrink: 0; }
+        .trust-sep { color: rgba(255,255,255,0.2); }
+        @keyframes scrollX { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--ink); color: rgba(255,255,255,0.55);
+            padding: 48px 5% 28px;
+        }
+        .footer-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+            padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand-logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.3rem;
+            color: white; margin-bottom: 14px; letter-spacing: -0.01em;
+            display: inline-flex; align-items: center; gap: 0;
+        }
+        .footer-logo-cart {
+            color: var(--forest); background: var(--sage);
+            padding: 2px 8px; border-radius: 5px; margin-left: 4px;
+            font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .footer-brand p { font-size: 0.83rem; line-height: 1.7; max-width: 280px; }
+        .footer-col h4 { color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 9px; }
+        .footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.83rem; transition: color var(--transition); }
+        .footer-col a:hover { color: var(--sage); }
+        .footer-bottom {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 24px; font-size: 0.78rem;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .footer-socials { display: flex; gap: 10px; }
+        .social-link {
+            width: 36px; height: 36px; background: rgba(255,255,255,0.07); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.5); text-decoration: none;
+            transition: var(--transition); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-link:hover { background: var(--grove); color: white; border-color: var(--grove); transform: translateY(-2px); }
+        .social-link svg { width: 15px; height: 15px; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .page-wrapper { grid-template-columns: 1fr; }
+            .panel-left { display: none; }
+            .panel-right { padding: 40px 6%; }
+            .nav-links {
+                display: none; flex-direction: column; position: fixed;
+                top: var(--nav-height); left: 0; right: 0; background: white;
+                padding: 20px 5% 28px; gap: 1.2rem;
+                box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+                z-index: 99; border-bottom: 2px solid var(--mist);
+            }
+            .nav-links.mobile-open { display: flex; }
+            .nav-links a { font-size: 1rem; padding: 8px 0; display: block; }
+            .nav-hamburger { display: flex; }
+            .mobile-menu-overlay { display: block; }
+            .nav-cta { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .footer-brand { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .panel-right { padding: 32px 5%; }
+            .role-selector { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- NAV -->
+    <nav id="mainNav">
+        <a href="../" class="nav-logo">
+            <span class="nav-logo-agro">Agro</span><span class="nav-logo-chain">Chain</span><span class="nav-logo-cart">Cart</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../">Home</a></li>
+            <li><a href="../about/">About</a></li>
+            <li><a href="../marketplace/">Marketplace</a></li>
+            <li><a href="../contact/">Contact</a></li>
+            <li><a href="../blog/">Blog</a></li>
+            <li class="mobile-cta-group" id="mobileCtaGroup" style="display:none;">
+                <a href="../sign-in/" class="btn-ghost">Sign In</a>
+                <a href="../sign-up/" class="btn-primary">Get Started Free</a>
+            </li>
+        </ul>
+        <div class="nav-cta" id="desktopCta">
+            <a href="../sign-in/" class="btn-ghost">Sign In</a>
+            <a href="../sign-up/" class="btn-primary">Get Started Free</a>
+        </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- TRUST STRIP -->
+    <div class="trust-strip">
+        <div class="trust-inner">
+            <span class="trust-item"><span class="trust-check">✓</span> USDA Compliant</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Verified Farms Only</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Cold-Chain Logistics</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Real-Time Inventory</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Transparent Pricing</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Secure Payments</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Institutional Procurement</span>
+            <span class="trust-sep">·</span><span class="trust-item"><span class="trust-check">✓</span> USDA Compliant</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Verified Farms Only</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Cold-Chain Logistics</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Real-Time Inventory</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Transparent Pricing</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Secure Payments</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Institutional Procurement</span>
+        </div>
+    </div>
+
+    <!-- MAIN PAGE -->
+    <div class="page-wrapper">
+
+        <!-- LEFT PANEL -->
+        <div class="panel-left">
+            <div class="hero-particles" id="heroParticles"></div>
+            <div class="panel-left-content">
+                <div class="panel-badge"><span class="badge-dot"></span>Live in 12 U.S. States</div>
+                <h1>Welcome back to the<br/><em>freshest marketplace.</em></h1>
+                <p>Sign in to access your dashboard, track orders, connect with farms, and manage your listings — all in one place.</p>
+
+                <!-- Mini marketplace preview -->
+                <div class="signin-preview">
+                    <div class="sp-header">
+                        <span class="sp-title">Live Marketplace</span>
+                        <span class="sp-live"><span class="live-dot"></span>247 active listings</span>
+                    </div>
+                    <div class="sp-rows">
+                        <div class="sp-row">
+                            <img class="sp-thumb" src="https://images.unsplash.com/photo-1600404881791-40f8d8bd3e5d?q=80&w=88&auto=format&fit=crop" alt="Heirloom Tomatoes" loading="lazy"/>
+                            <div class="sp-info"><div class="sp-name">Heirloom Tomatoes</div><div class="sp-farm">Green Valley Farm, CA</div></div>
+                            <div style="text-align:right;"><div class="sp-price">$2.40</div><div class="sp-unit">per lb</div></div>
+                        </div>
+                        <div class="sp-row">
+                            <img class="sp-thumb" src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=88&q=75&fit=crop" alt="Baby Greens" loading="lazy"/>
+                            <div class="sp-info"><div class="sp-name">Mixed Baby Greens</div><div class="sp-farm">Sunrise Organics, OR</div></div>
+                            <div style="text-align:right;"><div class="sp-price">$3.80</div><div class="sp-unit">per lb</div></div>
+                        </div>
+                        <div class="sp-row">
+                            <img class="sp-thumb" src="https://images.unsplash.com/photo-1471943311424-646960669fbc?q=80&w=88&auto=format&fit=crop" alt="Wildflower Honey" loading="lazy"/>
+                            <div class="sp-info"><div class="sp-name">Raw Wildflower Honey</div><div class="sp-farm">Blue Mountain Apiary, CO</div></div>
+                            <div style="text-align:right;"><div class="sp-price">$12.00</div><div class="sp-unit">per jar</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust pills -->
+                <div class="trust-pills">
+                    <div class="trust-pill"><span class="trust-pill-check">✓</span> 256-bit SSL</div>
+                    <div class="trust-pill"><span class="trust-pill-check">✓</span> SOC 2 Certified</div>
+                    <div class="trust-pill"><span class="trust-pill-check">✓</span> USDA Compliant</div>
+                    <div class="trust-pill"><span class="trust-pill-check">✓</span> 1,200+ Farms</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: FORM -->
+        <div class="panel-right">
+            <div class="form-container">
+
+                <div class="form-header">
+                    <span class="eyebrow">Returning User</span>
+                    <h2>Sign in to your<br/><em>AgroChain Cart</em> account</h2>
+                    <p>New here? <a href="../sign-up/">Create a free account →</a></p>
+                </div>
+
+                <!-- Social sign-in -->
+                <div class="social-signin">
+                    <button class="social-btn" onclick="handleSocialLogin('Google')">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                        Continue with Google
+                    </button>
+                    <button class="social-btn" onclick="handleSocialLogin('Apple')">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        Continue with Apple
+                    </button>
+                </div>
+
+                <div class="divider"><span>or sign in with email</span></div>
+
+                <!-- FORM -->
+                <form id="signinForm" novalidate>
+                    <div class="form-group">
+                        <label class="form-label">Email address</label>
+                        <div class="form-input-wrap">
+                            <span class="form-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </span>
+                            <input type="email" id="emailInput" class="form-input" placeholder="you@example.com" autocomplete="email" />
+                        </div>
+                        <div class="error-msg" id="emailError">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Password
+                            <a href="forgot-password.html">Forgot password?</a>
+                        </label>
+                        <div class="form-input-wrap">
+                            <span class="form-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <input type="password" id="passwordInput" class="form-input" placeholder="Enter your password" autocomplete="current-password" />
+                            <button type="button" class="input-toggle" id="togglePassword" aria-label="Toggle password visibility">
+                                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                        <div class="error-msg" id="passwordError">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Password must be at least 8 characters.
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe" />
+                            <div class="custom-checkbox">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            Keep me signed in for 30 days
+                        </label>
+                    </div>
+
+                    <!-- Sign in button -->
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">
+                            Sign In
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                        </span>
+                        <div class="btn-spinner"></div>
+                    </button>
+                </form>
+
+                <!-- Success state -->
+                <div class="success-state" id="successState">
+                    <div class="success-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <h3>Welcome back! 🌱</h3>
+                    <p style="margin-bottom:20px;">Signing you in to your AgroChain Cart dashboard…</p>
+                    <div style="width:100%;height:4px;background:#edf3ef;border-radius:2px;overflow:hidden;">
+                        <div id="progressBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--leaf),var(--sage));border-radius:2px;transition:width 2s ease;"></div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    Don't have an account? <a href="../sign-up/">Get Started Free →</a>
+                </div>
+
+                <!-- Security row -->
+                <div class="security-row">
+                    <div class="security-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        256-bit SSL
+                    </div>
+                    <div class="security-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        SOC 2 Type II
+                    </div>
+                    <div class="security-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        2FA Available
+                    </div>
+                    <div class="security-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        USDA Certified
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-brand-logo">
+                    <span>Agro</span><span style="color:var(--sage);">Chain</span><span class="footer-logo-cart">Cart</span>
+                </div>
+                <p>Digital marketplace connecting farmers directly with consumers, restaurants, retailers, and institutions across the United States. Farm to buyer — direct.</p>
+                <p style="margin-top:12px; font-size:0.78rem;">© 2026 AgroChain Cart LLC. All rights reserved.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#">Marketplace</a></li>
+                    <li><a href="#">For Farmers</a></li>
+                    <li><a href="#">For Restaurants</a></li>
+                    <li><a href="#">For Institutions</a></li>
+                    <li><a href="#">Logistics</a></li>
+                    <li><a href="#">Analytics</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Newsroom</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Investors</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Farmer Guides</a></li>
+                    <li><a href="#">Buyer Help Center</a></li>
+                    <li><a href="#">API Docs</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Helping American farmers thrive since 2024.</span>
+            <div class="footer-socials">
+                <a href="https://linkedin.com/company/agrochaincart" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://x.com/agrochaincart" class="social-link" aria-label="X (Twitter)" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://facebook.com/agrochaincart" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <a href="https://youtube.com/@agrochaincart" class="social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f1f17"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ── PARTICLES ──
+        const particlesContainer = document.getElementById('heroParticles');
+        if (particlesContainer) {
+            for (let i = 0; i < 18; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 12 + 4;
+                p.style.cssText = `
+                    width:${size}px; height:${size}px;
+                    left:${Math.random()*100}%;
+                    animation-duration:${Math.random()*12+8}s;
+                    animation-delay:${Math.random()*10}s;
+                    opacity:${Math.random()*0.5+0.1};
+                `;
+                particlesContainer.appendChild(p);
+            }
+        }
+
+        // ── SCROLL ──
+        window.addEventListener('scroll', () => {
+            const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = pct + '%';
+            document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 10);
+        });
+
+        // ── CURSOR GLOW ──
+        document.addEventListener('mousemove', e => {
+            const g = document.getElementById('cursorGlow');
+            g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px';
+        });
+
+        // ── MOBILE NAV ──
+        const navHamburger = document.getElementById('navHamburger');
+        const navLinks = document.getElementById('navLinks');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        const mobileCtaGroup = document.getElementById('mobileCtaGroup');
+        const desktopCta = document.getElementById('desktopCta');
+
+        function openMenu() { navLinks.classList.add('mobile-open'); navHamburger.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow='hidden'; navHamburger.setAttribute('aria-expanded','true'); }
+        function closeMenu() { navLinks.classList.remove('mobile-open'); navHamburger.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow=''; navHamburger.setAttribute('aria-expanded','false'); }
+        navHamburger.addEventListener('click', () => navLinks.classList.contains('mobile-open') ? closeMenu() : openMenu());
+        overlay.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+        function updateCta() {
+            const small = window.innerWidth <= 900;
+            mobileCtaGroup.style.display = small ? 'flex' : 'none';
+            desktopCta.style.display = small ? 'none' : 'flex';
+            if (!small && navLinks.classList.contains('mobile-open')) closeMenu();
+        }
+        updateCta(); window.addEventListener('resize', updateCta);
+
+        // ── PASSWORD TOGGLE ──
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('passwordInput');
+        const eyeIcon = document.getElementById('eyeIcon');
+        togglePassword.addEventListener('click', () => {
+            const show = passwordInput.type === 'password';
+            passwordInput.type = show ? 'text' : 'password';
+            eyeIcon.innerHTML = show
+                ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`
+                : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+        });
+
+        // ── TOAST ──
+        function showToast(msg, type='') {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.className = 'toast ' + type;
+            setTimeout(() => t.classList.add('show'), 50);
+            setTimeout(() => t.classList.remove('show'), 3200);
+        }
+
+        // ── SOCIAL LOGIN ──
+        function handleSocialLogin(provider) {
+            showToast(`Connecting to ${provider}…`);
+        }
+
+        // ── FORM VALIDATION & SUBMIT ──
+        const form = document.getElementById('signinForm');
+        const emailInput = document.getElementById('emailInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const successState = document.getElementById('successState');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+        emailInput.addEventListener('input', () => {
+            const ok = validateEmail(emailInput.value);
+            emailInput.classList.toggle('error', emailInput.value && !ok);
+            emailError.classList.toggle('show', emailInput.value && !ok);
+        });
+        passwordInput.addEventListener('input', () => {
+            const ok = passwordInput.value.length >= 8;
+            passwordInput.classList.toggle('error', passwordInput.value && !ok);
+            passwordError.classList.toggle('show', passwordInput.value && !ok);
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value.trim();
+            const pwd = passwordInput.value;
+            let valid = true;
+
+            if (!validateEmail(email)) {
+                emailInput.classList.add('error'); emailError.classList.add('show'); valid = false;
+            }
+            if (pwd.length < 8) {
+                passwordInput.classList.add('error'); passwordError.classList.add('show'); valid = false;
+            }
+            if (!valid) return;
+
+            // Loading state
+            submitBtn.classList.add('loading');
+            await new Promise(r => setTimeout(r, 1800));
+            submitBtn.classList.remove('loading');
+
+            // Show success
+            form.style.display = 'none';
+            document.querySelector('.form-footer').style.display = 'none';
+            successState.style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('progressBar').style.width = '100%';
+            }, 100);
+            showToast('Signed in successfully! Redirecting…', 'success');
+        });
+    </script>
+</body>
+</html>

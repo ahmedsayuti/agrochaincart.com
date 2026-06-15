@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Started Free — AgroChain Cart</title>
+    <meta name="description" content="Create your free AgroChain Cart account. Join 1,200+ farms and thousands of buyers on America's freshest direct marketplace." />
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --amber: #f4a261;
+            --earth: #6b4226; --ink: #0f1f17; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --radius-lg: 20px; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+            --nav-height: 68px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--white); color: var(--ink); line-height: 1.6;
+            overflow-x: hidden; padding-top: var(--nav-height);
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+            transition: var(--transition);
+        }
+        nav.scrolled { box-shadow: 0 4px 24px rgba(26,58,42,0.1); }
+        .nav-logo {
+            display: flex; align-items: center; gap: 0; text-decoration: none;
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem;
+            color: var(--forest); letter-spacing: -0.01em; line-height: 1; z-index: 102; flex-shrink: 0;
+        }
+        .nav-logo-agro { color: var(--forest); }
+        .nav-logo-chain { color: var(--grove); }
+        .nav-logo-cart {
+            color: var(--white); background: var(--grove); padding: 2px 8px 2px 6px;
+            border-radius: 6px; margin-left: 4px; font-size: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; letter-spacing: 0.01em;
+        }
+        .nav-links {
+            display: flex; align-items: center; gap: 2rem; list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none; color: var(--smoke); font-size: 0.9rem; font-weight: 500;
+            transition: color var(--transition); position: relative; white-space: nowrap;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px;
+            background: var(--grove); transform: scaleX(0); transform-origin: left;
+            transition: transform 0.25s ease;
+        }
+        .nav-links a:hover { color: var(--grove); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-cta { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+        .btn-ghost {
+            padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
+            background: transparent; color: var(--grove); font-size: 0.875rem;
+            font-weight: 600; cursor: pointer; transition: var(--transition); font-family: inherit;
+            white-space: nowrap; text-decoration: none; display: inline-block;
+        }
+        .btn-ghost:hover { background: var(--mist); }
+        .btn-primary {
+            padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
+            border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition); font-family: inherit; white-space: nowrap;
+            text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px;
+            z-index: 102; background: none; border: none; -webkit-tap-highlight-color: transparent;
+        }
+        .nav-hamburger span {
+            display: block; width: 24px; height: 2px; background: var(--forest);
+            border-radius: 2px; transition: var(--transition); transform-origin: center;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-menu-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(15,31,23,0.5);
+            z-index: 98; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+
+        /* ── SCROLL / CURSOR ── */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+            background: linear-gradient(90deg, var(--sage), var(--gold)); width: 0%; pointer-events: none;
+        }
+        .cursor-glow {
+            position: fixed; width: 300px; height: 300px; border-radius: 50%;
+            pointer-events: none; z-index: 0;
+            background: radial-gradient(circle, rgba(116,198,157,0.06) 0%, transparent 70%);
+            transform: translate(-50%, -50%); transition: left 0.15s ease, top 0.15s ease;
+        }
+
+        /* ── TRUST STRIP ── */
+        .trust-strip { background: var(--forest); padding: 14px 5%; overflow: hidden; position: relative; }
+        .trust-strip::before, .trust-strip::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+        }
+        .trust-strip::before { left: 0; background: linear-gradient(to right, var(--forest), transparent); }
+        .trust-strip::after { right: 0; background: linear-gradient(to left, var(--forest), transparent); }
+        .trust-inner {
+            display: flex; align-items: center; gap: 3rem;
+            animation: scrollX 25s linear infinite; white-space: nowrap; width: max-content;
+        }
+        .trust-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 0.8rem; font-weight: 500; }
+        .trust-check { width: 16px; height: 16px; background: rgba(116,198,157,0.2); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--sage); font-size: 0.62rem; font-weight: 700; flex-shrink: 0; }
+        .trust-sep { color: rgba(255,255,255,0.2); }
+        @keyframes scrollX { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ── HERO SECTION ── */
+        .signup-hero {
+            min-height: 56vh;
+            background: linear-gradient(160deg, var(--forest) 0%, #224436 40%, #1e4d38 70%, #163323 100%);
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 64px 5% 100px; text-align: center;
+        }
+        .hero-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .particle {
+            position: absolute; border-radius: 50%; background: rgba(116,198,157,0.15);
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+        }
+        .signup-hero::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23f8faf4' d='M0,64L48,58.7C96,53,192,43,288,48C384,53,480,75,576,80C672,85,768,75,864,64C960,53,1056,43,1152,48C1248,53,1344,75,1392,85.3L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z'/%3E%3C/svg%3E");
+            background-size: cover; z-index: 3;
+        }
+        .hero-inner-content { position: relative; z-index: 2; max-width: 700px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(116,198,157,0.15); border: 1px solid rgba(116,198,157,0.3);
+            color: var(--sage); padding: 6px 14px; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 1.5rem;
+            animation: fadeUp 0.6s ease both;
+        }
+        .badge-dot { width: 7px; height: 7px; background: var(--sage); border-radius: 50%; animation: pulse 2s infinite; }
+        .signup-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1;
+            color: white; letter-spacing: -0.03em; margin-bottom: 1.2rem;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+        .signup-hero h1 em {
+            font-style: normal; background: linear-gradient(90deg, var(--sage), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .signup-hero p {
+            font-size: clamp(0.9rem, 1.5vw, 1.05rem); color: rgba(255,255,255,0.7);
+            max-width: 520px; line-height: 1.7; margin: 0 auto 2rem;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        /* Stat pills in hero */
+        .hero-stat-pills {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+            animation: fadeUp 0.8s 0.3s ease both;
+        }
+        .hero-stat-pill {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+            color: white; padding: 8px 16px; border-radius: 100px;
+            font-size: 0.82rem; font-weight: 500;
+        }
+        .hero-stat-pill strong { color: var(--sage); font-weight: 800; }
+
+        /* ── ROLE SELECT SECTION ── */
+        .role-section {
+            background: var(--cream); padding: 64px 5%;
+        }
+        .role-section-inner { max-width: 1100px; margin: 0 auto; }
+        .section-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--leaf); margin-bottom: 10px; display: block; }
+        .section-heading { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; color: var(--forest); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 8px; }
+        .section-heading em { font-style: italic; font-family: 'Lora', serif; color: var(--grove); }
+        .section-sub { color: var(--smoke); font-size: 0.95rem; line-height: 1.7; max-width: 540px; margin-bottom: 40px; }
+
+        .role-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .role-card {
+            background: white; border: 1.5px solid #e0ece5; border-radius: var(--radius-lg);
+            padding: 28px 22px; cursor: pointer; transition: var(--transition);
+            position: relative; overflow: hidden; text-align: center;
+        }
+        .role-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .role-farmer::before { background: linear-gradient(90deg, var(--leaf), var(--sage)); }
+        .role-consumer::before { background: linear-gradient(90deg, var(--gold), var(--amber)); }
+        .role-restaurant::before { background: linear-gradient(90deg, #5b8dd9, #8ab4f8); }
+        .role-institution::before { background: linear-gradient(90deg, #b45e00, var(--gold)); }
+        .role-card:hover::before, .role-card.selected::before { opacity: 1; }
+        .role-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(64,145,108,0.16); border-color: var(--sage); }
+        .role-card.selected { border-color: var(--grove); box-shadow: 0 0 0 3px rgba(45,106,79,0.12), 0 14px 40px rgba(64,145,108,0.16); transform: translateY(-4px); }
+        .role-emoji { font-size: 2.2rem; margin-bottom: 14px; display: block; }
+        .role-card h3 { font-size: 1rem; font-weight: 700; color: var(--forest); margin-bottom: 8px; }
+        .role-card p { font-size: 0.8rem; color: var(--smoke); line-height: 1.55; margin-bottom: 14px; }
+        .role-tags { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+        .role-tag { padding: 3px 10px; border-radius: 100px; background: var(--mist); color: var(--grove); font-size: 0.7rem; font-weight: 600; }
+        .role-tag.gold { background: #fff3d4; color: #9a6f00; }
+        .role-tag.blue { background: #eef3ff; color: #3a5db5; }
+        .role-tag.earth { background: #fff0e6; color: #8b4c00; }
+        .role-card-check {
+            position: absolute; top: 14px; right: 14px; width: 22px; height: 22px;
+            background: var(--grove); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.2s ease; transform: scale(0.6);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .role-card.selected .role-card-check { opacity: 1; transform: scale(1); }
+
+        /* ── FORM SECTION ── */
+        .form-section {
+            background: white; padding: 72px 5%;
+        }
+        .form-section-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 420px; gap: 5rem; align-items: start;
+        }
+
+        /* ── LEFT: Benefits & Social proof ── */
+        .benefits-col { position: sticky; top: 90px; }
+        .benefits-col .eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--leaf); margin-bottom: 10px; display: block; }
+        .benefits-col h2 { font-size: clamp(1.5rem, 2.5vw, 2.1rem); font-weight: 800; color: var(--forest); letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 1rem; }
+        .benefits-col h2 em { font-style: italic; font-family: 'Lora', serif; color: var(--grove); }
+        .benefits-col > p { color: var(--smoke); font-size: 0.9rem; line-height: 1.7; margin-bottom: 2rem; }
+
+        .benefit-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 2.5rem; }
+        .benefit-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px; background: var(--cream); border-radius: var(--radius); border: 1px solid #e8f0eb; transition: var(--transition); }
+        .benefit-item:hover { border-color: var(--sage); background: #edfbf2; }
+        .benefit-icon { width: 42px; height: 42px; border-radius: 11px; background: var(--mist); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .benefit-icon svg { width: 20px; height: 20px; }
+        .benefit-text h4 { font-size: 0.9rem; font-weight: 700; color: var(--forest); margin-bottom: 3px; }
+        .benefit-text p { font-size: 0.8rem; color: var(--smoke); line-height: 1.5; }
+
+        /* Testimonial card */
+        .mini-testimonial {
+            background: var(--forest); border-radius: var(--radius-lg); padding: 24px;
+            position: relative; overflow: hidden; margin-bottom: 1.5rem;
+        }
+        .mini-testimonial::before {
+            content: '\201C'; position: absolute; top: 12px; right: 18px;
+            font-size: 5rem; line-height: 1; color: rgba(116,198,157,0.15);
+            font-family: 'Lora', serif; pointer-events: none;
+        }
+        .mini-testimonial .stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 12px; letter-spacing: 2px; }
+        .mini-testimonial p { color: rgba(255,255,255,0.75); font-size: 0.85rem; line-height: 1.65; font-style: italic; font-family: 'Lora', serif; margin-bottom: 16px; }
+        .mini-t-author { display: flex; align-items: center; gap: 10px; }
+        .mini-t-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--mist); border: 2px solid var(--sage); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .mini-t-avatar svg { width: 20px; height: 20px; }
+        .mini-t-name { color: white; font-weight: 700; font-size: 0.85rem; }
+        .mini-t-role { color: rgba(255,255,255,0.5); font-size: 0.75rem; }
+
+        /* Stat row */
+        .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .stat-mini { background: var(--cream); border: 1px solid #e8f0eb; border-radius: var(--radius); padding: 14px 12px; text-align: center; transition: var(--transition); }
+        .stat-mini:hover { background: var(--mist); border-color: var(--sage); }
+        .stat-mini-val { font-size: 1.4rem; font-weight: 800; color: var(--grove); letter-spacing: -0.04em; font-family: 'Lora', serif; }
+        .stat-mini-label { font-size: 0.72rem; color: var(--smoke); margin-top: 3px; }
+
+        /* ── RIGHT: FORM ── */
+        .form-col { }
+        .form-card {
+            background: white; border: 1.5px solid #e8f0eb; border-radius: var(--radius-lg);
+            padding: 36px; box-shadow: 0 8px 32px rgba(64,145,108,0.08);
+        }
+
+        /* Step indicator */
+        .step-indicator {
+            display: flex; align-items: center; gap: 0; margin-bottom: 28px;
+        }
+        .step {
+            display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1;
+        }
+        .step-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ddeee4;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 700; color: #9ab5a5;
+            background: white; transition: var(--transition); z-index: 1; position: relative;
+        }
+        .step.active .step-circle { border-color: var(--grove); background: var(--grove); color: white; }
+        .step.done .step-circle { border-color: var(--leaf); background: var(--mist); color: var(--leaf); }
+        .step-label { font-size: 0.68rem; font-weight: 600; color: #9ab5a5; text-align: center; white-space: nowrap; }
+        .step.active .step-label { color: var(--grove); }
+        .step.done .step-label { color: var(--leaf); }
+        .step-line { flex: 1; height: 2px; background: #e8f0eb; margin: 0 4px; margin-bottom: 20px; transition: background 0.3s; }
+        .step-line.done { background: var(--leaf); }
+
+        /* Form steps */
+        .form-step { display: none; animation: fadeUp 0.4s ease both; }
+        .form-step.active { display: block; }
+
+        .form-step-title { font-size: 1.1rem; font-weight: 800; color: var(--forest); margin-bottom: 4px; }
+        .form-step-sub { font-size: 0.83rem; color: var(--smoke); margin-bottom: 22px; }
+
+        /* Fields */
+        .form-group { margin-bottom: 1rem; }
+        .form-label-row {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 0.8rem; font-weight: 600; color: var(--forest); margin-bottom: 6px;
+        }
+        .form-label-row a { color: var(--grove); font-weight: 500; text-decoration: none; font-size: 0.78rem; }
+        .form-label-row a:hover { text-decoration: underline; }
+        .form-input-wrap { position: relative; }
+        .form-input-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #9ab5a5; pointer-events: none; display: flex; }
+        .form-input {
+            width: 100%; padding: 11px 13px 11px 40px;
+            border: 1.5px solid #ddeee4; border-radius: 10px;
+            font-family: inherit; font-size: 0.88rem; color: var(--ink);
+            background: var(--cream); outline: none; transition: var(--transition);
+            appearance: none; -webkit-appearance: none;
+        }
+        .form-input:focus { border-color: var(--leaf); background: white; box-shadow: 0 0 0 3px rgba(64,145,108,0.12); }
+        .form-input.error { border-color: #e05c5c; box-shadow: 0 0 0 3px rgba(224,92,92,0.1); }
+        .form-input::placeholder { color: #b0c5ba; }
+        .form-input.no-icon { padding-left: 13px; }
+        .input-toggle {
+            position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer; color: #9ab5a5; padding: 4px; display: flex; align-items: center; transition: color 0.2s;
+        }
+        .input-toggle:hover { color: var(--grove); }
+
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .error-msg { font-size: 0.74rem; color: #c0392b; margin-top: 4px; display: none; align-items: center; gap: 4px; }
+        .error-msg.show { display: flex; }
+
+        /* Password strength */
+        .pw-strength { margin-top: 8px; }
+        .pw-bars { display: flex; gap: 4px; height: 4px; margin-bottom: 5px; }
+        .pw-bar { flex: 1; border-radius: 2px; background: #e8f0eb; transition: background 0.3s; }
+        .pw-label { font-size: 0.72rem; color: var(--smoke); }
+
+        /* Select */
+        .form-select {
+            width: 100%; padding: 11px 40px 11px 40px;
+            border: 1.5px solid #ddeee4; border-radius: 10px;
+            font-family: inherit; font-size: 0.88rem; color: var(--ink);
+            background: var(--cream); outline: none; transition: var(--transition);
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ab5a5' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center;
+            cursor: pointer;
+        }
+        .form-select:focus { border-color: var(--leaf); background-color: white; box-shadow: 0 0 0 3px rgba(64,145,108,0.12); }
+
+        /* Checkbox */
+        .checkbox-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.82rem; color: var(--smoke); margin-bottom: 10px; }
+        .checkbox-label input { display: none; }
+        .custom-checkbox {
+            width: 18px; height: 18px; border: 1.5px solid #c0d5c8; border-radius: 5px; margin-top: 1px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: var(--transition); background: var(--cream);
+        }
+        .checkbox-label input:checked + .custom-checkbox { background: var(--grove); border-color: var(--grove); }
+        .custom-checkbox svg { opacity: 0; transition: opacity 0.15s; }
+        .checkbox-label input:checked + .custom-checkbox svg { opacity: 1; }
+        .checkbox-label a { color: var(--grove); font-weight: 600; text-decoration: none; }
+        .checkbox-label a:hover { text-decoration: underline; }
+
+        /* Plan mini-selector */
+        .plan-mini { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+        .plan-option { display: none; }
+        .plan-label {
+            display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+            border: 1.5px solid #ddeee4; border-radius: 10px; cursor: pointer;
+            transition: var(--transition); background: var(--cream);
+        }
+        .plan-label:hover { border-color: var(--sage); background: #edfbf2; }
+        .plan-option:checked + .plan-label { border-color: var(--grove); background: rgba(45,106,79,0.05); box-shadow: 0 0 0 2px rgba(45,106,79,0.1); }
+        .plan-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #c0d5c8; flex-shrink: 0; transition: var(--transition); }
+        .plan-option:checked + .plan-label .plan-dot { border-color: var(--grove); border-width: 5px; }
+        .plan-info { flex: 1; }
+        .plan-name { font-size: 0.85rem; font-weight: 700; color: var(--forest); }
+        .plan-desc { font-size: 0.73rem; color: var(--smoke); }
+        .plan-price { font-size: 0.82rem; font-weight: 700; color: var(--grove); }
+        .plan-badge-free { background: var(--mist); color: var(--grove); padding: 2px 9px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; }
+
+        /* Nav buttons */
+        .form-nav { display: flex; gap: 10px; margin-top: 22px; }
+        .btn-back {
+            padding: 12px 22px; border-radius: var(--radius); background: transparent;
+            border: 1.5px solid #ddeee4; color: var(--smoke); font-family: inherit;
+            font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: var(--transition);
+        }
+        .btn-back:hover { border-color: var(--sage); color: var(--grove); background: var(--cream); }
+        .btn-next {
+            flex: 1; padding: 13px; border-radius: var(--radius);
+            background: var(--grove); color: white; border: none;
+            font-family: inherit; font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            position: relative; overflow: hidden;
+        }
+        .btn-next::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%); }
+        .btn-next:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,106,79,0.32); }
+        .btn-next:disabled { opacity: 0.5; pointer-events: none; }
+        .btn-next.loading { pointer-events: none; opacity: 0.85; }
+        .btn-spinner { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+        .btn-next.loading .btn-text { display: none; }
+        .btn-next.loading .btn-spinner { display: block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .form-footer-link { text-align: center; font-size: 0.82rem; color: var(--smoke); margin-top: 16px; }
+        .form-footer-link a { color: var(--grove); font-weight: 600; text-decoration: none; }
+        .form-footer-link a:hover { text-decoration: underline; }
+
+        /* ── SUCCESS STATE ── */
+        .success-screen {
+            display: none; text-align: center; padding: 20px 0;
+            animation: fadeUp 0.5s ease both;
+        }
+        .success-animation {
+            width: 80px; height: 80px; margin: 0 auto 24px;
+            position: relative;
+        }
+        .success-ring {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: var(--mist); display: flex; align-items: center; justify-content: center;
+            animation: successPop 0.5s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+        @keyframes successPop { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1) rotate(0deg); } }
+        .success-confetti {
+            position: absolute; inset: 0; pointer-events: none;
+        }
+        .confetti-dot {
+            position: absolute; width: 6px; height: 6px; border-radius: 50%;
+            animation: confettiFly 0.8s ease forwards;
+        }
+        @keyframes confettiFly {
+            from { opacity: 1; transform: translate(0,0) scale(1); }
+            to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+        }
+        .success-screen h3 { font-size: 1.6rem; font-weight: 800; color: var(--forest); margin-bottom: 10px; }
+        .success-screen p { color: var(--smoke); font-size: 0.9rem; line-height: 1.65; margin-bottom: 24px; }
+        .success-checklist { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; text-align: left; }
+        .success-check-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--smoke); padding: 10px 14px; background: var(--cream); border-radius: var(--radius); }
+        .success-check-item .s-check { width: 22px; height: 22px; background: var(--mist); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; animation: successPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .success-check-item:nth-child(1) .s-check { animation-delay: 0.4s; }
+        .success-check-item:nth-child(2) .s-check { animation-delay: 0.55s; }
+        .success-check-item:nth-child(3) .s-check { animation-delay: 0.7s; }
+        .go-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 30px; border-radius: var(--radius);
+            background: var(--gold); color: var(--forest); border: none;
+            font-family: inherit; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition); text-decoration: none;
+        }
+        .go-btn:hover { background: #f0c84a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(233,196,106,0.4); }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--ink); color: white; padding: 14px 24px; border-radius: var(--radius);
+            font-size: 0.88rem; font-weight: 500; z-index: 500; transition: transform 0.4s ease;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            min-width: 260px; max-width: 380px; text-align: center; justify-content: center;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.success-toast { background: var(--grove); }
+
+        /* Security row */
+        .security-row {
+            display: flex; align-items: center; justify-content: center; gap: 14px;
+            padding-top: 16px; border-top: 1px solid #edf3ef; margin-top: 18px; flex-wrap: wrap;
+        }
+        .security-badge { display: flex; align-items: center; gap: 5px; color: #8fac9e; font-size: 0.7rem; font-weight: 500; }
+        .security-badge svg { width: 12px; height: 12px; }
+
+        /* ── SOCIAL PROOF STRIP ── */
+        .social-proof-strip {
+            background: var(--cream); padding: 44px 5%;
+            border-top: 1px solid #e8f0eb;
+        }
+        .social-proof-inner { max-width: 1100px; margin: 0 auto; }
+        .sp-strip-header { text-align: center; margin-bottom: 32px; }
+        .sp-strip-header h3 { font-size: 1.2rem; font-weight: 700; color: var(--forest); margin-bottom: 6px; }
+        .sp-strip-header p { color: var(--smoke); font-size: 0.85rem; }
+        .testimonials-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .test-mini {
+            background: white; border: 1.5px solid #e8f0eb; border-radius: var(--radius-lg);
+            padding: 20px; transition: var(--transition);
+        }
+        .test-mini:hover { border-color: var(--sage); transform: translateY(-3px); box-shadow: 0 10px 28px rgba(64,145,108,0.12); }
+        .test-mini .stars { color: var(--gold); font-size: 0.78rem; margin-bottom: 10px; letter-spacing: 2px; }
+        .test-mini p { font-size: 0.83rem; color: var(--smoke); line-height: 1.65; font-style: italic; font-family: 'Lora', serif; margin-bottom: 14px; }
+        .test-author { display: flex; align-items: center; gap: 10px; }
+        .test-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--mist); border: 2px solid var(--sage); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .test-avatar svg { width: 18px; height: 18px; }
+        .test-name { font-weight: 700; color: var(--forest); font-size: 0.83rem; }
+        .test-role { font-size: 0.72rem; color: var(--smoke); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--ink); color: rgba(255,255,255,0.55);
+            padding: 48px 5% 28px;
+        }
+        .footer-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+            padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand-logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.3rem;
+            color: white; margin-bottom: 14px; letter-spacing: -0.01em;
+            display: inline-flex; align-items: center; gap: 0;
+        }
+        .footer-logo-cart {
+            color: var(--forest); background: var(--sage);
+            padding: 2px 8px; border-radius: 5px; margin-left: 4px;
+            font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .footer-brand p { font-size: 0.83rem; line-height: 1.7; max-width: 280px; }
+        .footer-col h4 { color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 9px; }
+        .footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.83rem; transition: color var(--transition); }
+        .footer-col a:hover { color: var(--sage); }
+        .footer-bottom {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 24px; font-size: 0.78rem; flex-wrap: wrap; gap: 12px;
+        }
+        .footer-socials { display: flex; gap: 10px; }
+        .social-link {
+            width: 36px; height: 36px; background: rgba(255,255,255,0.07); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.5); text-decoration: none;
+            transition: var(--transition); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-link:hover { background: var(--grove); color: white; border-color: var(--grove); transform: translateY(-2px); }
+        .social-link svg { width: 15px; height: 15px; }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .form-section-inner { gap: 3rem; }
+            .role-cards { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .form-section-inner { grid-template-columns: 1fr; }
+            .benefits-col { position: static; }
+            .testimonials-row { grid-template-columns: 1fr; }
+            .nav-links {
+                display: none; flex-direction: column; position: fixed;
+                top: var(--nav-height); left: 0; right: 0; background: white;
+                padding: 20px 5% 28px; gap: 1.2rem;
+                box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+                z-index: 99; border-bottom: 2px solid var(--mist);
+            }
+            .nav-links.mobile-open { display: flex; }
+            .nav-links a { font-size: 1rem; padding: 8px 0; display: block; }
+            .nav-hamburger { display: flex; }
+            .mobile-menu-overlay { display: block; }
+            .nav-cta { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .footer-brand { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .role-cards { grid-template-columns: 1fr 1fr; }
+            .form-row-2 { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
+            .hero-stat-pills { gap: 7px; }
+            .hero-stat-pill { font-size: 0.75rem; padding: 6px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- NAV -->
+    <nav id="mainNav">
+        <a href="index.html" class="nav-logo">
+            <span class="nav-logo-agro">Agro</span><span class="nav-logo-chain">Chain</span><span class="nav-logo-cart">Cart</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../">Home</a></li>
+            <li><a href="../about/">About</a></li>
+            <li><a href="../marketplace/">Marketplace</a></li>
+            <li><a href="../contact/">Contact</a></li>
+            <li><a href="../blog/">Blog</a></li>
+            <li class="mobile-cta-group" id="mobileCtaGroup" style="display:none;">
+                <a href="../sign-in/" class="btn-ghost">Sign In</a>
+                <a href="../sign-up/" class="btn-primary">Get Started Free</a>
+            </li>
+        </ul>
+        <div class="nav-cta" id="desktopCta">
+            <a href="../sign-in/" class="btn-ghost">Sign In</a>
+            <a href="../sign-up/" class="btn-primary">Get Started Free</a>
+        </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- TRUST STRIP -->
+    <div class="trust-strip">
+        <div class="trust-inner">
+            <span class="trust-item"><span class="trust-check">✓</span> USDA Compliant</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Verified Farms Only</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Cold-Chain Logistics</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Real-Time Inventory</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Transparent Pricing</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Secure Payments</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Institutional Procurement</span>
+            <span class="trust-sep">·</span><span class="trust-item"><span class="trust-check">✓</span> USDA Compliant</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Verified Farms Only</span><span class="trust-sep">·</span>
+            <span class="trust-item"><span class="trust-check">✓</span> Cold-Chain Logistics</span>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="signup-hero">
+        <div class="hero-particles" id="heroParticles"></div>
+        <div class="hero-inner-content">
+            <div class="hero-badge"><span class="badge-dot"></span>Free to start — no credit card required</div>
+            <h1>Join the farm-direct<br/><em>food revolution.</em></h1>
+            <p>Create your account in under 3 minutes and connect directly with American farms — or start selling your harvest to thousands of verified buyers today.</p>
+            <div class="hero-stat-pills">
+                <div class="hero-stat-pill"><strong>1,200+</strong> Verified farms</div>
+                <div class="hero-stat-pill"><strong>+44%</strong> Avg farmer income boost</div>
+                <div class="hero-stat-pill"><strong>12</strong> States active</div>
+                <div class="hero-stat-pill"><strong>48 hrs</strong> Farm to delivery</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROLE SELECT -->
+    <section class="role-section">
+        <div class="role-section-inner">
+            <span class="section-eyebrow">Step 1 of 3</span>
+            <h2 class="section-heading">How will you use<br/><em>AgroChain Cart?</em></h2>
+            <p class="section-sub">Select the option that best describes you — we'll tailor your account setup and features accordingly.</p>
+            <div class="role-cards" id="roleCards">
+                <div class="role-card role-farmer" onclick="selectRole(this, 'farmer')">
+                    <div class="role-card-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="role-emoji">🌾</span>
+                    <h3>Farmer / Grower</h3>
+                    <p>I grow crops or raise livestock and want to sell directly to buyers at better prices.</p>
+                    <div class="role-tags">
+                        <span class="role-tag">Real-time listings</span>
+                        <span class="role-tag">Instant payouts</span>
+                        <span class="role-tag">Analytics</span>
+                    </div>
+                </div>
+                <div class="role-card role-consumer" onclick="selectRole(this, 'consumer')">
+                    <div class="role-card-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="role-emoji">🏠</span>
+                    <h3>Household / Family</h3>
+                    <p>I want fresh, local produce delivered to my door — and to know exactly where my food comes from.</p>
+                    <div class="role-tags">
+                        <span class="role-tag gold">Weekly boxes</span>
+                        <span class="role-tag gold">Farm profiles</span>
+                        <span class="role-tag gold">2-day delivery</span>
+                    </div>
+                </div>
+                <div class="role-card role-restaurant" onclick="selectRole(this, 'restaurant')">
+                    <div class="role-card-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="role-emoji">🍽️</span>
+                    <h3>Restaurant / Retailer</h3>
+                    <p>I source produce for a food business and need reliable, traceable, bulk farm-direct supply.</p>
+                    <div class="role-tags">
+                        <span class="role-tag blue">Standing orders</span>
+                        <span class="role-tag blue">Bulk pricing</span>
+                        <span class="role-tag blue">Compliance docs</span>
+                    </div>
+                </div>
+                <div class="role-card role-institution" onclick="selectRole(this, 'institution')">
+                    <div class="role-card-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="role-emoji">🏛️</span>
+                    <h3>Institution / Government</h3>
+                    <p>I procure food for schools, hospitals, or public programs and need full compliance and traceability.</p>
+                    <div class="role-tags">
+                        <span class="role-tag earth">USDA compliance</span>
+                        <span class="role-tag earth">Custom contracts</span>
+                        <span class="role-tag earth">Bulk invoicing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORM + BENEFITS SECTION -->
+    <section class="form-section">
+        <div class="form-section-inner">
+
+            <!-- LEFT: Benefits -->
+            <div class="benefits-col reveal">
+                <span class="eyebrow">Why AgroChain Cart</span>
+                <h2>Everything you need<br/>to grow <em>faster.</em></h2>
+                <p>Whether you're a farmer ready to cut out the middlemen or a buyer wanting fresher food at fairer prices — AgroChain Cart is built for you.</p>
+
+                <div class="benefit-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Farmers earn 3.75× more</h4>
+                            <p>Direct access to buyers means farmers keep 60 cents of every dollar instead of the usual 16.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="2"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M12 6v6l4 2"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            <h4>48-hour farm-to-door delivery</h4>
+                            <p>Our cold-chain logistics network gets produce from harvest to your table in under 2 days — not 2 weeks.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10A15 15 0 0 1 8 12a15 15 0 0 1 4-10z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Full supply chain transparency</h4>
+                            <p>Every listing includes GPS-verified farm location, certifications, and real harvest dates — no guesswork.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Analytics built for farmers</h4>
+                            <p>Demand heatmaps, price benchmarking, and seasonal forecasting tools available on every account.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial -->
+                <div class="mini-testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p>"Before AgroChain, I was selling at $0.60/lb wholesale. Now I get $2.40/lb direct. That's life-changing for a small farm like mine."</p>
+                    <div class="mini-t-author">
+                        <div class="mini-t-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+                        </div>
+                        <div>
+                            <div class="mini-t-name">Marcus T.</div>
+                            <div class="mini-t-role">Farmer, Green Valley Farm, CA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stat-row">
+                    <div class="stat-mini"><div class="stat-mini-val">1,200+</div><div class="stat-mini-label">Verified farms</div></div>
+                    <div class="stat-mini"><div class="stat-mini-val">+44%</div><div class="stat-mini-label">Income increase</div></div>
+                    <div class="stat-mini"><div class="stat-mini-val">12</div><div class="stat-mini-label">States live</div></div>
+                </div>
+            </div>
+
+            <!-- RIGHT: MULTI-STEP FORM -->
+            <div class="form-col">
+                <div class="form-card">
+
+                    <!-- Step indicator -->
+                    <div class="step-indicator" id="stepIndicator">
+                        <div class="step active" id="step-dot-1">
+                            <div class="step-circle">1</div>
+                            <div class="step-label">Your Info</div>
+                        </div>
+                        <div class="step-line" id="line-1-2"></div>
+                        <div class="step active" id="step-dot-2">
+                            <div class="step-circle">2</div>
+                            <div class="step-label">Account</div>
+                        </div>
+                        <div class="step-line" id="line-2-3"></div>
+                        <div class="step" id="step-dot-3">
+                            <div class="step-circle">3</div>
+                            <div class="step-label">Plan</div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 1: Personal info -->
+                    <div class="form-step active" id="formStep1">
+                        <div class="form-step-title">Tell us about yourself</div>
+                        <div class="form-step-sub" id="step1Sub">We'll personalise your AgroChain Cart experience based on your role.</div>
+
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <div class="form-label-row">First Name</div>
+                                <div class="form-input-wrap">
+                                    <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></span>
+                                    <input type="text" class="form-input" id="firstName" placeholder="Jane" autocomplete="given-name"/>
+                                </div>
+                                <div class="error-msg" id="firstNameError"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Required.</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-label-row">Last Name</div>
+                                <div class="form-input-wrap">
+                                    <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></span>
+                                    <input type="text" class="form-input" id="lastName" placeholder="Doe" autocomplete="family-name"/>
+                                </div>
+                                <div class="error-msg" id="lastNameError"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">Phone Number <span style="color:#9ab5a5;font-weight:400;">(optional)</span></div>
+                            <div class="form-input-wrap">
+                                <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.88 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.8 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.9-.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17z"/></svg></span>
+                                <input type="tel" class="form-input" id="phone" placeholder="+1 (555) 000-0000" autocomplete="tel"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">State / Location</div>
+                            <div class="form-input-wrap">
+                                <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                                <select class="form-select" id="state">
+                                    <option value="" disabled selected>Select your state</option>
+                                    <option>California</option><option>Oregon</option><option>Washington</option>
+                                    <option>Colorado</option><option>Minnesota</option><option>Iowa</option>
+                                    <option>Illinois</option><option>New York</option><option>New Jersey</option>
+                                    <option>Pennsylvania</option><option>Virginia</option><option>Texas</option>
+                                    <option>Other (join waitlist)</option>
+                                </select>
+                            </div>
+                            <div class="error-msg" id="stateError"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select your state.</div>
+                        </div>
+
+                        <!-- Farmer-specific field (shown conditionally) -->
+                        <div class="form-group" id="farmNameGroup" style="display:none;">
+                            <div class="form-label-row">Farm / Business Name</div>
+                            <div class="form-input-wrap">
+                                <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                                <input type="text" class="form-input" id="farmName" placeholder="e.g. Green Valley Farm"/>
+                            </div>
+                        </div>
+
+                        <div class="form-nav">
+                            <button class="btn-next" onclick="nextStep(1)">
+                                <span class="btn-text">Continue <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                                <div class="btn-spinner"></div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Account credentials -->
+                    <div class="form-step" id="formStep2">
+                        <div class="form-step-title">Create your login</div>
+                        <div class="form-step-sub">Your email and password secure your account.</div>
+
+                        <!-- Social signup -->
+                        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+                            <button type="button" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:10px;border-radius:10px;border:1.5px solid #e0e8e3;background:white;font-family:inherit;font-size:0.85rem;font-weight:600;color:var(--ink);cursor:pointer;transition:0.2s;" onmouseover="this.style.borderColor='#74c69d'" onmouseout="this.style.borderColor='#e0e8e3'" onclick="handleSocialLogin('Google')">
+                                <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                                Sign up with Google
+                            </button>
+                        </div>
+
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                            <div style="flex:1;height:1px;background:#e8f0eb;"></div>
+                            <span style="color:var(--smoke);font-size:0.76rem;font-weight:500;white-space:nowrap;">or with email</span>
+                            <div style="flex:1;height:1px;background:#e8f0eb;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">Email Address</div>
+                            <div class="form-input-wrap">
+                                <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                                <input type="email" class="form-input" id="signupEmail" placeholder="you@example.com" autocomplete="email"/>
+                            </div>
+                            <div class="error-msg" id="signupEmailError"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Valid email required.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">Create Password</div>
+                            <div class="form-input-wrap">
+                                <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                <input type="password" class="form-input" id="signupPassword" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkPasswordStrength(this.value)"/>
+                                <button type="button" class="input-toggle" id="togglePw" onclick="togglePwVisibility()">
+                                    <svg id="eyeIcon2" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                            </div>
+                            <div class="pw-strength">
+                                <div class="pw-bars">
+                                    <div class="pw-bar" id="pwBar1"></div>
+                                    <div class="pw-bar" id="pwBar2"></div>
+                                    <div class="pw-bar" id="pwBar3"></div>
+                                    <div class="pw-bar" id="pwBar4"></div>
+                                </div>
+                                <div class="pw-label" id="pwLabel" style="color:#9ab5a5;">Enter a strong password</div>
+                            </div>
+                            <div class="error-msg" id="signupPwError"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Min 8 characters required.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-label-row">Confirm Password</div>
+                            <div class="form-input-wrap">
+                                <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                                <input type="password" class="form-input" id="signupPasswordConfirm" placeholder="Re-enter password" autocomplete="new-password"/>
+                            </div>
+                            <div class="error-msg" id="confirmPwError"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Passwords don't match.</div>
+                        </div>
+
+                        <div class="form-nav">
+                            <button class="btn-back" onclick="goBack(2)">← Back</button>
+                            <button class="btn-next" onclick="nextStep(2)">
+                                <span class="btn-text">Continue <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                                <div class="btn-spinner"></div>
+                            </button>
+                        </div>
+                        <div class="form-footer-link">Already have an account? <a href="signin.html">Sign in →</a></div>
+                    </div>
+
+                    <!-- STEP 3: Plan selection & Terms -->
+                    <div class="form-step" id="formStep3">
+                        <div class="form-step-title">Choose your plan</div>
+                        <div class="form-step-sub">Start free, upgrade anytime. No credit card needed to begin.</div>
+
+                        <div class="plan-mini" style="margin-bottom:16px;">
+                            <input type="radio" class="plan-option" name="plan" id="planFree" value="free" checked/>
+                            <label class="plan-label" for="planFree">
+                                <div class="plan-dot"></div>
+                                <div class="plan-info">
+                                    <div class="plan-name">Starter <span class="plan-badge-free">FREE</span></div>
+                                    <div class="plan-desc">Up to 5 listings · Basic analytics · Weekly payouts</div>
+                                </div>
+                                <div class="plan-price">$0/mo</div>
+                            </label>
+
+                            <input type="radio" class="plan-option" name="plan" id="planGrowth" value="growth"/>
+                            <label class="plan-label" for="planGrowth">
+                                <div class="plan-dot"></div>
+                                <div class="plan-info">
+                                    <div class="plan-name">Growth ⭐ Most popular</div>
+                                    <div class="plan-desc">Unlimited listings · Full analytics · 2-day payouts</div>
+                                </div>
+                                <div class="plan-price">$39/mo</div>
+                            </label>
+
+                            <input type="radio" class="plan-option" name="plan" id="planInstitutional" value="institutional"/>
+                            <label class="plan-label" for="planInstitutional">
+                                <div class="plan-dot"></div>
+                                <div class="plan-info">
+                                    <div class="plan-name">Institutional</div>
+                                    <div class="plan-desc">Custom contracts · USDA docs · Dedicated support</div>
+                                </div>
+                                <div class="plan-price">Custom</div>
+                            </label>
+                        </div>
+
+                        <div style="background:var(--cream);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;border:1px solid #e8f0eb;">
+                            <div style="font-size:0.8rem;font-weight:700;color:var(--forest);margin-bottom:6px;">🔒 What's included in Starter (Free):</div>
+                            <div style="font-size:0.78rem;color:var(--smoke);line-height:1.7;">✓ Up to 5 active produce listings &nbsp;·&nbsp; ✓ Verified farm/buyer badge &nbsp;·&nbsp; ✓ Access to 1,200+ farm network &nbsp;·&nbsp; ✓ Basic sales analytics &nbsp;·&nbsp; ✓ Secure payment processing &nbsp;·&nbsp; ✓ Weekly payout (farmers)</div>
+                        </div>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms"/>
+                            <div class="custom-checkbox"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            I agree to AgroChain Cart's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeMarketing" checked/>
+                            <div class="custom-checkbox"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            Send me harvest updates, seasonal tips, and new feature announcements
+                        </label>
+                        <div class="error-msg" id="termsError" style="margin-bottom:10px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please agree to the terms.</div>
+
+                        <div class="form-nav">
+                            <button class="btn-back" onclick="goBack(3)">← Back</button>
+                            <button class="btn-next" id="createAccountBtn" onclick="createAccount()">
+                                <span class="btn-text">Create Free Account 🌱</span>
+                                <div class="btn-spinner"></div>
+                            </button>
+                        </div>
+                        <div class="form-footer-link">Already have an account? <a href="signin.html">Sign in →</a></div>
+                    </div>
+
+                    <!-- SUCCESS STATE -->
+                    <div class="success-screen" id="successScreen">
+                        <div class="success-animation">
+                            <div class="success-ring">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <div class="success-confetti" id="confetti"></div>
+                        </div>
+                        <h3>Welcome to AgroChain! 🌾</h3>
+                        <p>Your account is live. Here's what happens next:</p>
+                        <div class="success-checklist">
+                            <div class="success-check-item">
+                                <div class="s-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                                Check your inbox for a verification email
+                            </div>
+                            <div class="success-check-item">
+                                <div class="s-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                                Complete your profile to unlock all features
+                            </div>
+                            <div class="success-check-item">
+                                <div class="s-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                                Browse 247 live listings — or create your first one
+                            </div>
+                        </div>
+                        <button class="go-btn" onclick="alert('Redirecting to dashboard…')">
+                            Go to Dashboard
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="security-row">
+                        <div class="security-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            256-bit SSL
+                        </div>
+                        <div class="security-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            SOC 2 Type II
+                        </div>
+                        <div class="security-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            USDA Certified
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <div class="social-proof-strip">
+        <div class="social-proof-inner">
+            <div class="sp-strip-header">
+                <h3>Trusted by farmers and buyers across America</h3>
+                <p>Here's what our community says about AgroChain Cart.</p>
+            </div>
+            <div class="testimonials-row reveal">
+                <div class="test-mini">
+                    <div class="stars">★★★★★</div>
+                    <p>"I went from selling at farmers markets to shipping to 40 restaurants in 3 states — all through AgroChain Cart. The platform handles everything I used to dread."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></div>
+                        <div><div class="test-name">Elena K.</div><div class="test-role">Farmer, Blue Ridge Berry Co, ME</div></div>
+                    </div>
+                </div>
+                <div class="test-mini">
+                    <div class="stars">★★★★★</div>
+                    <p>"Our restaurant sources 80% of its produce directly through AgroChain. We can trace every ingredient on every plate — our guests love the story."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></div>
+                        <div><div class="test-name">Sofia R.</div><div class="test-role">Executive Chef, Portland, OR</div></div>
+                    </div>
+                </div>
+                <div class="test-mini">
+                    <div class="stars">★★★★★</div>
+                    <p>"Our school district enrolled 14 schools. The compliance paperwork is automatic, the pricing is transparent, and our students eat food we can trace to a farm."</p>
+                    <div class="test-author">
+                        <div class="test-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></div>
+                        <div><div class="test-name">James L.</div><div class="test-role">District Food Director, Minnesota</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-brand-logo">
+                    <span>Agro</span><span style="color:var(--sage);">Chain</span><span class="footer-logo-cart">Cart</span>
+                </div>
+                <p>Digital marketplace connecting farmers directly with consumers, restaurants, retailers, and institutions across the United States. Farm to buyer — direct.</p>
+                <p style="margin-top:12px; font-size:0.78rem;">© 2026 AgroChain Cart LLC. All rights reserved.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#">Marketplace</a></li>
+                    <li><a href="#">For Farmers</a></li>
+                    <li><a href="#">For Restaurants</a></li>
+                    <li><a href="#">For Institutions</a></li>
+                    <li><a href="#">Logistics</a></li>
+                    <li><a href="#">Analytics</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Newsroom</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Investors</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Farmer Guides</a></li>
+                    <li><a href="#">Buyer Help Center</a></li>
+                    <li><a href="#">API Docs</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Helping American farmers thrive since 2024.</span>
+            <div class="footer-socials">
+                <a href="https://linkedin.com/company/agrochaincart" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://x.com/agrochaincart" class="social-link" aria-label="X (Twitter)" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://facebook.com/agrochaincart" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <a href="https://youtube.com/@agrochaincart" class="social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f1f17"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ── PARTICLES ──
+        const pc = document.getElementById('heroParticles');
+        if (pc) {
+            for (let i = 0; i < 22; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const s = Math.random()*14+4;
+                p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*12}s;opacity:${Math.random()*0.5+0.1};`;
+                pc.appendChild(p);
+            }
+        }
+
+        // ── SCROLL ──
+        window.addEventListener('scroll', () => {
+            const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = pct + '%';
+            document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 10);
+        });
+
+        // ── CURSOR GLOW ──
+        document.addEventListener('mousemove', e => {
+            const g = document.getElementById('cursorGlow');
+            g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px';
+        });
+
+        // ── MOBILE NAV ──
+        const navHamburger = document.getElementById('navHamburger');
+        const navLinks = document.getElementById('navLinks');
+        const overlayEl = document.getElementById('mobileMenuOverlay');
+        const mobileCtaGroup = document.getElementById('mobileCtaGroup');
+        const desktopCta = document.getElementById('desktopCta');
+        function openMenu() { navLinks.classList.add('mobile-open'); navHamburger.classList.add('open'); overlayEl.classList.add('active'); document.body.style.overflow='hidden'; }
+        function closeMenu() { navLinks.classList.remove('mobile-open'); navHamburger.classList.remove('open'); overlayEl.classList.remove('active'); document.body.style.overflow=''; }
+        navHamburger.addEventListener('click', () => navLinks.classList.contains('mobile-open') ? closeMenu() : openMenu());
+        overlayEl.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
+        function updateCta() {
+            const small = window.innerWidth <= 900;
+            mobileCtaGroup.style.display = small ? 'flex' : 'none';
+            desktopCta.style.display = small ? 'none' : 'flex';
+            if (!small && navLinks.classList.contains('mobile-open')) closeMenu();
+        }
+        updateCta(); window.addEventListener('resize', updateCta);
+
+        // ── ROLE SELECTION ──
+        let selectedRole = '';
+        function selectRole(card, role) {
+            document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedRole = role;
+            // Show farm name field for farmer role
+            document.getElementById('farmNameGroup').style.display = role === 'farmer' || role === 'restaurant' || role === 'institution' ? 'block' : 'none';
+            document.getElementById('farmNameGroup').querySelector('input').placeholder =
+                role === 'farmer' ? 'e.g. Green Valley Farm' :
+                role === 'restaurant' ? 'e.g. The Rustic Table' :
+                'e.g. Springfield School District';
+            // Scroll to form section
+            setTimeout(() => {
+                document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 200);
+        }
+
+        // ── STEP INDICATOR ──
+        let currentStep = 1;
+        function updateStepUI() {
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById(`step-dot-${i}`);
+                dot.classList.remove('active', 'done');
+                if (i < currentStep) dot.classList.add('done');
+                else if (i === currentStep) dot.classList.add('active');
+            }
+            for (let i = 1; i <= 2; i++) {
+                document.getElementById(`line-${i}-${i+1}`).classList.toggle('done', i < currentStep);
+            }
+        }
+
+        function showStep(n) {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`formStep${n}`).classList.add('active');
+            currentStep = n; updateStepUI();
+        }
+
+        // ── VALIDATION ──
+        function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+        function nextStep(from) {
+            if (from === 1) {
+                const fn = document.getElementById('firstName').value.trim();
+                const ln = document.getElementById('lastName').value.trim();
+                const st = document.getElementById('state').value;
+                let ok = true;
+                document.getElementById('firstNameError').classList.toggle('show', !fn);
+                document.getElementById('firstName').classList.toggle('error', !fn);
+                document.getElementById('lastNameError').classList.toggle('show', !ln);
+                document.getElementById('lastName').classList.toggle('error', !ln);
+                document.getElementById('stateError').classList.toggle('show', !st);
+                document.getElementById('state').classList.toggle('error', !st);
+                if (!fn || !ln || !st) return;
+                showStep(2);
+                return;
+            }
+            if (from === 2) {
+                const email = document.getElementById('signupEmail').value.trim();
+                const pw = document.getElementById('signupPassword').value;
+                const cpw = document.getElementById('signupPasswordConfirm').value;
+                let ok = true;
+                const emailOk = validateEmail(email);
+                document.getElementById('signupEmailError').classList.toggle('show', !emailOk);
+                document.getElementById('signupEmail').classList.toggle('error', !emailOk);
+                if (!emailOk) ok = false;
+                if (pw.length < 8) {
+                    document.getElementById('signupPwError').classList.add('show');
+                    document.getElementById('signupPassword').classList.add('error');
+                    ok = false;
+                } else { document.getElementById('signupPwError').classList.remove('show'); document.getElementById('signupPassword').classList.remove('error'); }
+                if (pw !== cpw) {
+                    document.getElementById('confirmPwError').classList.add('show');
+                    document.getElementById('signupPasswordConfirm').classList.add('error');
+                    ok = false;
+                } else { document.getElementById('confirmPwError').classList.remove('show'); document.getElementById('signupPasswordConfirm').classList.remove('error'); }
+                if (!ok) return;
+                showStep(3);
+            }
+        }
+
+        function goBack(from) {
+            showStep(from - 1);
+        }
+
+        // ── PASSWORD STRENGTH ──
+        function checkPasswordStrength(val) {
+            const bars = [document.getElementById('pwBar1'), document.getElementById('pwBar2'), document.getElementById('pwBar3'), document.getElementById('pwBar4')];
+            const label = document.getElementById('pwLabel');
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (val.length >= 12) score++;
+            if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+            const colors = ['#e05c5c', '#f4a261', '#e9c46a', '#40916c'];
+            const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+            bars.forEach((b, i) => { b.style.background = i < score ? colors[score - 1] : '#e8f0eb'; });
+            label.textContent = val.length === 0 ? 'Enter a strong password' : labels[score - 1] || 'Weak';
+            label.style.color = score > 0 ? colors[score - 1] : '#9ab5a5';
+        }
+
+        // ── PW TOGGLE ──
+        function togglePwVisibility() {
+            const pw = document.getElementById('signupPassword');
+            pw.type = pw.type === 'password' ? 'text' : 'password';
+        }
+
+        // ── CREATE ACCOUNT ──
+        async function createAccount() {
+            const terms = document.getElementById('agreeTerms').checked;
+            if (!terms) { document.getElementById('termsError').classList.add('show'); return; }
+            document.getElementById('termsError').classList.remove('show');
+
+            const btn = document.getElementById('createAccountBtn');
+            btn.classList.add('loading');
+            await new Promise(r => setTimeout(r, 2000));
+            btn.classList.remove('loading');
+
+            // Hide all steps, show success
+            document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+            document.getElementById('stepIndicator').style.display = 'none';
+            document.getElementById('successScreen').style.display = 'block';
+
+            // Confetti
+            spawnConfetti();
+            showToast('Account created! Welcome to AgroChain Cart 🌱', 'success-toast');
+        }
+
+        function spawnConfetti() {
+            const container = document.getElementById('confetti');
+            const colors = ['#74c69d', '#e9c46a', '#f4a261', '#40916c', '#d8f3dc'];
+            for (let i = 0; i < 12; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'confetti-dot';
+                dot.style.cssText = `
+                    left:50%; top:50%;
+                    background:${colors[i % colors.length]};
+                    --tx:${(Math.random()-0.5)*80}px;
+                    --ty:${-(Math.random()*60+20)}px;
+                    animation-delay:${i*0.06}s;
+                    animation-duration:0.8s;
+                `;
+                container.appendChild(dot);
+            }
+        }
+
+        // ── TOAST ──
+        function showToast(msg, cls='') {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.className = 'toast ' + cls;
+            setTimeout(() => t.classList.add('show'), 50);
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        function handleSocialLogin(p) { showToast(`Connecting to ${p}…`); }
+
+        // ── REVEAL OBSERVER ──
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    </script>
+</body>
+</html>
