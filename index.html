@@ -92,13 +92,14 @@
             padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
             background: transparent; color: var(--grove); font-size: 0.875rem;
             font-weight: 600; cursor: pointer; transition: var(--transition); font-family: inherit;
-            white-space: nowrap;
+            white-space: nowrap; text-decoration: none; display: inline-block;
         }
         .btn-ghost:hover { background: var(--mist); }
         .btn-primary {
             padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
             border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
             transition: var(--transition); font-family: inherit; white-space: nowrap;
+            text-decoration: none; display: inline-block;
         }
         .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
 
@@ -588,13 +589,13 @@
             <li><a href="/blog/">Blog</a></li>
             <!-- Mobile CTA group injected via JS on small screens, but we also add a container for easier toggling -->
             <li class="mobile-cta-group" id="mobileCtaGroup" style="display: none;">
-                <button class="btn-ghost">Sign In</button>
-                <button class="btn-primary">Get Started Free</button>
+                <a href="../sign-in/" class="btn-ghost">Sign In</a>
+                <a href="../sign-up/" class="btn-primary">Get Started Free</a>
             </li>
         </ul>
         <div class="nav-cta" id="desktopCta">
-            <button class="btn-ghost">Sign In</button>
-            <button class="btn-primary">Get Started Free</button>
+            <a href="../sign-in/" class="btn-ghost">Sign In</a>
+            <a href="../sign-up/" class="btn-primary">Get Started Free</a>
         </div>
         <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation menu" aria-expanded="false">
             <span></span><span></span><span></span>
@@ -835,7 +836,7 @@
             <li><span class="check">✓</span> Buyer messaging</li>
             <li><span class="check">✓</span> Mobile app access</li>
             </ul>
-            <button class="price-btn price-btn-outline" onclick="alert('Sign up flow coming soon!')">Get started free</button>
+            <a href="../sign-up/" class="price-btn price-btn-outline" style="display:block;text-align:center;text-decoration:none;">Get started free</a>
         </div>
         <div class="price-card featured">
             <div class="price-popular">Most popular</div>
@@ -851,7 +852,7 @@
             <li><span class="check">✓</span> Priority buyer matching</li>
             <li><span class="check">✓</span> Verified badge on profile</li>
             </ul>
-            <button class="price-btn price-btn-filled" onclick="alert('Sign up flow coming soon!')">Start 14-day free trial</button>
+            <a href="../sign-up/" class="price-btn price-btn-filled" style="display:block;text-align:center;text-decoration:none;">Start 14-day free trial</a>
         </div>
         <div class="price-card">
             <div class="price-tier">Institutional</div>
@@ -866,7 +867,7 @@
             <li><span class="check">✓</span> SLA guarantees</li>
             <li><span class="check">✓</span> White-glove onboarding</li>
             </ul>
-            <button class="price-btn price-btn-outline" onclick="alert('Contact form coming soon!')">Talk to our team</button>
+            <a href="../contact/" class="price-btn price-btn-outline" style="display:block;text-align:center;text-decoration:none;">Talk to our team</a>
         </div>
         </div>
     </div>
@@ -970,7 +971,7 @@
             </div>
             <h3>Still have questions?</h3>
             <p>Our team typically responds within 2 hours on business days. Whether you're a farmer looking to list or an institution setting up procurement — we're here to help.</p>
-            <button class="faq-contact-btn">Contact Our Team</button>
+            <a href="../contact/" class="faq-contact-btn" style="display:block;text-align:center;text-decoration:none;">Contact Our Team</a>
             <div style="margin-top:24px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.12);">
             <div style="color:rgba(255,255,255,0.5); font-size:0.78rem; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.06em;">Direct Support</div>
             <div class="faq-contact-detail">hello@agrochaincart.com</div>
@@ -987,11 +988,11 @@
     <h2>Ready to grow with AgroChain?</h2>
     <p>Join thousands of farmers, buyers, restaurants, and institutions already building a better food system together.</p>
     <div class="cta-pair">
-        <button class="hero-btn-primary" onclick="alert('Sign up flow coming soon!')">
+        <a href="../sign-up/" class="hero-btn-primary" style="display:inline-flex;text-decoration:none;">
         Start for Free
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="hero-btn-outline" onclick="alert('Demo request coming soon!')">Request a Demo</button>
+        </a>
+        <a href="../contact/" class="hero-btn-outline" style="display:inline-flex;text-decoration:none;">Request a Demo</a>
     </div>
     </section>
 
@@ -1063,13 +1064,13 @@
     </footer>
 
     <!-- FLOATING CTA -->
-    <button class="floating-cta" id="floatingCta" onclick="alert('Sign up flow coming soon!')">
+    <a href="../sign-up/" class="floating-cta" id="floatingCta" style="text-decoration:none;">
     <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
     </svg>
     Start Shopping
-    </button>
+    </a>
 
 
     <script>

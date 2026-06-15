@@ -92,13 +92,14 @@
             padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
             background: transparent; color: var(--grove); font-size: 0.875rem;
             font-weight: 600; cursor: pointer; transition: var(--transition); font-family: inherit;
-            white-space: nowrap;
+            white-space: nowrap; text-decoration: none; display: inline-block;
         }
         .btn-ghost:hover { background: var(--mist); }
         .btn-primary {
             padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
             border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
             transition: var(--transition); font-family: inherit; white-space: nowrap;
+            text-decoration: none; display: inline-block;
         }
         .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
 
@@ -588,13 +589,13 @@
             <li><a href="/blog/">Blog</a></li>
             <!-- Mobile CTA group injected via JS on small screens, but we also add a container for easier toggling -->
             <li class="mobile-cta-group" id="mobileCtaGroup" style="display: none;">
-                <button class="btn-ghost">Sign In</button>
-                <button class="btn-primary">Get Started Free</button>
+                <a href="../sign-in/" class="btn-ghost">Sign In</a>
+                <a href="../sign-up/" class="btn-primary">Get Started Free</a>
             </li>
         </ul>
         <div class="nav-cta" id="desktopCta">
-            <button class="btn-ghost">Sign In</button>
-            <button class="btn-primary">Get Started Free</button>
+            <a href="../sign-in/" class="btn-ghost">Sign In</a>
+            <a href="../sign-up/" class="btn-primary">Get Started Free</a>
         </div>
         <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation menu" aria-expanded="false">
             <span></span><span></span><span></span>
@@ -635,7 +636,7 @@
                         <span class="mp-live"><span class="live-dot"></span>247 active listings</span>
                     </div>
                     <div class="produce-card">
-                        <img class="produce-thumb" src="https://images.unsplash.com/photo-1546470427-f5f65b4c2d46?w=88&q=75&fit=crop" alt="Heirloom Tomatoes" loading="lazy"/>
+                        <img class="produce-thumb" src="https://images.unsplash.com/photo-1600404881791-40f8d8bd3e5d?q=80&w=1099&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Heirloom Tomatoes" loading="lazy"/>
                         <div class="produce-info"><div class="produce-name">Heirloom Tomatoes</div><div class="produce-farm">Green Valley Farm, CA</div></div>
                         <div class="produce-price"><div class="price-val">$2.40</div><div class="price-unit">per lb</div></div>
                     </div>
@@ -835,7 +836,7 @@
             <li><span class="check">✓</span> Buyer messaging</li>
             <li><span class="check">✓</span> Mobile app access</li>
             </ul>
-            <button class="price-btn price-btn-outline" onclick="alert('Sign up flow coming soon!')">Get started free</button>
+            <a href="../sign-up/" class="price-btn price-btn-outline" style="display:block;text-align:center;text-decoration:none;">Get started free</a>
         </div>
         <div class="price-card featured">
             <div class="price-popular">Most popular</div>
@@ -851,7 +852,7 @@
             <li><span class="check">✓</span> Priority buyer matching</li>
             <li><span class="check">✓</span> Verified badge on profile</li>
             </ul>
-            <button class="price-btn price-btn-filled" onclick="alert('Sign up flow coming soon!')">Start 14-day free trial</button>
+            <a href="../sign-up/" class="price-btn price-btn-filled" style="display:block;text-align:center;text-decoration:none;">Start 14-day free trial</a>
         </div>
         <div class="price-card">
             <div class="price-tier">Institutional</div>
@@ -866,7 +867,7 @@
             <li><span class="check">✓</span> SLA guarantees</li>
             <li><span class="check">✓</span> White-glove onboarding</li>
             </ul>
-            <button class="price-btn price-btn-outline" onclick="alert('Contact form coming soon!')">Talk to our team</button>
+            <a href="../contact/" class="price-btn price-btn-outline" style="display:block;text-align:center;text-decoration:none;">Talk to our team</a>
         </div>
         </div>
     </div>
@@ -970,7 +971,7 @@
             </div>
             <h3>Still have questions?</h3>
             <p>Our team typically responds within 2 hours on business days. Whether you're a farmer looking to list or an institution setting up procurement — we're here to help.</p>
-            <button class="faq-contact-btn">Contact Our Team</button>
+            <a href="../contact/" class="faq-contact-btn" style="display:block;text-align:center;text-decoration:none;">Contact Our Team</a>
             <div style="margin-top:24px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.12);">
             <div style="color:rgba(255,255,255,0.5); font-size:0.78rem; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.06em;">Direct Support</div>
             <div class="faq-contact-detail">hello@agrochaincart.com</div>
@@ -987,11 +988,11 @@
     <h2>Ready to grow with AgroChain?</h2>
     <p>Join thousands of farmers, buyers, restaurants, and institutions already building a better food system together.</p>
     <div class="cta-pair">
-        <button class="hero-btn-primary" onclick="alert('Sign up flow coming soon!')">
+        <a href="../sign-up/" class="hero-btn-primary" style="display:inline-flex;text-decoration:none;">
         Start for Free
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="hero-btn-outline" onclick="alert('Demo request coming soon!')">Request a Demo</button>
+        </a>
+        <a href="../contact/" class="hero-btn-outline" style="display:inline-flex;text-decoration:none;">Request a Demo</a>
     </div>
     </section>
 
@@ -1063,13 +1064,13 @@
     </footer>
 
     <!-- FLOATING CTA -->
-    <button class="floating-cta" id="floatingCta" onclick="alert('Sign up flow coming soon!')">
+    <a href="../sign-up/" class="floating-cta" id="floatingCta" style="text-decoration:none;">
     <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
     </svg>
     Start Shopping
-    </button>
+    </a>
 
 
     <script>
@@ -1212,18 +1213,18 @@
 
         // ── PRODUCT DATA with Unsplash images ──
         const products = [
-        { img:'https://images.unsplash.com/photo-1546470427-f5f65b4c2d46?w=400&q=75&fit=crop', name:'Heirloom Tomatoes', farm:'Green Valley Farm, CA', price:'$2.40', unit:'lb', category:'vegetables', badge:'organic' },
+        { img:'https://images.unsplash.com/photo-1600404881791-40f8d8bd3e5d?q=80&w=1099&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', name:'Heirloom Tomatoes', farm:'Green Valley Farm, CA', price:'$2.40', unit:'lb', category:'vegetables', badge:'organic' },
         { img:'https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=400&q=75&fit=crop', name:'Wild Blueberries', farm:'Blue Ridge Berry Co, ME', price:'$4.50', unit:'pint', category:'fruits', badge:'organic' },
         { img:'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&q=75&fit=crop', name:'Baby Kale Mix', farm:'Sunrise Organics, OR', price:'$3.80', unit:'lb', category:'vegetables', badge:'organic' },
         { img:'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400&q=75&fit=crop', name:'Sweet Corn (dozen)', farm:'Prairie Sun Farm, IA', price:'$5.20', unit:'dozen', category:'vegetables', badge:'local' },
         { img:'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=400&q=75&fit=crop', name:'Strawberries', farm:'Coastal Berry, CA', price:'$3.10', unit:'lb', category:'fruits', badge:'local' },
         { img:'https://images.unsplash.com/photo-1447175008436-054170c2e979?w=400&q=75&fit=crop', name:'Rainbow Carrots', farm:'Hudson Valley, NY', price:'$1.90', unit:'lb', category:'vegetables', badge:'organic' },
         { img:'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400&q=75&fit=crop', name:'Vidalia Onions', farm:'Toombs County Farm, GA', price:'$1.20', unit:'lb', category:'vegetables', badge:'local' },
-        { img:'https://images.unsplash.com/photo-1587049352847-81a56d773cae?w=400&q=75&fit=crop', name:'Raw Wildflower Honey', farm:'Blue Mountain Apiary, CO', price:'$12.00', unit:'12oz jar', category:'dairy', badge:'organic' },
+        { img:'https://images.unsplash.com/photo-1471943311424-646960669fbc?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', name:'Raw Wildflower Honey', farm:'Blue Mountain Apiary, CO', price:'$12.00', unit:'12oz jar', category:'dairy', badge:'organic' },
         { img:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=75&fit=crop', name:'Whole Farm Milk', farm:'Rolling Pastures, VT', price:'$5.50', unit:'half gallon', category:'dairy', badge:'local' },
         { img:'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&q=75&fit=crop', name:'Heirloom Wheat Flour', farm:'Heartland Grain, KS', price:'$4.20', unit:'5 lb bag', category:'grains', badge:'organic' },
-        { img:'https://images.unsplash.com/photo-1567306226408-e9ded0c3e5b4?w=400&q=75&fit=crop', name:'Honeycrisp Apples', farm:'Orchard Hill, WA', price:'$2.80', unit:'lb', category:'fruits', badge:'local' },
-        { img:'https://images.unsplash.com/photo-1618520290120-7eb03c1ceff7?w=400&q=75&fit=crop', name:'Aged Cheddar', farm:'Maple Leaf Creamery, WI', price:'$8.90', unit:'8oz block', category:'dairy', badge:'local' },
+        { img:'https://images.unsplash.com/photo-1602036907566-4070390a1075?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', name:'Honeycrisp Apples', farm:'Orchard Hill, WA', price:'$2.80', unit:'lb', category:'fruits', badge:'local' },
+        { img:'https://images.unsplash.com/photo-1552767059-ce182ead6c1b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', name:'Aged Cheddar', farm:'Maple Leaf Creamery, WI', price:'$8.90', unit:'8oz block', category:'dairy', badge:'local' },
         ];
 
         function renderProducts(filter) {

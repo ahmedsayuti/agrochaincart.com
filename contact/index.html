@@ -91,13 +91,14 @@
             padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
             background: transparent; color: var(--grove); font-size: 0.875rem;
             font-weight: 600; cursor: pointer; transition: var(--transition); font-family: inherit;
-            white-space: nowrap;
+            white-space: nowrap; text-decoration: none; display: inline-block;
         }
         .btn-ghost:hover { background: var(--mist); }
         .btn-primary {
             padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
             border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
             transition: var(--transition); font-family: inherit; white-space: nowrap;
+            text-decoration: none; display: inline-block;
         }
         .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
 
@@ -683,13 +684,13 @@
         <li><a href="/contact/" class="active">Contact</a></li>
         <li><a href="/blog/">Blog</a></li>
         <li class="mobile-cta-group" id="mobileCtaGroup" style="display:none;">
-            <button class="btn-ghost">Sign In</button>
-            <button class="btn-primary">Get Started Free</button>
+            <a href="../sign-in/" class="btn-ghost">Sign In</a>
+            <a href="../sign-up/" class="btn-primary">Get Started Free</a>
         </li>
     </ul>
     <div class="nav-cta" id="desktopCta">
-        <button class="btn-ghost">Sign In</button>
-        <button class="btn-primary">Get Started Free</button>
+        <a href="../sign-in/" class="btn-ghost">Sign In</a>
+        <a href="../sign-up/" class="btn-primary">Get Started Free</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation menu" aria-expanded="false">
         <span></span><span></span><span></span>
