@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marketplace — AgroChain Cart</title>
+    <meta name="description" content="Explore AgroChain Cart's full-featured marketplace platform — connecting farmers directly with buyers, restaurants, and institutions. No middlemen. Real-time produce. USDA-compliant." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --amber: #f4a261;
+            --earth: #6b4226; --ink: #0f1f17; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --radius-lg: 20px; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+            --nav-height: 68px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--white); color: var(--ink); line-height: 1.6;
+            overflow-x: hidden; padding-top: var(--nav-height);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* ════════════════════════════
+           NAV
+        ════════════════════════════ */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.96); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+            box-shadow: 0 2px 16px rgba(26,58,42,0.07);
+        }
+        .nav-logo {
+            display: flex; align-items: center; text-decoration: none;
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem;
+            color: var(--forest); letter-spacing: -0.01em; line-height: 1; flex-shrink: 0;
+        }
+        .nav-logo-chain { color: var(--grove); }
+        .nav-logo-cart {
+            color: var(--white); background: var(--grove); padding: 2px 8px 2px 6px;
+            border-radius: 6px; margin-left: 4px; font-size: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: var(--smoke); font-size: 0.9rem; font-weight: 500;
+            transition: color var(--transition); position: relative; white-space: nowrap;
+        }
+        .nav-links a.active, .nav-links a:hover { color: var(--grove); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px;
+            background: var(--grove); transform: scaleX(0); transform-origin: left;
+            transition: transform 0.25s ease;
+        }
+        .nav-links a.active::after, .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .btn-ghost {
+            padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf);
+            background: transparent; color: var(--grove); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: var(--transition); font-family: inherit;
+            text-decoration: none; display: inline-block; white-space: nowrap;
+        }
+        .btn-ghost:hover { background: var(--mist); }
+        .btn-primary {
+            padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white;
+            border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition); font-family: inherit;
+            text-decoration: none; display: inline-block; white-space: nowrap;
+        }
+        .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,106,79,0.35); }
+        .hamburger {
+            display: none; flex-direction: column; justify-content: center; gap: 5px;
+            width: 40px; height: 40px; cursor: pointer; background: none; border: none;
+            padding: 6px; border-radius: 8px; transition: background var(--transition);
+        }
+        .hamburger:hover { background: var(--mist); }
+        .hamburger span {
+            display: block; width: 22px; height: 2px; background: var(--forest);
+            border-radius: 2px; transition: var(--transition); transform-origin: center;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-menu {
+            display: none; position: fixed; top: var(--nav-height); left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); z-index: 190;
+            flex-direction: column; padding: 28px 5% 40px; overflow-y: auto;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu ul { list-style: none; margin-bottom: 28px; }
+        .mobile-menu ul li { border-bottom: 1px solid rgba(64,145,108,0.1); }
+        .mobile-menu ul li:first-child { border-top: 1px solid rgba(64,145,108,0.1); }
+        .mobile-menu ul a {
+            display: block; padding: 16px 4px; text-decoration: none;
+            color: var(--forest); font-size: 1.1rem; font-weight: 600; transition: color var(--transition);
+        }
+        .mobile-menu ul a.active, .mobile-menu ul a:hover { color: var(--grove); }
+        .mobile-menu-cta { display: flex; flex-direction: column; gap: 12px; }
+        .mobile-menu-cta a { text-align: center; width: 100%; padding: 14px; font-size: 1rem; }
+
+        /* ════════════════════════════
+           HERO
+        ════════════════════════════ */
+        .hero {
+            background: linear-gradient(160deg, var(--forest) 0%, #1e4535 55%, #163323 100%);
+            padding: 96px 5% 130px; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background:
+                radial-gradient(ellipse at 10% 70%, rgba(116,198,157,0.14) 0%, transparent 55%),
+                radial-gradient(ellipse at 88% 20%, rgba(233,196,106,0.09) 0%, transparent 50%);
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23ffffff' d='M0,50 C360,100 1080,0 1440,50 L1440,100 L0,100 Z'/%3E%3C/svg%3E");
+            background-size: cover;
+        }
+        .hero-inner {
+            max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+        }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(116,198,157,0.15); border: 1px solid rgba(116,198,157,0.3);
+            color: var(--sage); padding: 6px 16px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .eyebrow-dot { width: 6px; height: 6px; background: var(--sage); border-radius: 50%; animation: pulse 2s infinite; }
+        .hero h1 {
+            font-size: clamp(2rem, 4.5vw, 3.6rem); font-weight: 800; color: white;
+            letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.3rem;
+        }
+        .hero h1 em {
+            font-style: normal; font-family: 'Lora', serif; font-weight: 600;
+            background: linear-gradient(90deg, var(--sage), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-sub {
+            color: rgba(255,255,255,0.65); font-size: 1rem; line-height: 1.78;
+            max-width: 480px; margin-bottom: 2.5rem;
+        }
+        .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-hero-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 28px; border-radius: 10px; background: var(--gold);
+            color: var(--forest); font-size: 0.95rem; font-weight: 800;
+            text-decoration: none; transition: var(--transition); border: none; cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-hero-primary:hover { background: #f0c84a; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(233,196,106,0.4); }
+        .btn-hero-outline {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 28px; border-radius: 10px; background: rgba(255,255,255,0.1);
+            color: white; font-size: 0.95rem; font-weight: 600;
+            text-decoration: none; transition: var(--transition);
+            border: 1.5px solid rgba(255,255,255,0.25); cursor: pointer; font-family: inherit;
+        }
+        .btn-hero-outline:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.5); }
+
+        /* Hero mockup */
+        .hero-visual { position: relative; }
+        .mockup-shell {
+            background: rgba(10,16,12,0.85); backdrop-filter: blur(20px);
+            border: 1px solid rgba(116,198,157,0.2); border-radius: 20px;
+            overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+        }
+        .mockup-topbar {
+            background: rgba(26,58,42,0.9); padding: 12px 18px;
+            display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(116,198,157,0.12);
+        }
+        .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .mockup-url {
+            flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px;
+            padding: 5px 12px; font-size: 0.72rem; color: rgba(255,255,255,0.4);
+            margin: 0 8px; font-family: monospace;
+        }
+        .mockup-body { padding: 20px; }
+        .mockup-sidebar-row { display: flex; gap: 14px; }
+        .mockup-sidebar {
+            width: 80px; background: rgba(255,255,255,0.04); border-radius: 10px;
+            padding: 10px 8px; display: flex; flex-direction: column; gap: 6px;
+        }
+        .mock-nav { height: 8px; background: rgba(116,198,157,0.25); border-radius: 4px; }
+        .mock-nav.active { background: rgba(116,198,157,0.7); }
+        .mockup-content { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .mock-kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+        .mock-kpi {
+            background: rgba(255,255,255,0.05); border-radius: 8px; padding: 8px;
+            border: 1px solid rgba(116,198,157,0.12);
+        }
+        .mock-kpi-val { font-size: 0.85rem; font-weight: 800; color: var(--sage); }
+        .mock-kpi-lbl { font-size: 0.5rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.05em; }
+        .mock-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 2px; }
+        .mock-card {
+            background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden;
+            border: 1px solid rgba(116,198,157,0.1);
+        }
+        .mock-card-img { height: 50px; background: rgba(116,198,157,0.12); }
+        .mock-card-body { padding: 6px; }
+        .mock-card-title { height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px; margin-bottom: 4px; }
+        .mock-card-sub { height: 4px; background: rgba(255,255,255,0.1); border-radius: 3px; width: 70%; }
+        .mock-card-btn { height: 14px; background: rgba(90,122,82,0.4); border-radius: 10px; margin: 6px 4px 4px; }
+        .hero-badge-row {
+            display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;
+        }
+        .hero-badge {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(116,198,157,0.1); border: 1px solid rgba(116,198,157,0.2);
+            border-radius: 100px; padding: 6px 14px; font-size: 0.72rem; color: var(--sage); font-weight: 600;
+        }
+
+        /* ════════════════════════════
+           PLATFORM STATS
+        ════════════════════════════ */
+        .stats-strip {
+            background: var(--cream); border-bottom: 1px solid #e8f0eb; padding: 40px 5%;
+        }
+        .stats-strip-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem;
+        }
+        .stat-item { text-align: center; }
+        .stat-num {
+            font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; color: var(--grove);
+            letter-spacing: -0.04em; line-height: 1; display: block;
+        }
+        .stat-label { font-size: 0.8rem; color: var(--smoke); margin-top: 6px; }
+
+        /* ════════════════════════════
+           SECTION SHARED
+        ════════════════════════════ */
+        .section { padding: 88px 5%; }
+        .section-inner { max-width: 1200px; margin: 0 auto; }
+        .eyebrow {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--leaf); display: flex; align-items: center; gap: 8px; margin-bottom: 18px;
+        }
+        .eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--leaf); border-radius: 1px; }
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; color: var(--forest);
+            letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px;
+        }
+        .section-title em {
+            font-style: normal; font-family: 'Lora', serif; font-weight: 600;
+            background: linear-gradient(90deg, var(--leaf), var(--sage));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .section-sub { font-size: 1rem; color: var(--smoke); line-height: 1.75; max-width: 560px; margin-bottom: 52px; }
+
+        /* ════════════════════════════
+           FEATURES GRID
+        ════════════════════════════ */
+        .features-section { background: var(--white); }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+        }
+        .feature-card {
+            background: var(--cream); border: 1.5px solid #e8f0eb; border-radius: var(--radius-lg);
+            padding: 36px 32px; transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .feature-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--leaf), var(--sage)); opacity: 0;
+            transition: opacity var(--transition);
+        }
+        .feature-card:hover { border-color: var(--sage); transform: translateY(-4px); box-shadow: 0 16px 44px rgba(26,58,42,0.1); }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon {
+            width: 52px; height: 52px; border-radius: 14px; background: var(--mist);
+            display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        .feature-icon svg { width: 24px; height: 24px; }
+        .feature-card h3 { font-size: 1.05rem; font-weight: 800; color: var(--forest); margin-bottom: 10px; letter-spacing: -0.01em; }
+        .feature-card p { font-size: 0.87rem; color: var(--smoke); line-height: 1.74; margin-bottom: 18px; }
+        .feature-tag {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+            color: var(--grove); background: rgba(64,145,108,0.1); padding: 3px 10px; border-radius: 6px;
+        }
+
+        /* ════════════════════════════
+           HOW IT WORKS
+        ════════════════════════════ */
+        .how-section { background: var(--cream); }
+        .how-steps {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative;
+        }
+        .how-steps::before {
+            content: ''; position: absolute; top: 36px; left: calc(12.5% + 20px); right: calc(12.5% + 20px);
+            height: 2px; background: linear-gradient(90deg, var(--leaf), var(--sage));
+            z-index: 0;
+        }
+        .how-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+        .step-num {
+            width: 72px; height: 72px; border-radius: 50%; background: var(--grove);
+            color: white; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 20px; border: 4px solid var(--cream);
+            box-shadow: 0 0 0 2px var(--grove);
+        }
+        .how-step h3 { font-size: 0.95rem; font-weight: 800; color: var(--forest); margin-bottom: 10px; }
+        .how-step p { font-size: 0.82rem; color: var(--smoke); line-height: 1.7; }
+
+        /* ════════════════════════════
+           VIEW SECTIONS (webapp screens)
+        ════════════════════════════ */
+        .views-section { background: var(--white); }
+        .views-tabs {
+            display: flex; gap: 8px; margin-bottom: 48px; flex-wrap: wrap;
+        }
+        .view-tab {
+            padding: 9px 20px; border-radius: 100px; border: 1.5px solid #dde8e2;
+            background: white; color: var(--smoke); font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: var(--transition); font-family: inherit;
+        }
+        .view-tab:hover { border-color: var(--leaf); color: var(--grove); }
+        .view-tab.active { background: var(--grove); color: white; border-color: var(--grove); }
+        .views-panel { display: none; }
+        .views-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; animation: fadeUp 0.4s ease; }
+        .panel-visual {
+            background: linear-gradient(135deg, var(--forest) 0%, #224436 100%);
+            border-radius: var(--radius-lg); padding: 40px 36px; min-height: 360px;
+            display: flex; flex-direction: column; justify-content: center;
+            border: 1px solid rgba(116,198,157,0.15); position: relative; overflow: hidden;
+        }
+        .panel-visual::before {
+            content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(116,198,157,0.12), transparent 70%);
+        }
+        .panel-icon {
+            width: 56px; height: 56px; background: rgba(116,198,157,0.15); border-radius: 16px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+            border: 1px solid rgba(116,198,157,0.25);
+        }
+        .panel-icon svg { width: 28px; height: 28px; }
+        .panel-visual h3 { font-size: 1.4rem; font-weight: 800; color: white; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .panel-visual p { color: rgba(255,255,255,0.65); font-size: 0.88rem; line-height: 1.72; margin-bottom: 20px; }
+        .panel-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+        .panel-chip {
+            background: rgba(116,198,157,0.12); border: 1px solid rgba(116,198,157,0.25);
+            color: var(--sage); font-size: 0.72rem; font-weight: 600; padding: 4px 12px;
+            border-radius: 100px;
+        }
+        .panel-text h3 { font-size: 1.5rem; font-weight: 800; color: var(--forest); margin-bottom: 14px; letter-spacing: -0.02em; font-family: 'Lora', serif; }
+        .panel-text p { font-size: 0.93rem; color: var(--smoke); line-height: 1.78; margin-bottom: 20px; }
+        .panel-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .panel-bullets li {
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 0.87rem; color: var(--smoke); line-height: 1.6;
+        }
+        .panel-bullets li::before {
+            content: ''; width: 18px; height: 18px; border-radius: 50%; background: var(--mist);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 6l2.5 2.5 4.5-5' stroke='%2340916c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-size: 12px; background-repeat: no-repeat; background-position: center;
+            margin-top: 2px;
+        }
+
+        /* ════════════════════════════
+           DEMO CTA
+        ════════════════════════════ */
+        .demo-section {
+            background: linear-gradient(130deg, var(--grove) 0%, var(--forest) 100%);
+            padding: 96px 5%; text-align: center; position: relative; overflow: hidden;
+        }
+        .demo-section::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(116,198,157,0.14), transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(233,196,106,0.08), transparent 50%);
+        }
+        .demo-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+        .demo-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(116,198,157,0.15); border: 1px solid rgba(116,198,157,0.3);
+            color: var(--sage); padding: 6px 16px; border-radius: 100px;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .demo-section h2 {
+            font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 800; color: white;
+            letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem;
+        }
+        .demo-section h2 em {
+            font-style: normal; font-family: 'Lora', serif;
+            background: linear-gradient(90deg, var(--sage), var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .demo-section p { color: rgba(255,255,255,0.65); font-size: 1rem; line-height: 1.75; margin-bottom: 2.5rem; }
+        .demo-btn {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 16px 36px; border-radius: 12px; background: var(--gold);
+            color: var(--forest); font-size: 1rem; font-weight: 800;
+            text-decoration: none; transition: var(--transition); font-family: inherit;
+        }
+        .demo-btn:hover { background: #f0c84a; transform: translateY(-3px); box-shadow: 0 14px 40px rgba(233,196,106,0.4); }
+        .demo-btn svg { width: 20px; height: 20px; }
+        .demo-note { color: rgba(255,255,255,0.4); font-size: 0.78rem; margin-top: 16px; }
+
+        /* ════════════════════════════
+           APP STORE SECTION
+        ════════════════════════════ */
+        .apps-section { background: var(--cream); padding: 96px 5%; }
+        .apps-inner { max-width: 1200px; margin: 0 auto; }
+        .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 52px; }
+        .app-card {
+            background: white; border: 1.5px solid #e8f0eb; border-radius: var(--radius-lg);
+            padding: 44px 40px; display: flex; flex-direction: column; align-items: center;
+            text-align: center; transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .app-card::after {
+            content: 'COMING SOON'; position: absolute; top: 22px; right: -28px;
+            background: var(--gold); color: var(--forest); font-size: 0.62rem; font-weight: 800;
+            letter-spacing: 0.1em; padding: 4px 36px; transform: rotate(40deg);
+        }
+        .app-card:hover { border-color: var(--sage); box-shadow: 0 12px 36px rgba(26,58,42,0.09); transform: translateY(-3px); }
+        .app-store-icon {
+            width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center;
+            justify-content: center; margin-bottom: 24px; flex-shrink: 0;
+        }
+        .app-store-icon svg { width: 48px; height: 48px; }
+        .app-card h3 { font-size: 1.25rem; font-weight: 800; color: var(--forest); margin-bottom: 10px; }
+        .app-card p { font-size: 0.88rem; color: var(--smoke); line-height: 1.72; margin-bottom: 28px; max-width: 300px; }
+        .app-store-btn {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--ink); color: white; padding: 13px 24px; border-radius: 12px;
+            text-decoration: none; transition: var(--transition); opacity: 0.45; cursor: not-allowed;
+            pointer-events: none;
+        }
+        .app-store-btn-text { text-align: left; }
+        .app-store-btn-label { font-size: 0.65rem; color: rgba(255,255,255,0.6); display: block; }
+        .app-store-btn-name { font-size: 1rem; font-weight: 700; display: block; }
+        .app-notify {
+            margin-top: 18px; display: flex; gap: 8px; width: 100%; max-width: 320px;
+        }
+        .app-notify input {
+            flex: 1; padding: 10px 16px; border-radius: 8px;
+            border: 1.5px solid #dde8e2; background: var(--cream); font-family: inherit;
+            font-size: 0.82rem; color: var(--ink); outline: none; min-width: 0;
+            transition: border-color var(--transition);
+        }
+        .app-notify input:focus { border-color: var(--leaf); }
+        .app-notify button {
+            padding: 10px 16px; border-radius: 8px; background: var(--grove); color: white;
+            border: none; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition); font-family: inherit; white-space: nowrap;
+        }
+        .app-notify button:hover { background: var(--forest); }
+
+        /* App features row */
+        .app-features-row { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 56px; }
+        .app-feat {
+            flex: 1; min-width: 180px; display: flex; align-items: flex-start; gap: 12px;
+            background: white; border: 1.5px solid #e8f0eb; border-radius: var(--radius);
+            padding: 20px; transition: var(--transition);
+        }
+        .app-feat:hover { border-color: var(--sage); }
+        .app-feat-icon {
+            width: 38px; height: 38px; border-radius: 10px; background: var(--mist);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .app-feat-icon svg { width: 18px; height: 18px; }
+        .app-feat h4 { font-size: 0.88rem; font-weight: 700; color: var(--forest); margin-bottom: 4px; }
+        .app-feat p { font-size: 0.78rem; color: var(--smoke); line-height: 1.6; }
+
+        /* ════════════════════════════
+           IMPACT
+        ════════════════════════════ */
+        .impact-section { background: var(--white); }
+        .impact-grid {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 52px;
+        }
+        .impact-card {
+            background: var(--forest); border-radius: var(--radius-lg); padding: 36px 32px;
+            color: white; transition: var(--transition);
+        }
+        .impact-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(26,58,42,0.2); }
+        .impact-num {
+            font-size: clamp(2.2rem, 3.5vw, 3rem); font-weight: 800; color: var(--sage);
+            letter-spacing: -0.04em; line-height: 1; margin-bottom: 8px; display: block;
+        }
+        .impact-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+        .impact-card p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+        /* ════════════════════════════
+           TESTIMONIAL
+        ════════════════════════════ */
+        .testimonials-section { background: var(--cream); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 52px; }
+        .testimonial-card {
+            background: white; border: 1.5px solid #e8f0eb; border-radius: var(--radius-lg);
+            padding: 32px 28px; transition: var(--transition);
+        }
+        .testimonial-card:hover { border-color: var(--sage); box-shadow: 0 8px 28px rgba(26,58,42,0.08); }
+        .stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 14px; letter-spacing: 2px; }
+        .testimonial-text {
+            font-size: 0.9rem; color: var(--smoke); line-height: 1.78; margin-bottom: 22px;
+            font-style: italic;
+        }
+        .testimonial-author { display: flex; align-items: center; gap: 12px; }
+        .t-avatar {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--mist);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 700; color: var(--grove); flex-shrink: 0;
+        }
+        .t-name { font-size: 0.88rem; font-weight: 700; color: var(--forest); }
+        .t-role { font-size: 0.75rem; color: var(--smoke); }
+
+        /* ════════════════════════════
+           FOOTER
+        ════════════════════════════ */
+        footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 72px 5% 36px; }
+        .footer-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+            padding-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand-logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.3rem;
+            color: white; margin-bottom: 14px; display: inline-flex; align-items: center;
+        }
+        .footer-logo-cart {
+            color: var(--forest); background: var(--sage);
+            padding: 2px 8px; border-radius: 5px; margin-left: 4px;
+            font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.72; max-width: 280px; }
+        .footer-col h4 { color: rgba(255,255,255,0.8); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 18px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 11px; }
+        .footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; transition: color var(--transition); }
+        .footer-col a:hover { color: var(--sage); }
+        .footer-bottom {
+            max-width: 1200px; margin: 0 auto; display: flex; align-items: center;
+            justify-content: space-between; padding-top: 32px; font-size: 0.8rem; flex-wrap: wrap; gap: 14px;
+        }
+        .footer-socials { display: flex; gap: 10px; }
+        .social-link {
+            width: 38px; height: 38px; background: rgba(255,255,255,0.07); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.45); text-decoration: none; transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-link:hover { background: var(--grove); color: white; border-color: var(--grove); transform: translateY(-2px); }
+        .social-link svg { width: 16px; height: 16px; }
+
+        /* ════════════════════════════
+           ANIMATIONS
+        ════════════════════════════ */
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ════════════════════════════
+           RESPONSIVE
+        ════════════════════════════ */
+        @media (max-width: 960px) {
+            .nav-links, .nav-right { display: none; }
+            .hamburger { display: flex; }
+            .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-visual { display: none; }
+            .stats-strip-inner { grid-template-columns: repeat(2,1fr); }
+            .features-grid { grid-template-columns: repeat(2,1fr); }
+            .how-steps { grid-template-columns: repeat(2,1fr); gap: 2rem; }
+            .how-steps::before { display: none; }
+            .views-panel.active { grid-template-columns: 1fr; gap: 2rem; }
+            .apps-grid { grid-template-columns: 1fr; }
+            .impact-grid { grid-template-columns: repeat(2,1fr); }
+            .testimonials-grid { grid-template-columns: repeat(2,1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        }
+        @media (max-width: 600px) {
+            .hero { padding: 60px 4% 90px; }
+            .section { padding: 64px 4%; }
+            .stats-strip { padding: 32px 4%; }
+            .stats-strip-inner { grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .how-steps { grid-template-columns: 1fr; }
+            .impact-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .apps-section { padding: 64px 4%; }
+            .app-features-row { flex-direction: column; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            footer { padding: 56px 4% 28px; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══════════════════════
+         NAV
+    ══════════════════════ -->
+    <nav>
+        <a href="../" class="nav-logo">
+            <span>Agro</span><span class="nav-logo-chain">Chain</span><span class="nav-logo-cart">Cart</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../">Home</a></li>
+            <li><a href="../about/">About</a></li>
+            <li><a href="../marketplace/" class="active">Marketplace</a></li>
+            <li><a href="../blog/">Blog</a></li>
+            <li><a href="../contact/">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="../sign-in/" class="btn-ghost">Sign In</a>
+            <a href="../sign-up/" class="btn-primary">Get started free</a>
+        </div>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Site navigation">
+        <ul>
+            <li><a href="../">Home</a></li>
+            <li><a href="../about/">About</a></li>
+            <li><a href="../marketplace/" class="active">Marketplace</a></li>
+            <li><a href="../blog/">Blog</a></li>
+            <li><a href="../contact/">Contact</a></li>
+        </ul>
+        <div class="mobile-menu-cta">
+            <a href="../sign-in/" class="btn-ghost">Sign In</a>
+            <a href="../sign-up/" class="btn-primary">Get started free</a>
+        </div>
+    </div>
+
+    <!-- ══════════════════════
+         HERO
+    ══════════════════════ -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <div class="hero-eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>The AgroChain Platform</div>
+                <h1>One platform.<br/>Every player in<br/><em>the food chain.</em></h1>
+                <p class="hero-sub">AgroChain Cart's marketplace webapp connects farmers, households, restaurants, retailers, and institutions on a single real-time platform — with live produce listings, USDA-compliant bulk ordering, smart logistics, and AI-powered insights. No middlemen. No guesswork.</p>
+                <div class="hero-actions">
+                    <a href="../marketplace/agrocart-app/" class="btn-hero-primary">
+                        Launch the Webapp
+                        <svg viewBox="0 0 20 20" fill="none" width="18" height="18" aria-hidden="true"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="#features" class="btn-hero-outline">
+                        Explore features
+                    </a>
+                </div>
+                <div class="hero-badge-row">
+                    <div class="hero-badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="rgba(116,198,157,0.3)"/><circle cx="6" cy="6" r="2" fill="#74c69d"/></svg>
+                        Live in 12 U.S. States
+                    </div>
+                    <div class="hero-badge">🌿 USDA FMPP Compliant</div>
+                    <div class="hero-badge">🔒 SOC 2 Secured</div>
+                </div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="mockup-shell">
+                    <div class="mockup-topbar">
+                        <div class="mockup-dot" style="background:#f87171;"></div>
+                        <div class="mockup-dot" style="background:#fbbf24;"></div>
+                        <div class="mockup-dot" style="background:#4ade80;"></div>
+                        <div class="mockup-url">agrochaincart.com/marketplace/agrocart-app/</div>
+                    </div>
+                    <div class="mockup-body">
+                        <div class="mockup-sidebar-row">
+                            <div class="mockup-sidebar">
+                                <div class="mock-nav active"></div>
+                                <div class="mock-nav"></div>
+                                <div class="mock-nav"></div>
+                                <div class="mock-nav"></div>
+                                <div class="mock-nav"></div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mock-kpi-row">
+                                    <div class="mock-kpi"><div class="mock-kpi-val">$8.4M</div><div class="mock-kpi-lbl">GMV YTD</div></div>
+                                    <div class="mock-kpi"><div class="mock-kpi-val">34.6%</div><div class="mock-kpi-lbl">Farmer Share</div></div>
+                                    <div class="mock-kpi"><div class="mock-kpi-val">20</div><div class="mock-kpi-lbl">Products</div></div>
+                                    <div class="mock-kpi"><div class="mock-kpi-val">2.1M</div><div class="mock-kpi-lbl">Waste Saved</div></div>
+                                </div>
+                                <div class="mock-grid">
+                                    <div class="mock-card"><div class="mock-card-img" style="background:url('https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=120') center/cover;"></div><div class="mock-card-body"><div class="mock-card-title"></div><div class="mock-card-sub"></div><div class="mock-card-btn"></div></div></div>
+                                    <div class="mock-card"><div class="mock-card-img" style="background:url('https://images.unsplash.com/photo-1587393855524-087f83d95bc9?w=120') center/cover;"></div><div class="mock-card-body"><div class="mock-card-title"></div><div class="mock-card-sub"></div><div class="mock-card-btn"></div></div></div>
+                                    <div class="mock-card"><div class="mock-card-img" style="background:url('https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=120') center/cover;"></div><div class="mock-card-body"><div class="mock-card-title"></div><div class="mock-card-sub"></div><div class="mock-card-btn"></div></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         STATS
+    ══════════════════════ -->
+    <div class="stats-strip">
+        <div class="stats-strip-inner">
+            <div class="stat-item reveal">
+                <span class="stat-num">$8.4M+</span>
+                <div class="stat-label">Gross Merchandise Value, year to date</div>
+            </div>
+            <div class="stat-item reveal">
+                <span class="stat-num">3.75×</span>
+                <div class="stat-label">More revenue per unit vs. traditional channels</div>
+            </div>
+            <div class="stat-item reveal">
+                <span class="stat-num">2.1M lbs</span>
+                <div class="stat-label">Food waste prevented through direct matching</div>
+            </div>
+            <div class="stat-item reveal">
+                <span class="stat-num">452</span>
+                <div class="stat-label">Institutional buyers on the platform</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════
+         FEATURES
+    ══════════════════════ -->
+    <section class="section features-section" id="features">
+        <div class="section-inner">
+            <div class="eyebrow">Platform Features</div>
+            <h2 class="section-title">Everything a <em>food system</em><br/>needs, in one place.</h2>
+            <p class="section-sub">The AgroChain Cart webapp is a full-stack agricultural marketplace — built for every actor in the supply chain, from the smallest family farm to the largest institutional buyer.</p>
+            <div class="features-grid">
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <h3>Live Produce Marketplace</h3>
+                    <p>Browse 20+ categories of fresh, regional produce from verified farms across California, New York, Texas, Florida, Washington and more — with real-time inventory, harvest dates, and farmgate pricing visible to every buyer.</p>
+                    <span class="feature-tag">Browse Produce</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <h3>Wishlist &amp; Smart Cart</h3>
+                    <p>Buyers can save favourite produce to a persistent wishlist, add items to cart with a single tap, and check out securely. The sidebar cart gives a running total and enables one-click checkout from any screen in the app.</p>
+                    <span class="feature-tag">Consumer Tools</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M12 22V12"/><path d="M12 12C12 12 8 10 7 5c0 0 4-1 7 3 1 1.5-2 3-2 3z" fill="#40916c" opacity="0.2"/><path d="M12 15c0 0 3.5-2 5-5.5 0 0-3-1-5.5 2.5" fill="#40916c" opacity="0.3"/></svg>
+                    </div>
+                    <h3>Farmer Hub (FMPP)</h3>
+                    <p>Independent growers list new produce in seconds — setting their own price, unit, quantity, and certification status. The hub tracks active listings, displays available FMPP grant funding ($12,400+), and shows a real-time progress meter toward sales targets.</p>
+                    <span class="feature-tag">USDA FMPP</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><rect x="3" y="10" width="22" height="14" rx="2"/><path d="M14 3L3 10h22L14 3Z"/><rect x="10" y="17" width="8" height="7" rx="1"/></svg>
+                    </div>
+                    <h3>Institutional Ordering (LFPP)</h3>
+                    <p>Schools, hospitals, and government agencies can place contract bulk orders against live inventory, with a 15% LFPP offset applied automatically. Compliance documentation, active contract management, and volume pricing are all handled in-platform.</p>
+                    <span class="feature-tag">LFPP Compliant</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-10 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Five live Chart.js visualisations give farmers and buyers a data-rich view of the platform: farmer income share, food waste reduction, regional distribution, logistics status, and YTD GMV trends — all in one scrollable dashboard.</p>
+                    <span class="feature-tag">Data Intelligence</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v4h-7V8Z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    </div>
+                    <h3>Smart Logistics Tracking</h3>
+                    <p>Every order automatically enters the smart logistics view, where route optimisation and cold-chain partner coordination happens in real time. Farmers see pending pick-ups; buyers track their delivery status from farm to door.</p>
+                    <span class="feature-tag">Cold-Chain Network</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10A15 15 0 0 1 8 12a15 15 0 0 1 4-10z" opacity="0.4"/></svg>
+                    </div>
+                    <h3>Impact Report</h3>
+                    <p>A dedicated sustainability dashboard tracks the platform's real-world outcomes: farmer income uplift (46%), total food waste averted (2.1M lbs), total direct revenue ($14.2M), and number of institutions served (452) — updated live.</p>
+                    <span class="feature-tag">Sustainability</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M12 8V4l8 8-8 8v-4H4V8h8z"/></svg>
+                    </div>
+                    <h3>AI Farming Assistant</h3>
+                    <p>An in-app conversational AI helps farmers understand FMPP grant eligibility, get crop pricing recommendations, navigate logistics questions, and interpret demand analytics — without ever needing to leave the platform.</p>
+                    <span class="feature-tag">AI-Powered</span>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#40916c" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <h3>Dark / Light Mode &amp; Accessibility</h3>
+                    <p>The platform ships with a polished dark mode (default) and a warm cream light mode, toggled in a single click. A glassmorphism UI, responsive bottom navigation on mobile, animated particle backgrounds, and smooth view transitions make the experience delightful on any device.</p>
+                    <span class="feature-tag">Full Responsive</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         HOW IT WORKS
+    ══════════════════════ -->
+    <section class="section how-section">
+        <div class="section-inner">
+            <div class="eyebrow">How It Works</div>
+            <h2 class="section-title">From field to fork<br/>in <em>four steps.</em></h2>
+            <p class="section-sub" style="margin-bottom: 64px;">The platform orchestrates the entire supply chain — no phone calls, no paperwork, no middlemen.</p>
+            <div class="how-steps reveal">
+                <div class="how-step">
+                    <div class="step-num">01</div>
+                    <h3>Farmer Lists Produce</h3>
+                    <p>Verified growers add new listings in under 60 seconds — setting price, unit, quantity, organic status, and region. Listings go live on the marketplace immediately.</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num">02</div>
+                    <h3>Buyer Discovers &amp; Orders</h3>
+                    <p>Households, restaurants, and institutions filter produce by region, category, and certification. AI demand signals surface what's trending so buyers always find what they need.</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num">03</div>
+                    <h3>Platform Coordinates Logistics</h3>
+                    <p>AgroChain routes the order through its cold-chain partner network automatically. Farmers get a pick-up notification; buyers get live tracking. No third-party calls needed.</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num">04</div>
+                    <h3>Faster Payouts, Fresh Food</h3>
+                    <p>Farmers receive payouts within 2 business days of order confirmation. Buyers receive produce within 48 hours of harvest — fresher than any supermarket supply chain can match.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         WEBAPP VIEWS
+    ══════════════════════ -->
+    <section class="section views-section">
+        <div class="section-inner">
+            <div class="eyebrow">Inside the Platform</div>
+            <h2 class="section-title">Eight views. <em>One experience.</em></h2>
+            <p class="section-sub">Every role in the food chain gets a dedicated workspace inside the app — built with the right tools for that specific job.</p>
+
+            <div class="views-tabs" role="tablist" aria-label="Platform views">
+                <button class="view-tab active" onclick="switchTab(this,'marketplace')" role="tab" aria-selected="true">Browse Produce</button>
+                <button class="view-tab" onclick="switchTab(this,'farmer')" role="tab" aria-selected="false">Farmer Hub</button>
+                <button class="view-tab" onclick="switchTab(this,'institutional')" role="tab" aria-selected="false">Institutional</button>
+                <button class="view-tab" onclick="switchTab(this,'analytics')" role="tab" aria-selected="false">Analytics</button>
+                <button class="view-tab" onclick="switchTab(this,'logistics')" role="tab" aria-selected="false">Logistics</button>
+                <button class="view-tab" onclick="switchTab(this,'impact')" role="tab" aria-selected="false">Impact</button>
+                <button class="view-tab" onclick="switchTab(this,'ai')" role="tab" aria-selected="false">AI Assistant</button>
+                <button class="view-tab" onclick="switchTab(this,'orders')" role="tab" aria-selected="false">My Orders</button>
+            </div>
+
+            <div id="tab-marketplace" class="views-panel active">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+                    <h3>Fresh from the Field</h3>
+                    <p>A featured produce carousel surfaces seasonal highlights. Filter by region (CA, NY, TX, FL, WA), certification, price, and rating. Each product card shows farmgate price, origin, rating, and a one-tap add-to-cart.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">20 Live Products</span>
+                        <span class="panel-chip">Regional Filters</span>
+                        <span class="panel-chip">Organic Toggle</span>
+                        <span class="panel-chip">Product Compare</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>The core marketplace experience</h3>
+                    <p>The Browse Produce view is where buyers discover and purchase local produce directly from farms. Live inventory counters, star ratings, and farm origin details give every listing full transparency.</p>
+                    <ul class="panel-bullets">
+                        <li>Real-time inventory across 20 product categories with quantity tracking</li>
+                        <li>Swiper-powered featured carousel with seasonal highlights and editorial picks</li>
+                        <li>One-click wishlist saving; items persist across sessions</li>
+                        <li>Product compare mode for side-by-side evaluation of up to 3 items</li>
+                        <li>Quick-view modal with full farm profile, pricing breakdown, and add-to-cart</li>
+                        <li>Global search across product name, farm name, and region in real time</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-farmer" class="views-panel">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><path d="M12 22V12"/><path d="M12 12C12 12 8 10 7 5c0 0 4-1 7 3 1 1.5-2 3-2 3z" fill="#74c69d" opacity="0.2"/></svg></div>
+                    <h3>Farmer Hub (FMPP)</h3>
+                    <p>Growers list new produce, track their active product portfolio, and access available FMPP grant allocations — all from one dashboard view.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">USDA FMPP</span>
+                        <span class="panel-chip">Grant Tracking</span>
+                        <span class="panel-chip">Live Listings</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>Empowering independent growers</h3>
+                    <p>The Farmer Hub gives every verified grower their own operational control centre — from listing management to federal grant visibility.</p>
+                    <ul class="panel-bullets">
+                        <li>List new produce in under 60 seconds with price, unit, quantity, and certification</li>
+                        <li>View and manage your active product portfolio with live stock counters</li>
+                        <li>FMPP grant balance displayed in real time ($12,400 currently available)</li>
+                        <li>Sales progress meter showing target vs. actual revenue for the season</li>
+                        <li>Demand forecasting signal highlights which products have the highest buyer interest this week</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-institutional" class="views-panel">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><rect x="3" y="10" width="22" height="14" rx="2"/><path d="M14 3L3 10h22L14 3Z"/></svg></div>
+                    <h3>Institutional / LFPP</h3>
+                    <p>Schools, hospitals, and government institutions place bulk contract orders against live inventory, with a 15% LFPP federal offset applied automatically at checkout.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">15% LFPP Offset</span>
+                        <span class="panel-chip">Contract Orders</span>
+                        <span class="panel-chip">Compliance Ready</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>Bulk procurement made simple</h3>
+                    <p>The institutional view eliminates the paperwork burden of public-sector food procurement and connects institutions directly to local farm supply.</p>
+                    <ul class="panel-bullets">
+                        <li>Select from the full live product catalogue for bulk contract ordering</li>
+                        <li>15% LFPP offset applied automatically — no manual claims process</li>
+                        <li>Active contracts panel shows fulfilment status, delivery schedule, and invoicing</li>
+                        <li>Volume pricing tiers calculated dynamically based on order size</li>
+                        <li>Compliance documentation generated automatically for public-sector reporting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-analytics" class="views-panel">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M18 9l-5 5-3-3-4 4"/></svg></div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Five live Chart.js visualisations: farmer income share vs. traditional, food waste reduction over time, regional GMV distribution, logistics status, and farmer income growth trajectory.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">5 Live Charts</span>
+                        <span class="panel-chip">Chart.js Powered</span>
+                        <span class="panel-chip">Real-time Data</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>Data that drives better decisions</h3>
+                    <p>Whether you're a farmer checking your share of GMV or a buyer analysing regional supply, the analytics dashboard makes complex data visually clear.</p>
+                    <ul class="panel-bullets">
+                        <li>Farmer income share chart: direct channel vs. traditional wholesale comparison</li>
+                        <li>Food waste reduction timeline — cumulative pounds diverted, month by month</li>
+                        <li>Farmer income growth: year-over-year revenue trajectory for platform participants</li>
+                        <li>Logistics performance chart: on-time delivery rates and cold-chain partner analysis</li>
+                        <li>Regional GMV bar chart: gross merchandise value broken down by state</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-logistics" class="views-panel">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v4h-7V8Z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+                    <h3>Smart Logistics</h3>
+                    <p>Every active order automatically enters the logistics queue. Route optimisation assigns the nearest cold-chain partner, and both farmer and buyer receive live status updates.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">Route Optimisation</span>
+                        <span class="panel-chip">Cold-Chain</span>
+                        <span class="panel-chip">48hr Guarantee</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>Farm to door in under 48 hours</h3>
+                    <p>AgroChain's logistics layer coordinates a network of cold-chain carriers to move produce from farm gate to delivery address faster than any conventional distribution chain.</p>
+                    <ul class="panel-bullets">
+                        <li>Active shipment tracking panel updated in real time for all pending orders</li>
+                        <li>Automated route optimisation selects the fastest cold-chain path by region</li>
+                        <li>Farmers receive automated pick-up scheduling — no phone calls needed</li>
+                        <li>Temperature-controlled carrier network maintained across all 12 active states</li>
+                        <li>48-hour farm-to-delivery SLA for all standard marketplace orders</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-impact" class="views-panel">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+                    <h3>Impact Report</h3>
+                    <p>A live sustainability dashboard showing four headline metrics: farmer income uplift, total food waste averted, direct revenue to communities, and institutions served.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">46% Income Uplift</span>
+                        <span class="panel-chip">2.1M lbs Waste Saved</span>
+                        <span class="panel-chip">$14.2M Revenue</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>Real impact, tracked in real time</h3>
+                    <p>The Impact Report gives every stakeholder proof that the platform is doing what it promises — and publishes that proof openly for buyers, investors, and policymakers.</p>
+                    <ul class="panel-bullets">
+                        <li>Farmer income uplift: 46% higher earnings vs. traditional wholesale channels</li>
+                        <li>Food waste prevented: 2.1 million pounds diverted from landfill year to date</li>
+                        <li>$14.2M in direct revenue flowing back to farm communities annually</li>
+                        <li>452 institutions (schools, hospitals, government) sourcing locally through the platform</li>
+                        <li>Live testimonials from participating farmers alongside verified metric cards</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-ai" class="views-panel">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><path d="M12 8V4l8 8-8 8v-4H4V8h8z"/></svg></div>
+                    <h3>AI Farming Assistant</h3>
+                    <p>A conversational AI embedded directly in the platform answers questions about FMPP grants, organic certification, pricing strategy, logistics, and demand trends — in plain language.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">FMPP Guidance</span>
+                        <span class="panel-chip">Pricing Advice</span>
+                        <span class="panel-chip">Demand Signals</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>Your 24/7 agricultural advisor</h3>
+                    <p>The AI Assistant removes the knowledge gap that keeps many small farmers from accessing federal programmes, pricing their produce optimally, or understanding buyer demand shifts.</p>
+                    <ul class="panel-bullets">
+                        <li>Explains FMPP and LFPP grant eligibility in simple, actionable terms</li>
+                        <li>Provides competitive pricing suggestions based on regional market data</li>
+                        <li>Answers logistics questions — routes, pick-up windows, cold-chain requirements</li>
+                        <li>Surfaces trending produce categories and buyer demand patterns</li>
+                        <li>Available 24/7 with no hold times and no phone menus</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-orders" class="views-panel">
+                <div class="panel-visual">
+                    <div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#74c69d" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
+                    <h3>My Orders</h3>
+                    <p>A full order history view with item-level detail, order status, and delivery tracking — giving buyers complete visibility into every transaction they've placed on the platform.</p>
+                    <div class="panel-chips">
+                        <span class="panel-chip">Order History</span>
+                        <span class="panel-chip">Live Status</span>
+                        <span class="panel-chip">Item Detail</span>
+                    </div>
+                </div>
+                <div class="panel-text">
+                    <h3>Your complete purchase record</h3>
+                    <p>Every order placed on the platform is recorded with full item detail, farm provenance, and delivery status — giving buyers a transparent receipt of exactly where their food came from.</p>
+                    <ul class="panel-bullets">
+                        <li>Full order history with date, total, and item breakdown</li>
+                        <li>Live delivery status synced with the logistics tracking system</li>
+                        <li>Farm provenance recorded per line item — complete traceability</li>
+                        <li>One-tap reorder for frequently purchased produce</li>
+                        <li>Invoice download for business and institutional buyers</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         DEMO CTA
+    ══════════════════════ -->
+    <section class="demo-section">
+        <div class="demo-inner reveal">
+            <div class="demo-eyebrow">
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#74c69d"/></svg>
+                Live Platform Demo
+            </div>
+            <h2>See the full platform<br/><em>in action.</em></h2>
+            <p>The AgroChain Cart webapp is fully interactive — browse real produce listings, add to cart, place orders, explore analytics, and try the AI assistant. No login required for the demo.</p>
+            <a href="../marketplace/agrocart-app/" class="demo-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+                Launch the Webapp Demo
+            </a>
+            <p class="demo-note">Fully interactive · No account needed · Works on all devices</p>
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         IMPACT
+    ══════════════════════ -->
+    <section class="section impact-section">
+        <div class="section-inner">
+            <div class="eyebrow">Platform Impact</div>
+            <h2 class="section-title">Numbers that<br/><em>matter most.</em></h2>
+            <p class="section-sub">AgroChain Cart was built to solve real problems in the agricultural supply chain. These metrics show how the platform is delivering on that promise.</p>
+            <div class="impact-grid">
+                <div class="impact-card reveal">
+                    <span class="impact-num">46%</span>
+                    <h3>Average income increase for platform farmers</h3>
+                    <p>Compared to selling through traditional wholesale channels, AgroChain Cart farmers keep dramatically more of the revenue their produce generates.</p>
+                </div>
+                <div class="impact-card reveal">
+                    <span class="impact-num">2.1M</span>
+                    <h3>Pounds of food waste prevented year to date</h3>
+                    <p>Direct matching between farms and buyers means produce that would have been lost in long distribution chains reaches tables instead.</p>
+                </div>
+                <div class="impact-card reveal">
+                    <span class="impact-num">$14.2M</span>
+                    <h3>Direct revenue flowing back to farm communities</h3>
+                    <p>Every dollar spent on the platform goes directly to the grower — with no distributor margin, no broker fee, and no unnecessary markup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         TESTIMONIALS
+    ══════════════════════ -->
+    <section class="section testimonials-section">
+        <div class="section-inner">
+            <div class="eyebrow">Voices from the Field</div>
+            <h2 class="section-title">What our farmers &amp;<br/><em>buyers are saying.</em></h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Before AgroChain, wholesalers were taking 55% margins. Now I keep over 70% of what buyers pay. That's the difference between a surviving farm and a thriving one."</p>
+                    <div class="testimonial-author">
+                        <div class="t-avatar">ML</div>
+                        <div><div class="t-name">Maria Lopez</div><div class="t-role">Vegetable farmer, California</div></div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"We switched our restaurant's produce sourcing to AgroChain six months ago. Our customers notice the freshness immediately — and our food cost actually dropped because we cut two distributor layers."</p>
+                    <div class="testimonial-author">
+                        <div class="t-avatar">JR</div>
+                        <div><div class="t-name">James Rivera</div><div class="t-role">Executive Chef, Brooklyn, NY</div></div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"The LFPP offset and contract management tools made it possible for our school district to source 40% of our cafeteria produce locally. The compliance paperwork practically fills itself."</p>
+                    <div class="testimonial-author">
+                        <div class="t-avatar">SM</div>
+                        <div><div class="t-name">Sandra M.</div><div class="t-role">Food Services Director, Iowa USD</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         APP STORE SECTION
+    ══════════════════════ -->
+    <section class="apps-section" id="mobile-apps">
+        <div class="apps-inner">
+            <div class="eyebrow">Mobile Apps</div>
+            <h2 class="section-title">The AgroChain Cart app<br/>is coming to your <em>pocket.</em></h2>
+            <p class="section-sub">Our full-featured webapp is available right now in your browser — and native iOS and Android apps are in active development, bringing the entire marketplace experience to your phone and tablet.</p>
+
+            <div class="apps-grid">
+                <!-- Apple App Store -->
+                <div class="app-card reveal">
+                    <div class="app-store-icon" style="background: linear-gradient(135deg, #1c1c1e, #3a3a3c);">
+                        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 6C24 6 18 10 18 18c0 3.5 1.5 6.5 3.5 8.5C19 28.5 16 32 16 36c0 3 1.5 5.5 4 7 1 .5 2 .5 2 .5s-1-2.5-1-5c0-4 3-7.5 5.5-10C29 25.5 30 22 30 18c0-8-6-12-6-12z" fill="white" opacity="0.9"/>
+                            <path d="M30 10c0 0-2 1.5-2 4 0 2 1 3.5 2.5 4.5C32.5 19.5 34 21.5 34 24c0 4-3 7-3 7s3-1 5-4c1.5-2 2-4.5 2-7C38 14 34 10 30 10z" fill="white" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <h3>iPhone &amp; iPad App</h3>
+                    <p>The full AgroChain Cart marketplace, Farmer Hub, AI Assistant, and order tracking — optimised for iOS with native gestures, Face ID checkout, and Apple Pay support.</p>
+                    <div class="app-store-btn" aria-label="Not yet available on App Store">
+                        <svg viewBox="0 0 24 24" fill="white" width="28" height="28" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        <div class="app-store-btn-text">
+                            <span class="app-store-btn-label">Coming soon on the</span>
+                            <span class="app-store-btn-name">App Store</span>
+                        </div>
+                    </div>
+                    <div class="app-notify">
+                        <input type="email" placeholder="Get notified at launch" aria-label="Email for iOS app launch notification" id="iosEmail" />
+                        <button type="button" onclick="notifyMe('ios')">Notify me</button>
+                    </div>
+                </div>
+
+                <!-- Google Play Store -->
+                <div class="app-card reveal">
+                    <div class="app-store-icon" style="background: linear-gradient(135deg, #1a3a2a, #2d6a4f);">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M8 6l26 18L8 42V6z" fill="#A8D48A" opacity="0.8"/>
+                            <path d="M8 6l13 13-13 13V6z" fill="#74c69d"/>
+                            <path d="M34 24L21 19l13-13v18z" fill="#d8f3dc" opacity="0.6"/>
+                            <path d="M34 24L21 29l13 13V24z" fill="#40916c" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    <h3>Android App</h3>
+                    <p>The complete AgroChain Cart experience on Android — with material design, offline-capable browsing, Google Pay checkout, and push notifications for new produce listings from your saved farms.</p>
+                    <div class="app-store-btn" aria-label="Not yet available on Google Play">
+                        <svg viewBox="0 0 24 24" fill="white" width="28" height="28" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.849l1.284.742a1 1 0 0 1 0 1.728l-1.284.742L15.396 12l2.302-1.142zM5.864 2.658L16.8 8.99l-2.302 2.302-8.635-8.635z"/></svg>
+                        <div class="app-store-btn-text">
+                            <span class="app-store-btn-label">Coming soon on</span>
+                            <span class="app-store-btn-name">Google Play</span>
+                        </div>
+                    </div>
+                    <div class="app-notify">
+                        <input type="email" placeholder="Get notified at launch" aria-label="Email for Android app launch notification" id="androidEmail" />
+                        <button type="button" onclick="notifyMe('android')">Notify me</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App feature teasers -->
+            <div class="app-features-row">
+                <div class="app-feat reveal">
+                    <div class="app-feat-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#40916c" stroke-width="1.6"><path d="M10 2a8 8 0 1 0 0 16A8 8 0 0 0 10 2z"/><path d="M10 6v4l3 2"/></svg>
+                    </div>
+                    <div>
+                        <h4>Push Notifications</h4>
+                        <p>Get alerts when a new harvest from your saved farms goes live — never miss fresh stock again.</p>
+                    </div>
+                </div>
+                <div class="app-feat reveal">
+                    <div class="app-feat-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#40916c" stroke-width="1.6"><rect x="3" y="3" width="14" height="14" rx="3"/><path d="M7 10h6M10 7v6"/></svg>
+                    </div>
+                    <div>
+                        <h4>Offline Browse</h4>
+                        <p>Product listings are cached locally so you can browse the marketplace even without a signal.</p>
+                    </div>
+                </div>
+                <div class="app-feat reveal">
+                    <div class="app-feat-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#40916c" stroke-width="1.6"><path d="M2 10a8 8 0 0 0 16 0"/><path d="M10 2v8l4-4"/></svg>
+                    </div>
+                    <div>
+                        <h4>Native Checkout</h4>
+                        <p>Apple Pay and Google Pay support for one-tap secure checkout directly from your phone.</p>
+                    </div>
+                </div>
+                <div class="app-feat reveal">
+                    <div class="app-feat-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#40916c" stroke-width="1.6"><path d="M10 2a6 6 0 0 0-6 6v2H3l1 8h12l1-8h-1V8a6 6 0 0 0-6-6z"/></svg>
+                    </div>
+                    <div>
+                        <h4>Biometric Login</h4>
+                        <p>Face ID and fingerprint authentication keep your account secure without slowing you down.</p>
+                    </div>
+                </div>
+                <div class="app-feat reveal">
+                    <div class="app-feat-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="#40916c" stroke-width="1.6"><path d="M10 18s-6-4-6-9a6 6 0 0 1 12 0c0 5-6 9-6 9z"/><circle cx="10" cy="9" r="2"/></svg>
+                    </div>
+                    <div>
+                        <h4>Delivery Tracking</h4>
+                        <p>Live map tracking from farm pick-up to your door — with real-time ETA updates on every order.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════
+         FOOTER
+    ══════════════════════ -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-brand-logo">AgroChain<span class="footer-logo-cart">Cart</span></div>
+                <p>Connecting farmers directly with consumers, restaurants, retailers, and institutions. No middlemen. Better prices. Fresher food.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="../marketplace/agrocart-app/">Launch Webapp</a></li>
+                    <li><a href="#">For Farmers</a></li>
+                    <li><a href="#">For Restaurants</a></li>
+                    <li><a href="#">For Institutions</a></li>
+                    <li><a href="#">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="../about/">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="../blog/">Blog</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="../contact/">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 AgroChain Cart Inc. All rights reserved.</span>
+            <div class="footer-socials">
+                <a href="#" class="social-link" aria-label="AgroChain on X">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" class="social-link" aria-label="AgroChain on LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="#" class="social-link" aria-label="AgroChain on Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ── Hamburger ── */
+        const hamburger = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('open');
+            hamburger.classList.toggle('open', isOpen);
+            hamburger.setAttribute('aria-expanded', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        document.addEventListener('click', e => {
+            if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                mobileMenu.classList.remove('open');
+                hamburger.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+        });
+
+        /* ── Scroll reveal ── */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 70);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        /* ── View tabs ── */
+        function switchTab(btn, id) {
+            document.querySelectorAll('.view-tab').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            document.querySelectorAll('.views-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+            document.getElementById('tab-' + id).classList.add('active');
+        }
+
+        /* ── Notify me ── */
+        function notifyMe(platform) {
+            const id = platform === 'ios' ? 'iosEmail' : 'androidEmail';
+            const val = document.getElementById(id).value.trim();
+            if (!val || !val.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            document.getElementById(id).value = '';
+            const store = platform === 'ios' ? 'App Store' : 'Google Play';
+            alert('✅ Thanks! We\'ll notify you at ' + val + ' when the ' + store + ' app launches.');
+        }
+
+        /* ── Nav shadow on scroll ── */
+        window.addEventListener('scroll', () => {
+            document.querySelector('nav').style.boxShadow =
+                window.scrollY > 20 ? '0 4px 24px rgba(26,58,42,0.12)' : '0 2px 16px rgba(26,58,42,0.07)';
+        }, { passive: true });
+    </script>
+</body>
+</html>
