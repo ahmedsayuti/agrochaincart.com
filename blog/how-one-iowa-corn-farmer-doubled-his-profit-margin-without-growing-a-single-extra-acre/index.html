@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How One Iowa Farmer Doubled His Profit Margin — AgroChain Cart Blog</title>
+    <meta name="description" content="Marcus Trevino had been farming 280 acres in Iowa for 17 years — watching margins shrink. Then he joined AgroChain Cart. This is what changed." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --ink: #0f1f17;
+            --smoke: #4a5e52; --white: #ffffff; --radius: 12px; --radius-lg: 20px;
+            --transition: 0.3s cubic-bezier(0.4,0,0.2,1); --nav-height: 68px;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; overflow-x: hidden; padding-top: var(--nav-height); }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.94); backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12); box-shadow: 0 2px 16px rgba(26,58,42,0.07);
+        }
+        .nav-logo { display: flex; align-items: center; text-decoration: none; font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem; color: var(--forest); }
+        .nav-logo-chain { color: var(--grove); }
+        .nav-logo-cart { color: var(--white); background: var(--grove); padding: 2px 8px 2px 6px; border-radius: 6px; margin-left: 4px; font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--smoke); font-size: 0.9rem; font-weight: 500; transition: color var(--transition); }
+        .nav-links a:hover, .nav-links a.active { color: var(--grove); }
+        .nav-cta { display: flex; gap: 12px; }
+        .btn-ghost { padding: 8px 20px; border-radius: 8px; border: 1.5px solid var(--leaf); background: transparent; color: var(--grove); font-size: 0.875rem; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; }
+        .btn-primary { padding: 9px 22px; border-radius: 8px; background: var(--grove); color: white; border: none; font-size: 0.875rem; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; }
+
+        /* ARTICLE LAYOUT */
+        .article-hero {
+            background: linear-gradient(160deg, var(--forest) 0%, #224436 60%, #1a4432 100%);
+            padding: 60px 5% 0; position: relative;
+        }
+        .article-hero-inner { max-width: 800px; margin: 0 auto; }
+        .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 28px; font-size: 0.82rem; }
+        .breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; transition: color var(--transition); }
+        .breadcrumb a:hover { color: var(--sage); }
+        .breadcrumb-sep { color: rgba(255,255,255,0.3); }
+        .breadcrumb-current { color: rgba(255,255,255,0.75); }
+        .article-category-tag {
+            display: inline-block; background: rgba(116,198,157,0.15); border: 1px solid rgba(116,198,157,0.3);
+            color: var(--sage); padding: 5px 14px; border-radius: 100px;
+            font-size: 0.73rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px;
+        }
+        .article-hero h1 {
+            font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; color: white;
+            letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 20px; font-family: 'Lora', serif;
+        }
+        .article-meta { display: flex; align-items: center; gap: 20px; margin-bottom: 36px; flex-wrap: wrap; }
+        .article-author-row { display: flex; align-items: center; gap: 10px; }
+        .article-avatar {
+            width: 40px; height: 40px; border-radius: 50%; background: rgba(116,198,157,0.2);
+            border: 2px solid rgba(116,198,157,0.4); display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 700; color: var(--sage); flex-shrink: 0;
+        }
+        .article-author-name { color: white; font-size: 0.88rem; font-weight: 600; }
+        .article-author-role { color: rgba(255,255,255,0.5); font-size: 0.76rem; }
+        .meta-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.15); }
+        .article-date { color: rgba(255,255,255,0.55); font-size: 0.82rem; }
+        .article-read-time { color: rgba(255,255,255,0.55); font-size: 0.82rem; display: flex; align-items: center; gap: 5px; }
+
+        .article-hero-img {
+            width: 100%; max-width: 800px; height: 420px; object-fit: cover;
+            border-radius: 16px 16px 0 0; display: block; margin: 0 auto;
+        }
+
+        .article-body-wrap { max-width: 1100px; margin: 0 auto; padding: 0 5%; display: grid; grid-template-columns: 1fr 300px; gap: 60px; align-items: start; }
+        .article-content { padding: 52px 0 80px; }
+        .article-lead {
+            font-size: 1.15rem; color: var(--smoke); line-height: 1.8; font-family: 'Lora', serif;
+            font-style: italic; margin-bottom: 36px; padding-bottom: 36px;
+            border-bottom: 2px solid var(--mist);
+        }
+        .article-content h2 {
+            font-size: 1.5rem; font-weight: 800; color: var(--forest); margin: 48px 0 18px;
+            letter-spacing: -0.02em; font-family: 'Lora', serif; line-height: 1.25;
+        }
+        .article-content h3 {
+            font-size: 1.15rem; font-weight: 700; color: var(--forest); margin: 36px 0 14px;
+        }
+        .article-content p { font-size: 0.97rem; color: #2a3d32; line-height: 1.85; margin-bottom: 22px; }
+        .article-content strong { color: var(--forest); font-weight: 700; }
+        .article-content ul, .article-content ol { padding-left: 24px; margin-bottom: 22px; }
+        .article-content li { font-size: 0.97rem; color: #2a3d32; line-height: 1.85; margin-bottom: 8px; }
+
+        .pull-quote {
+            margin: 40px 0; padding: 32px 36px; border-left: 4px solid var(--sage);
+            background: var(--cream); border-radius: 0 12px 12px 0; position: relative;
+        }
+        .pull-quote::before { content: '\201C'; position: absolute; top: 12px; left: 18px; font-size: 3.5rem; line-height: 1; color: var(--mist); font-family: 'Lora', serif; pointer-events: none; }
+        .pull-quote p { font-size: 1.15rem; font-style: italic; color: var(--forest); line-height: 1.7; font-family: 'Lora', serif; margin: 0 0 12px; padding-left: 20px; }
+        .pull-quote cite { font-size: 0.82rem; color: var(--smoke); font-style: normal; font-weight: 600; padding-left: 20px; }
+
+        .stat-callout {
+            background: linear-gradient(135deg, var(--grove) 0%, var(--forest) 100%);
+            border-radius: var(--radius-lg); padding: 36px; margin: 40px 0;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+        }
+        .stat-item { text-align: center; }
+        .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--gold); display: block; letter-spacing: -0.03em; }
+        .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.65); line-height: 1.4; margin-top: 4px; }
+
+        .info-box {
+            background: var(--mist); border: 1px solid rgba(116,198,157,0.3); border-radius: var(--radius);
+            padding: 24px 28px; margin: 32px 0;
+        }
+        .info-box-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--grove); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .info-box p { font-size: 0.9rem; color: var(--smoke); line-height: 1.7; margin: 0; }
+
+        .article-tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 40px 0; }
+        .article-tag {
+            padding: 6px 14px; border-radius: 100px; border: 1.5px solid #dde8e2;
+            font-size: 0.78rem; font-weight: 600; color: var(--smoke); text-decoration: none;
+            transition: var(--transition);
+        }
+        .article-tag:hover { border-color: var(--leaf); color: var(--grove); background: var(--mist); }
+
+        .author-card {
+            background: var(--cream); border: 1.5px solid #e8f0eb; border-radius: var(--radius-lg);
+            padding: 28px; margin-top: 48px;
+        }
+        .author-card-label { font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--leaf); margin-bottom: 16px; }
+        .author-card-inner { display: flex; gap: 16px; align-items: flex-start; }
+        .author-card-avatar {
+            width: 56px; height: 56px; border-radius: 50%; background: var(--mist);
+            border: 2px solid var(--sage); display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; font-weight: 700; color: var(--grove); flex-shrink: 0;
+        }
+        .author-card-name { font-size: 1rem; font-weight: 700; color: var(--forest); margin-bottom: 2px; }
+        .author-card-title { font-size: 0.82rem; color: var(--smoke); margin-bottom: 10px; }
+        .author-card-bio { font-size: 0.85rem; color: var(--smoke); line-height: 1.65; }
+
+        /* SIDEBAR */
+        .article-sidebar { padding: 52px 0 80px; }
+        .sidebar-sticky { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 24px; }
+        .sidebar-card { background: var(--cream); border: 1.5px solid #e8f0eb; border-radius: var(--radius-lg); padding: 24px; }
+        .sidebar-card-title { font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--leaf); margin-bottom: 16px; }
+        .related-post { display: flex; gap: 12px; text-decoration: none; color: inherit; padding: 12px 0; border-bottom: 1px solid #e8f0eb; transition: var(--transition); }
+        .related-post:last-child { border-bottom: none; padding-bottom: 0; }
+        .related-post:hover { opacity: 0.8; }
+        .related-post-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+        .related-post-cat { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--grove); margin-bottom: 4px; }
+        .related-post-title { font-size: 0.82rem; font-weight: 600; color: var(--forest); line-height: 1.35; }
+        .share-btns { display: flex; flex-direction: column; gap: 10px; }
+        .share-btn {
+            display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+            border-radius: 10px; border: 1.5px solid #dde8e2; background: white;
+            color: var(--smoke); font-size: 0.82rem; font-weight: 600; cursor: pointer;
+            font-family: inherit; transition: var(--transition); text-decoration: none;
+        }
+        .share-btn:hover { border-color: var(--leaf); color: var(--grove); background: var(--mist); }
+        .share-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .toc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .toc-list a { font-size: 0.83rem; color: var(--smoke); text-decoration: none; padding: 5px 8px; border-radius: 6px; display: block; transition: var(--transition); border-left: 2px solid transparent; }
+        .toc-list a:hover { color: var(--grove); background: var(--mist); border-left-color: var(--sage); }
+
+        /* RELATED ARTICLES BOTTOM */
+        .related-section { background: var(--cream); padding: 64px 5%; }
+        .related-inner { max-width: 1100px; margin: 0 auto; }
+        .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+        .related-card { background: white; border-radius: var(--radius-lg); border: 1.5px solid #e8f0eb; overflow: hidden; text-decoration: none; color: inherit; transition: var(--transition); }
+        .related-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(26,58,42,0.1); border-color: var(--sage); }
+        .related-card-img { height: 180px; overflow: hidden; }
+        .related-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .related-card:hover .related-card-img img { transform: scale(1.06); }
+        .related-card-body { padding: 20px 22px 24px; }
+        .related-card-cat { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--grove); letter-spacing: 0.06em; margin-bottom: 8px; }
+        .related-card-title { font-size: 0.95rem; font-weight: 700; color: var(--forest); line-height: 1.35; font-family: 'Lora', serif; }
+
+        .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--leaf); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--leaf); }
+        .section-title { font-size: 1.6rem; font-weight: 800; color: var(--forest); letter-spacing: -0.02em; font-family: 'Lora', serif; }
+
+        footer { background: var(--ink); color: rgba(255,255,255,0.55); padding: 48px 5% 28px; }
+        .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; flex-wrap: wrap; gap: 12px; }
+        .footer-socials { display: flex; gap: 10px; }
+        .social-link { width: 36px; height: 36px; background: rgba(255,255,255,0.07); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); text-decoration: none; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
+        .social-link:hover { background: var(--grove); color: white; }
+        .social-link svg { width: 15px; height: 15px; }
+
+        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--sage), var(--gold)); z-index: 200; width: 0%; pointer-events: none; transition: width 0.1s linear; }
+
+        @media (max-width: 900px) {
+            .article-body-wrap { grid-template-columns: 1fr; gap: 0; }
+            .article-sidebar { display: none; }
+            .stat-callout { grid-template-columns: 1fr; gap: 16px; }
+            .related-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links, .nav-cta { display: none; }
+        }
+        @media (max-width: 600px) { .related-grid { grid-template-columns: 1fr; } .article-hero h1 { font-size: 1.7rem; } }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <nav>
+        <a href="index.html" class="nav-logo"><span class="nav-logo-agro">Agro</span><span class="nav-logo-chain">Chain</span><span class="nav-logo-cart">Cart</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#marketplace">Marketplace</a></li>
+            <li><a href="index.html#how">How it works</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="index.html" class="btn-ghost">Log in</a>
+            <a href="index.html" class="btn-primary">Get started →</a>
+        </div>
+    </nav>
+
+    <!-- ARTICLE HERO -->
+    <section class="article-hero">
+        <div class="article-hero-inner">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="breadcrumb-sep">›</span>
+                <a href="blog.html">Blog</a>
+                <span class="breadcrumb-sep">›</span>
+                <span class="breadcrumb-current">Farmer Stories</span>
+            </div>
+            <div class="article-category-tag">Farmer Stories</div>
+            <h1>How One Iowa Corn Farmer Doubled His Profit Margin Without Growing a Single Extra Acre</h1>
+            <div class="article-meta">
+                <div class="article-author-row">
+                    <div class="article-avatar">SL</div>
+                    <div>
+                        <div class="article-author-name">Sarah Lin</div>
+                        <div class="article-author-role">Senior Reporter, AgroChain Journal</div>
+                    </div>
+                </div>
+                <div class="meta-sep"></div>
+                <span class="article-date">March 14, 2025</span>
+                <div class="meta-sep"></div>
+                <span class="article-read-time">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    8 min read
+                </span>
+            </div>
+        </div>
+        <img class="article-hero-img" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&q=80&fit=crop" alt="Golden sunrise over Iowa cornfields" loading="lazy"/>
+    </section>
+
+    <!-- ARTICLE BODY + SIDEBAR -->
+    <div class="article-body-wrap">
+        <article class="article-content">
+            <p class="article-lead">Marcus Trevino had been farming the same 280 acres in Ames, Iowa for seventeen years — watching margins shrink every season as consolidation squeezed out the middlemen he still depended on. In 2024, he nearly sold. Then he joined AgroChain Cart. Twelve months later, his net income had increased by 94%.</p>
+
+            <h2>The Seventeen-Year Squeeze</h2>
+            <p>Marcus remembers the year his father handed him the farm deed — 2007, the year before commodity prices crashed. "Dad said it was the best job in the world," Marcus recalls, sitting at a wooden kitchen table stacked with soil sample reports. "He wasn't lying. But he also sold at $4.80 corn. I've spent most of my career at $3.80."</p>
+            <p>What Marcus couldn't control was the downstream layer of his revenue equation. His corn went to a local elevator, which sold to a regional broker, who sold to a milling conglomerate. By the time the grain reached its final buyer, five entities had each taken a cut. Marcus was left with approximately 22 cents of every consumer food dollar spent on products derived from his corn — a number that agricultural economists at Iowa State have called "a structural crisis masquerading as a business model."</p>
+            <p>By January 2024, Marcus was selling two parcels of land to cover operating costs. He was one bad harvest from the end.</p>
+
+            <div class="pull-quote">
+                <p>I didn't need a subsidy. I needed a customer who could see me. AgroChain gave me both — and then got out of the way.</p>
+                <cite>— Marcus Trevino, Trevino Family Farm, Ames, Iowa</cite>
+            </div>
+
+            <h2>Discovering a Different Model</h2>
+            <p>Marcus heard about AgroChain Cart from a neighbor, Elena Vasquez, who had been selling heritage wheat directly to restaurant groups in Chicago for six months through the platform. "She showed me her revenue dashboard on her phone in my driveway," Marcus says. "I didn't believe the numbers. Then she showed me the bank statements."</p>
+            <p>AgroChain's model eliminates the broker and elevator layer entirely. Farmers list their inventory — by variety, growing method, certification status, and harvest timeline — and buyers ranging from individual households to Michelin-starred restaurants and school district procurement offices bid and commit in real time. The platform charges a 5% transaction fee (compared to the 30–40% aggregate margin extraction of the traditional multi-layer system) and coordinates logistics through a vetted partner carrier network.</p>
+
+            <div class="stat-callout">
+                <div class="stat-item"><span class="stat-num">94%</span><div class="stat-label">Increase in Marcus's net income, Year 1</div></div>
+                <div class="stat-item"><span class="stat-num">5%</span><div class="stat-label">AgroChain platform fee vs. 30–40% traditional margin extraction</div></div>
+                <div class="stat-item"><span class="stat-num">280</span><div class="stat-label">Acres farmed — not one more, not one less</div></div>
+            </div>
+
+            <h2>The First Season on the Platform</h2>
+            <p>Marcus listed his heirloom blue corn in February 2024, targeting specialty food buyers. Within 48 hours, a craft tortilla manufacturer in Des Moines had placed a standing order for the entirety of his projected June yield. The contract price was $6.40 per bushel — 68% above the elevator spot price.</p>
+            <p>He listed his conventional field corn to a consortium of Iowa independent restaurants building a "local grain" menu initiative. That sold at $5.10 per bushel. Combined, his average realized price per bushel in 2024 was $5.74 — up from $3.81 the year before. On 280 acres, that delta is transformative.</p>
+
+            <div class="info-box">
+                <div class="info-box-title">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#40916c" stroke-width="1.5"/><path d="M7 5v4M7 10v.5" stroke="#40916c" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    By the Numbers: Trevino Farm 2023 vs. 2024
+                </div>
+                <p><strong>2023 (traditional channel):</strong> $3.81/bu avg. realized price · 92% to commodity grain · net income: $38,400<br/><br/><strong>2024 (AgroChain Cart):</strong> $5.74/bu avg. realized price · 64% to specialty/direct buyers · net income: $74,600<br/><br/>Difference: +$36,200 net income (+94%) on identical acreage.</p>
+            </div>
+
+            <h2>What the Platform Actually Does (and Doesn't Do)</h2>
+            <p>Marcus is careful to note what AgroChain is not. "It's not magic. You still have to grow good product. You still have to communicate with buyers. If your corn has aflatoxin issues, no platform fixes that." What the platform does is surface price signals that were previously invisible to farmers at his scale.</p>
+            <p>The demand forecasting feature, released in Q3 2024, is what Marcus calls "the thing that changed how I think about planting." By analyzing purchasing patterns from over 1,200 platform buyers, the AI-powered analytics suite projects anticipated demand by crop variety, region, and buyer segment — up to 14 months in advance. Marcus used the 2025 forecast data to shift 40 acres from conventional to heirloom varieties, anticipating premium demand that the model identified with 78% historical accuracy.</p>
+            <p>"I'm making planting decisions based on restaurant menus and school nutrition plans," he says. "That's different from anything my father could have imagined."</p>
+
+            <h2>The Ripple Effects</h2>
+            <p>The financial improvement has had second-order effects Marcus didn't anticipate. He rehired a part-time farmhand he'd let go in 2022. He enrolled in an ISU extension program on soil health practices — something he couldn't afford the time for when survival was the priority. He's exploring a small on-farm processing facility that would let him sell value-added corn products at even higher margins.</p>
+            <p>But perhaps most significantly, he reversed the land sale. Both parcels are back in his possession. "Those fields were my dad's fields," he says quietly. "I came close to losing them over a pricing problem that turned out to be a distribution problem."</p>
+            <p>He pulls out his phone and opens the AgroChain app. Three buyer messages are waiting. A Chicago restaurant wants to discuss a multi-year supply agreement for specialty grains. A grocery co-op in Minneapolis is requesting samples. An institutional buyer — a state university system — has sent a formal inquiry about a contract for 2026 delivery.</p>
+            <p>Marcus sets the phone face-down on the table. "I'll get to those after lunch," he says. "I've got time now."</p>
+
+            <div class="article-tags">
+                <a href="#" class="article-tag">Farmer Stories</a>
+                <a href="#" class="article-tag">Iowa</a>
+                <a href="#" class="article-tag">Corn</a>
+                <a href="#" class="article-tag">Direct Sales</a>
+                <a href="#" class="article-tag">Farm Economics</a>
+                <a href="#" class="article-tag">Platform</a>
+            </div>
+
+            <div class="author-card">
+                <div class="author-card-label">About the Author</div>
+                <div class="author-card-inner">
+                    <div class="author-card-avatar">SL</div>
+                    <div>
+                        <div class="author-card-name">Sarah Lin</div>
+                        <div class="author-card-title">Senior Reporter, AgroChain Journal · Ames, Iowa</div>
+                        <p class="author-card-bio">Sarah covers agricultural economics and rural livelihoods across the Midwest. A former commodity trader turned journalist, she has reported from farms in 22 states and spent three seasons embedded with grain farming operations in Iowa and Illinois. She holds an MSc in Agricultural Policy from Purdue University.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- SIDEBAR -->
+        <aside class="article-sidebar">
+            <div class="sidebar-sticky">
+                <div class="sidebar-card">
+                    <div class="sidebar-card-title">Table of Contents</div>
+                    <ul class="toc-list">
+                        <li><a href="#">The Seventeen-Year Squeeze</a></li>
+                        <li><a href="#">Discovering a Different Model</a></li>
+                        <li><a href="#">The First Season on the Platform</a></li>
+                        <li><a href="#">What the Platform Actually Does</a></li>
+                        <li><a href="#">The Ripple Effects</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-card">
+                    <div class="sidebar-card-title">Share This Article</div>
+                    <div class="share-btns">
+                        <a href="#" class="share-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            Share on X
+                        </a>
+                        <a href="#" class="share-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                            Share on LinkedIn
+                        </a>
+                        <a href="#" class="share-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                            Copy Link
+                        </a>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="sidebar-card-title">Related Articles</div>
+                    <a href="blog-post-2.html" class="related-post">
+                        <img class="related-post-img" src="https://images.unsplash.com/photo-1628352081506-83a6e0e86e77?w=120&q=70&fit=crop" alt=""/>
+                        <div>
+                            <div class="related-post-cat">Agri-Tech</div>
+                            <div class="related-post-title">AI-Powered Demand Forecasting Is Finally Putting Farmers in the Driver's Seat</div>
+                        </div>
+                    </a>
+                    <a href="blog-post-3.html" class="related-post">
+                        <img class="related-post-img" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=120&q=70&fit=crop" alt=""/>
+                        <div>
+                            <div class="related-post-cat">Market Insights</div>
+                            <div class="related-post-title">The $340 Billion Local Food Opportunity</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- RELATED ARTICLES -->
+    <section class="related-section">
+        <div class="related-inner">
+            <div class="section-label">Continue Reading</div>
+            <div class="section-title" style="margin-bottom:8px;">More from the Field Journal</div>
+            <div class="related-grid" style="margin-top:28px;">
+                <a href="blog-post-2.html" class="related-card">
+                    <div class="related-card-img"><img src="https://images.unsplash.com/photo-1628352081506-83a6e0e86e77?w=400&q=75&fit=crop" alt="" loading="lazy"/></div>
+                    <div class="related-card-body"><div class="related-card-cat">Agri-Tech · June 2025</div><div class="related-card-title">AI-Powered Demand Forecasting Is Finally Putting Farmers in the Driver's Seat</div></div>
+                </a>
+                <a href="blog-post-4.html" class="related-card">
+                    <div class="related-card-img"><img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=400&q=75&fit=crop" alt="" loading="lazy"/></div>
+                    <div class="related-card-body"><div class="related-card-cat">Sustainability · November 2025</div><div class="related-card-title">Regenerative Agriculture Is Having Its Moment — But Can It Scale Without Selling Out?</div></div>
+                </a>
+                <a href="blog-post-5.html" class="related-card">
+                    <div class="related-card-img"><img src="https://images.unsplash.com/photo-1534483509719-3feaee7c30da?w=400&q=75&fit=crop" alt="" loading="lazy"/></div>
+                    <div class="related-card-body"><div class="related-card-cat">Policy · January 2026</div><div class="related-card-title">The 2026 Farm Bill Debate: What Independent Growers Actually Need Congress to Do</div></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-bottom">
+            <span>© 2026 AgroChain Cart Inc. · <a href="blog.html" style="color:var(--sage);text-decoration:none;">← Back to Blog</a></span>
+            <div class="footer-socials">
+                <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        window.addEventListener('scroll', () => {
+            const doc = document.documentElement;
+            const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+            document.getElementById('progressBar').style.width = pct + '%';
+        });
+    </script>
+</body>
+</html>
