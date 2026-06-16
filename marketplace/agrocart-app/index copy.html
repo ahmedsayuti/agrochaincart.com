@@ -4,515 +4,335 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes" />
   <title>AgroCart · USDA Farm-to-Table Marketplace</title>
-
-    <!-- OG TAGS -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.agrochaincart.com/marketplace/agrocart-app/" />
-    <meta property="og:title" content="AgroCart App — USDA Farm-to-Table Marketplace" />
-    <meta property="og:description" content="Discover the future of local agriculture with AgroCart App — connecting farmers directly with consumers, restaurants, and retailers." />
-    <meta property="og:image" content="https://www.agrochaincart.com/assets/linkimage-app.png" />
-    <meta property="og:site_name" content="AgroChain Cart" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@agrochaincart" />
-    <meta name="twitter:title" content="AgroChain Cart — Farm to Buyer, Direct." />
-    <meta name="twitter:description" content="Connecting farmers directly with consumers, restaurants, retailers, and institutions." />
-    <meta name="twitter:image" content="https://www.agrochaincart.com/assets/linkimage-app.png" />    
-    <meta name="theme-color" content="#2d6a4f" />
-  
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='85'>🌾</text></svg>" />
-  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <!-- Load libraries synchronously (no defer) so they're ready before our code -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
     :root {
-      --bg-base: #0a100c;
-      --bg-glass: rgba(18, 25, 18, 0.7);
-      --bg-card: rgba(20, 28, 20, 0.6);
-      --border: rgba(90, 122, 82, 0.3);
-      --border-light: rgba(90, 122, 82, 0.2);
-      --text-primary: #F5F0E8;
-      --text-secondary: rgba(245, 240, 232, 0.7);
-      --accent: #A8D48A;
-      --accent-dim: rgba(168, 212, 138, 0.15);
-      --sage: #5A7A52;
-      --sage-light: #7BA370;
-      --sage-dark: #3D5C36;
-      --danger: #f87171;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --radius-sm: 12px;
-      --radius-md: 20px;
-      --radius-lg: 28px;
-      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg-base:#0a100c; --bg-glass:rgba(18,25,18,0.72); --bg-card:rgba(20,28,20,0.62);
+      --border:rgba(90,122,82,0.3); --border-light:rgba(90,122,82,0.18);
+      --text-primary:#F5F0E8; --text-secondary:rgba(245,240,232,0.62);
+      --accent:#A8D48A; --accent-dim:rgba(168,212,138,0.14);
+      --sage:#5A7A52; --sage-light:#7BA370; --sage-dark:#3D5C36;
+      --danger:#f87171; --gold:#f5d878;
+      --shadow:0 8px 32px rgba(0,0,0,0.42);
+      --radius-sm:12px; --radius-md:20px; --radius-lg:28px;
+      --transition:0.25s cubic-bezier(0.4,0,0.2,1);
+      /* KEY: nav-section label colour reacts to theme */
+      --nav-section-color:rgba(168,212,138,0.55);
     }
 
     body.light-mode {
-      --bg-base: #F5F0E8;
-      --bg-glass: rgba(255, 250, 240, 0.75);
-      --bg-card: rgba(255, 250, 240, 0.65);
-      --border: rgba(90, 122, 82, 0.25);
-      --border-light: rgba(90, 122, 82, 0.12);
-      --text-primary: #1a2e14;
-      --text-secondary: rgba(26, 46, 20, 0.7);
-      --accent: #5A7A52;
-      --accent-dim: rgba(90, 122, 82, 0.1);
-      --sage: #4a6743;
-      --sage-light: #6b8f63;
-      --sage-dark: #3a5235;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --bg-base:#F5F0E8; --bg-glass:rgba(255,250,240,0.76); --bg-card:rgba(255,250,240,0.66);
+      --border:rgba(90,122,82,0.24); --border-light:rgba(90,122,82,0.12);
+      --text-primary:#1a2e14; --text-secondary:rgba(26,46,20,0.68);
+      --accent:#4a6a40; --accent-dim:rgba(90,122,82,0.1);
+      --sage:#4a6743; --sage-light:#6b8f63; --sage-dark:#3a5235;
+      --shadow:0 8px 32px rgba(0,0,0,0.1);
+      /* light mode: dark green readable on cream */
+      --nav-section-color:rgba(50,80,40,0.72);
     }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg-base);
-      color: var(--text-primary);
-      overflow-x: hidden;
-      transition: background 0.3s, color 0.3s;
-    }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg-base); color:var(--text-primary); overflow-x:hidden; transition:background .35s,color .35s; }
 
-    /* Animated background */
-    .bg-hero {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format') no-repeat center center fixed;
-      background-size: cover;
-      filter: blur(12px) brightness(0.45);
-      transform: scale(1.03);
-    }
-    body.light-mode .bg-hero {
-      filter: blur(15px) brightness(0.9) sepia(0.1);
-    }
-    .bg-grain {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      opacity: 0.05;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .particles {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-    }
+    /* Backgrounds */
+    .bg-hero { position:fixed;inset:0;z-index:0; background:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format') no-repeat center/cover fixed; filter:blur(12px) brightness(0.45); transform:scale(1.03); transition:filter .4s; }
+    body.light-mode .bg-hero { filter:blur(15px) brightness(0.88) sepia(0.12); }
+    .bg-grain { position:fixed;inset:0;z-index:1;opacity:.05;pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); }
+    .particles { position:fixed;inset:0;z-index:2;pointer-events:none; }
 
-    /* App shell */
-    .app-shell {
-      position: relative;
-      z-index: 12;
-      display: flex;
-      min-height: 100vh;
-      width: 100%;
-    }
+    /* Shell */
+    .app-shell { position:relative;z-index:12;display:flex;min-height:100vh;width:100%; }
 
     /* Sidebar */
-    .sidebar {
-      width: 280px;
-      background: rgba(12, 18, 12, 0.7);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border-right: 1px solid var(--border);
-      padding: 1.5rem 0;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      flex-shrink: 0;
-      transition: transform 0.2s, background 0.3s;
-      display: flex;
-      flex-direction: column;
-    }
-    body.light-mode .sidebar {
-      background: rgba(245, 240, 232, 0.75);
-      backdrop-filter: blur(30px);
-      border-right: 1px solid var(--border);
-    }
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-thumb { background: var(--sage-dark); border-radius: 4px; }
+    .sidebar { width:272px; background:rgba(10,16,10,0.8); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border-right:1px solid var(--border); padding:1.5rem 0 1rem; position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0; transition:transform .2s,background .35s; display:flex;flex-direction:column; }
+    body.light-mode .sidebar { background:rgba(245,240,232,0.84); }
+    .sidebar::-webkit-scrollbar { width:3px; }
+    .sidebar::-webkit-scrollbar-thumb { background:var(--sage-dark);border-radius:4px; }
 
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 800;
-      padding: 0 1.5rem 1rem;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--accent);
-    }
-    .nav-section {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(168, 212, 138, 0.5);
-      padding: 0.75rem 1.5rem 0.3rem;
-    }
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      padding: 0.65rem 1.5rem;
-      margin: 0.1rem 0.6rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      color: var(--text-secondary);
-      font-size: 0.88rem;
-      font-weight: 500;
-      transition: all var(--transition);
-    }
-    .nav-item i { width: 20px; text-align: center; font-size: 0.95rem; }
-    .nav-item:hover { background: var(--accent-dim); color: var(--text-primary); transform: translateX(4px); }
-    .nav-item.active {
-      background: rgba(90, 122, 82, 0.25);
-      color: var(--accent);
-      border: 1px solid rgba(90, 122, 82, 0.4);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .nav-badge {
-      margin-left: auto;
-      background: var(--sage-dark);
-      color: var(--accent);
-      font-size: 0.65rem;
-      padding: 0.1rem 0.5rem;
-      border-radius: 20px;
-    }
-    .theme-toggle {
-      margin: 1rem 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      color: var(--text-secondary);
-      padding: 0.4rem 0.8rem;
-      border-radius: 30px;
-      background: var(--accent-dim);
-      transition: var(--transition);
-    }
-    .theme-toggle:hover { background: rgba(90,122,82,0.2); }
-    .sidebar-cart {
-      margin: auto 0.8rem 1rem;
-      padding: 1rem;
-      background: rgba(90, 122, 82, 0.08);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-    }
-    .sidebar-cart h4 { font-size: 0.8rem; margin-bottom: 0.6rem; display: flex; gap: 0.5rem; }
-    .cart-item-list { max-height: 150px; overflow-y: auto; }
-    .cart-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(90,122,82,0.15); }
-    .cart-total { display: flex; justify-content: space-between; font-weight: 600; margin: 0.6rem 0; font-size: 0.8rem; }
-    .btn-checkout { width: 100%; padding: 0.6rem; background: linear-gradient(120deg, var(--sage-dark), var(--sage-light)); border: none; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
-    .btn-checkout:hover { filter: brightness(1.1); transform: scale(1.02); }
+    .logo { font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:800; padding:0 1.4rem 1.1rem; letter-spacing:-0.5px;display:flex;align-items:center;gap:0.5rem;color:var(--accent); border-bottom:1px solid var(--border-light);margin-bottom:0.5rem; }
+    .logo small { font-size:0.6rem;font-family:'DM Sans',sans-serif;font-weight:400;color:var(--text-secondary);letter-spacing:0.12em;text-transform:uppercase;margin-left:auto; }
+
+    /* ── THE KEY FIX: .nav-section uses CSS var, changes per theme ── */
+    .nav-section { font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase; color:var(--nav-section-color); padding:1rem 1.4rem 0.3rem; display:flex;align-items:center;gap:0.6rem; }
+    .nav-section::after { content:'';flex:1;height:1px;background:var(--border-light); }
+
+    .nav-item { display:flex;align-items:center;gap:0.75rem; padding:0.6rem 1.4rem;margin:0.1rem 0.5rem; border-radius:var(--radius-sm);cursor:pointer; color:var(--text-secondary);font-size:0.87rem;font-weight:500; transition:all var(--transition);position:relative; }
+    .nav-item i { width:18px;text-align:center;font-size:0.9rem;color:var(--sage-light);transition:color var(--transition); }
+    .nav-item:hover { background:var(--accent-dim);color:var(--text-primary);transform:translateX(3px); }
+    .nav-item:hover i { color:var(--accent); }
+    .nav-item.active { background:rgba(90,122,82,0.22);color:var(--accent);border:1px solid rgba(90,122,82,0.35);box-shadow:0 2px 12px rgba(0,0,0,0.2); }
+    .nav-item.active i { color:var(--accent); }
+    .nav-badge { margin-left:auto;background:var(--sage-dark);color:var(--accent);font-size:0.62rem;padding:0.1rem 0.5rem;border-radius:20px;font-family:'DM Mono',monospace; }
+
+    .theme-toggle { margin:0.6rem 1rem 0.4rem;display:flex;align-items:center;gap:0.5rem;cursor:pointer; color:var(--text-secondary);padding:0.45rem 0.9rem;border-radius:30px; background:var(--accent-dim);border:1px solid var(--border-light); font-size:0.82rem;font-weight:500;transition:var(--transition); }
+    .theme-toggle:hover { background:rgba(90,122,82,0.2);color:var(--text-primary); }
+
+    .sidebar-cart { margin:auto 0.8rem 0.5rem;padding:1rem; background:rgba(90,122,82,0.07);border:1px solid var(--border-light);border-radius:var(--radius-md); }
+    .sidebar-cart h4 { font-size:0.8rem;margin-bottom:0.6rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-primary); }
+    .cart-item-list { max-height:140px;overflow-y:auto; }
+    .cart-row { display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;padding:0.3rem 0;border-bottom:1px solid rgba(90,122,82,0.12); }
+    .cart-total { display:flex;justify-content:space-between;font-weight:600;margin:0.6rem 0;font-size:0.8rem;color:var(--text-primary); }
+    .btn-checkout { width:100%;padding:0.65rem;background:linear-gradient(120deg,var(--sage-dark),var(--sage-light));border:none;border-radius:30px;color:white;font-weight:600;cursor:pointer;font-size:0.82rem;transition:all .2s;letter-spacing:0.02em;font-family:'DM Sans',sans-serif; }
+    .btn-checkout:hover { filter:brightness(1.12);transform:scale(1.02); }
 
     /* Main */
-    .main {
-      flex: 1;
-      padding: 1.5rem;
-      overflow-y: auto;
-      width: 100%;
-      max-width: 100%;
-    }
-    .view { display: none; animation: fadeSlide 0.35s ease; }
-    .view.active { display: block; }
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .main { flex:1;padding:1.5rem;overflow-y:auto;width:100%;max-width:100%; }
+    .view { display:none;animation:fadeSlide .32s ease; }
+    .view.active { display:block; }
+    @keyframes fadeSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-    /* Header */
-    .view-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-    .search-bar {
-      display: flex;
-      align-items: center;
-      background: var(--bg-glass);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 0.4rem 1rem;
-      gap: 0.5rem;
-      transition: box-shadow 0.3s;
-    }
-    .search-bar:focus-within { box-shadow: 0 0 0 3px var(--accent-dim); }
-    .search-bar input {
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-size: 0.85rem;
-      width: 200px;
-      outline: none;
-    }
-    .search-bar i { color: var(--accent); }
+    /* View header */
+    .view-header { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem; }
+    .view-header h2 { font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--text-primary); }
+    .view-header p { font-size:0.8rem;color:var(--text-secondary); }
 
-    /* KPI grid */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    @media (min-width: 768px) { .kpi-grid { grid-template-columns: repeat(4, 1fr); } }
-    .kpi-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-    .kpi-value { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 800; line-height: 1.2; color: var(--accent); }
-    .kpi-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-top: 0.2rem; }
+    .search-bar { display:flex;align-items:center;background:var(--bg-glass);backdrop-filter:blur(20px); border:1px solid var(--border);border-radius:40px;padding:0.4rem 1rem;gap:0.5rem;transition:box-shadow .3s; }
+    .search-bar:focus-within { box-shadow:0 0 0 3px var(--accent-dim); }
+    .search-bar input { background:transparent;border:none;color:var(--text-primary);font-size:0.85rem;width:200px;outline:none; }
+    .search-bar input::placeholder { color:var(--text-secondary); }
+    .search-bar i { color:var(--accent); }
 
-    /* Featured Carousel */
-    .featured-swiper { margin-bottom: 1.5rem; border-radius: var(--radius-lg); overflow: hidden; }
-    .swiper-slide { position: relative; }
-    .swiper-slide img { width: 100%; height: 260px; object-fit: cover; }
-    .swiper-slide .slide-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1.5rem;
-      background: linear-gradient(transparent, rgba(0,0,0,0.8));
-      color: white;
-    }
-    .swiper-pagination-bullet { background: var(--accent); }
+    /* KPIs */
+    .kpi-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.5rem; }
+    @media(min-width:768px) { .kpi-grid { grid-template-columns:repeat(4,1fr); } }
+    .kpi-card { background:var(--bg-card);backdrop-filter:blur(16px);border:1px solid var(--border-light); border-radius:var(--radius-md);padding:1.1rem;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden; }
+    .kpi-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--sage-dark),var(--accent));opacity:0.55; }
+    .kpi-card:hover { transform:translateY(-3px);box-shadow:var(--shadow); }
+    .kpi-value { font-family:'Playfair Display',serif;font-size:1.85rem;font-weight:800;line-height:1.2;color:var(--accent); }
+    .kpi-label { font-size:0.65rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-secondary);margin-top:0.25rem; }
+    .kpi-trend { font-size:0.62rem;margin-top:0.3rem;color:#4ade80; }
 
-    /* Filter bar */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      align-items: center;
-      margin-bottom: 1.2rem;
-    }
-    .filter-chip {
-      background: rgba(0,0,0,0.4);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 0.35rem 1rem;
-      font-size: 0.72rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--text-secondary);
-    }
-    .filter-chip.active, .filter-chip:hover { background: rgba(90,122,82,0.35); border-color: var(--accent); color: var(--accent); }
-    .sort-select {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 0.35rem 0.9rem;
-      color: var(--text-primary);
-      font-size: 0.72rem;
-      margin-left: auto;
-    }
+    /* Carousel */
+    .featured-swiper { margin-bottom:1.5rem;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow); }
+    .swiper-slide { position:relative; }
+    .swiper-slide img { width:100%;height:260px;object-fit:cover; }
+    .swiper-slide .slide-caption { position:absolute;bottom:0;left:0;right:0;padding:1.5rem; background:linear-gradient(transparent,rgba(0,0,0,0.85));color:white; }
+    .slide-caption strong { font-family:'Playfair Display',serif;font-size:1.1rem; }
+    .slide-badge { display:inline-block;background:var(--sage-dark);padding:0.15rem 0.55rem;border-radius:20px;font-size:0.65rem;margin-left:0.5rem;vertical-align:middle; }
+    .swiper-pagination-bullet-active { background:var(--accent); }
+
+    /* Filters */
+    .filter-bar { display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;margin-bottom:1.2rem; }
+    .filter-chip { background:var(--bg-glass);backdrop-filter:blur(10px); border:1px solid var(--border);border-radius:40px;padding:0.35rem 1rem; font-size:0.72rem;cursor:pointer;transition:all .2s;color:var(--text-secondary); }
+    .filter-chip.active,.filter-chip:hover { background:rgba(90,122,82,0.3);border-color:var(--accent);color:var(--accent); }
+    .sort-select { background:var(--bg-glass);backdrop-filter:blur(10px);border:1px solid var(--border); border-radius:40px;padding:0.35rem 0.9rem;color:var(--text-primary);font-size:0.72rem;margin-left:auto;outline:none;cursor:pointer; }
 
     /* Product grid */
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.2rem;
-    }
-    @media (min-width: 500px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 900px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (min-width: 1200px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
-    .product-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(14px);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--accent); }
-    .product-img { width: 100%; height: 170px; object-fit: cover; transition: transform 0.5s; }
-    .product-card:hover .product-img { transform: scale(1.05); }
-    .img-wrap { position: relative; overflow: hidden; }
-    .wishlist-btn {
-      position: absolute;
-      top: 0.7rem;
-      right: 0.7rem;
-      background: rgba(0,0,0,0.55);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: 0.2s;
-      color: white;
-      border: none;
-    }
-    .wishlist-btn.liked { color: #f43f5e; }
-    .quick-view-btn {
-      position: absolute;
-      bottom: 0.7rem;
-      left: 0.7rem;
-      background: var(--bg-glass);
-      backdrop-filter: blur(12px);
-      border-radius: 30px;
-      padding: 0.3rem 0.9rem;
-      font-size: 0.65rem;
-      cursor: pointer;
-      border: 1px solid var(--border-light);
-      color: var(--text-primary);
-      transition: 0.2s;
-    }
-    .product-info { padding: 0.9rem; }
-    .product-name { font-weight: 700; font-size: 0.95rem; }
-    .product-farm { font-size: 0.7rem; color: var(--text-secondary); display: flex; gap: 0.3rem; align-items: center; }
-    .rating { display: flex; align-items: center; gap: 0.2rem; font-size: 0.7rem; color: #f5d878; }
-    .price-row { display: flex; justify-content: space-between; align-items: center; margin: 0.5rem 0; }
-    .price { font-weight: 700; font-size: 1.1rem; }
-    .add-btn {
-      width: 100%;
-      background: rgba(90,122,82,0.25);
-      border: 1px solid rgba(90,122,82,0.4);
-      border-radius: 40px;
-      padding: 0.5rem;
-      font-weight: 600;
-      font-size: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      transition: 0.2s;
-      color: var(--text-primary);
-    }
-    .add-btn:hover { background: var(--sage); color: white; }
+    .product-grid { display:grid;grid-template-columns:1fr;gap:1.2rem; }
+    @media(min-width:500px) { .product-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:900px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
+    @media(min-width:1200px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
+    .product-card { background:var(--bg-card);backdrop-filter:blur(14px);border-radius:var(--radius-md); overflow:hidden;border:1px solid var(--border);transition:all .3s ease;position:relative; }
+    .product-card:hover { transform:translateY(-5px);box-shadow:var(--shadow);border-color:rgba(168,212,138,0.4); }
+    .product-img { width:100%;height:170px;object-fit:cover;transition:transform .5s; }
+    .product-card:hover .product-img { transform:scale(1.05); }
+    .img-wrap { position:relative;overflow:hidden; }
+    .organic-tag { position:absolute;top:0.6rem;left:0.6rem;background:rgba(20,60,20,0.88);backdrop-filter:blur(8px);font-size:0.6rem;padding:0.15rem 0.5rem;border-radius:20px;color:#86efac;border:1px solid rgba(134,239,172,0.3); }
+    .wishlist-btn { position:absolute;top:0.65rem;right:0.65rem;background:rgba(0,0,0,0.5); width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center; cursor:pointer;backdrop-filter:blur(8px);transition:.2s;color:white;border:none; }
+    .wishlist-btn.liked { color:#f43f5e;background:rgba(244,63,94,0.2); }
+    .quick-view-btn { position:absolute;bottom:.7rem;left:.7rem;background:var(--bg-glass); backdrop-filter:blur(12px);border-radius:30px;padding:.3rem .9rem; font-size:.65rem;cursor:pointer;border:1px solid var(--border-light); color:var(--text-primary);transition:.2s;opacity:0; }
+    .product-card:hover .quick-view-btn { opacity:1; }
+    .product-info { padding:0.9rem; }
+    .product-name { font-weight:700;font-size:0.95rem;color:var(--text-primary); }
+    .product-farm { font-size:0.7rem;color:var(--text-secondary);display:flex;gap:0.3rem;align-items:center;margin-top:0.2rem; }
+    .rating { display:flex;align-items:center;gap:0.2rem;font-size:0.7rem;color:var(--gold);margin-top:0.25rem; }
+    .price-row { display:flex;justify-content:space-between;align-items:center;margin:0.5rem 0; }
+    .price { font-weight:700;font-size:1.1rem;color:var(--text-primary); }
+    .add-btn { flex:1;background:rgba(90,122,82,0.2);border:1px solid rgba(90,122,82,0.35); border-radius:40px;padding:0.5rem;font-weight:600;font-size:0.75rem; display:flex;align-items:center;justify-content:center;gap:0.4rem; cursor:pointer;transition:.2s;color:var(--text-primary);font-family:'DM Sans',sans-serif; }
+    .add-btn:hover { background:var(--sage);color:white;border-color:var(--sage); }
+
+    /* Card */
+    .card { background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border); border-radius:var(--radius-md);padding:1.4rem;margin-bottom:1rem;color:var(--text-primary); }
+    .card h3 { font-size:1.05rem;font-weight:700;margin-bottom:1rem;color:var(--text-primary); }
+
+    /* Forms */
+    .form-input { display:block;width:100%;background:rgba(0,0,0,0.28);border:1px solid var(--border); border-radius:var(--radius-sm);padding:0.65rem 1rem;color:var(--text-primary); font-size:0.85rem;font-family:'DM Sans',sans-serif;margin-bottom:0.7rem; transition:border-color .2s,box-shadow .2s;outline:none; }
+    body.light-mode .form-input { background:rgba(255,255,255,0.55); }
+    .form-input:focus { border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim); }
+    .form-input::placeholder { color:var(--text-secondary); }
+    .form-row { display:flex;gap:0.7rem;margin-bottom:0.7rem; }
+    .form-row .form-input { margin-bottom:0;flex:1; }
+    .form-label { font-size:0.72rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:0.35rem;display:block; }
+    .btn-primary { display:block;width:100%;padding:0.75rem; background:linear-gradient(120deg,var(--sage-dark),var(--sage-light)); border:none;border-radius:40px;color:white;font-weight:700;cursor:pointer; font-size:0.88rem;transition:all .2s;letter-spacing:0.02em; font-family:'DM Sans',sans-serif;margin-top:0.5rem; }
+    .btn-primary:hover { filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 16px rgba(90,122,82,0.3); }
+    .btn-secondary { display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1.2rem; background:var(--accent-dim);border:1px solid var(--border);border-radius:40px; color:var(--text-primary);font-size:0.8rem;font-weight:500;cursor:pointer;transition:.2s; font-family:'DM Sans',sans-serif; }
+    .btn-secondary:hover { background:rgba(90,122,82,0.25);border-color:var(--accent); }
+
+    /* Pills */
+    .status-pill { display:inline-flex;align-items:center;gap:0.3rem;background:rgba(90,122,82,0.2);border:1px solid rgba(90,122,82,0.4);color:var(--accent);padding:0.2rem 0.7rem;border-radius:20px;font-size:0.7rem;font-weight:600; }
+    .status-pill.warning { background:rgba(245,216,120,0.15);border-color:rgba(245,216,120,0.4);color:var(--gold); }
+    .status-pill.danger { background:rgba(248,113,113,0.15);border-color:rgba(248,113,113,0.4);color:var(--danger); }
+
+    /* Progress */
+    .progress-bar { background:rgba(90,122,82,0.15);border-radius:40px;height:6px;overflow:hidden;margin:0.6rem 0; }
+    .progress-fill { height:100%;background:linear-gradient(90deg,var(--sage-dark),var(--accent));border-radius:40px;transition:width .6s ease; }
+
+    /* Charts */
+    .chart-card { background:var(--bg-card);backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:1.2rem; }
+    .chart-card h4 { font-size:0.78rem;font-weight:600;margin-bottom:1rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em; }
+    .charts-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem; }
 
     /* Modal */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 400;
-      visibility: hidden;
-      opacity: 0;
-      transition: 0.25s;
-    }
-    .modal.open { visibility: visible; opacity: 1; }
-    .modal-content {
-      background: var(--bg-glass);
-      backdrop-filter: blur(30px);
-      border-radius: var(--radius-lg);
-      padding: 1.8rem;
-      width: 95%;
-      max-width: 500px;
-      border: 1px solid var(--border);
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-    .detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius-sm); }
+    .modal { position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px); display:flex;align-items:center;justify-content:center;z-index:400; visibility:hidden;opacity:0;transition:.25s; }
+    .modal.open { visibility:visible;opacity:1; }
+    .modal-content { background:var(--bg-glass);backdrop-filter:blur(30px);border-radius:var(--radius-lg); padding:1.8rem;width:95%;max-width:520px;border:1px solid var(--border); max-height:88vh;overflow-y:auto; }
+    .modal-content h3 { font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:1rem;color:var(--text-primary); }
+    .detail-img { width:100%;height:200px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:0.8rem; }
 
     /* Toast */
-    .toast-container {
-      position: fixed;
-      bottom: 100px;
-      right: 1rem;
-      z-index: 500;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .toast {
-      background: rgba(14,20,10,0.98);
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 0.7rem 1.2rem;
-      font-size: 0.8rem;
-      border-left: 4px solid var(--accent);
-      box-shadow: var(--shadow);
-      animation: toastIn 0.3s ease;
-    }
-    @keyframes toastIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    .toast-container { position:fixed;bottom:100px;right:1rem;z-index:500;display:flex;flex-direction:column;gap:0.5rem; }
+    .toast { background:rgba(10,16,10,0.97);backdrop-filter:blur(12px);border-radius:16px; padding:0.7rem 1.2rem;font-size:0.8rem;border-left:4px solid var(--accent); box-shadow:var(--shadow);animation:toastIn .3s ease;color:var(--text-primary);display:flex;align-items:center;gap:0.5rem; }
+    .toast.error { border-left-color:var(--danger); }
+    .toast.success { border-left-color:#4ade80; }
+    @keyframes toastIn { from{opacity:0;transform:translateX(50px)} to{opacity:1;transform:translateX(0)} }
 
-    /* Mobile bottom nav */
-    .mobile-bottom-nav {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(12,18,12,0.96);
-      backdrop-filter: blur(30px);
-      border-top: 1px solid var(--border);
-      justify-content: space-around;
-      padding: 0.5rem 0.5rem 0.7rem;
-      z-index: 100;
-    }
-    .mob-nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.2rem;
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      font-size: 0.65rem;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .mob-nav-item i { font-size: 1.3rem; }
-    .mob-nav-item.active { color: var(--accent); }
-
-    @media (max-width: 767px) {
-      .sidebar { display: none; }
-      .mobile-bottom-nav { display: flex; }
-      .main { padding-bottom: 80px; }
-      .kpi-value { font-size: 1.4rem; }
-    }
+    /* Mobile nav */
+    .mobile-bottom-nav { display:none;position:fixed;bottom:0;left:0;right:0; background:rgba(10,16,10,0.97);backdrop-filter:blur(30px); border-top:1px solid var(--border);justify-content:space-around; padding:0.5rem 0.3rem 0.7rem;z-index:100; }
+    body.light-mode .mobile-bottom-nav { background:rgba(245,240,232,0.97); }
+    .mob-nav-item { display:flex;flex-direction:column;align-items:center;gap:0.2rem;background:none;border:none; color:var(--text-secondary);font-size:0.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0.2rem 0.5rem;border-radius:10px;transition:color .2s; }
+    .mob-nav-item i { font-size:1.2rem; }
+    .mob-nav-item.active { color:var(--accent); }
+    @media(max-width:767px) { .sidebar{display:none} .mobile-bottom-nav{display:flex} .main{padding-bottom:80px} .kpi-value{font-size:1.4rem} }
 
     /* Compare bar */
-    .compare-bar {
-      position: fixed;
-      bottom: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg-glass);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 0.4rem 1.2rem;
-      display: flex;
-      gap: 0.8rem;
-      align-items: center;
-      z-index: 99;
-      box-shadow: var(--shadow);
-      display: none;
-    }
-    .compare-bar.active { display: flex; }
-    .compare-item { display: flex; align-items: center; gap: 0.4rem; background: rgba(90,122,82,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.7rem; }
-    .compare-btn { background: var(--sage); border: none; border-radius: 30px; padding: 0.3rem 0.8rem; color: white; font-size: 0.7rem; cursor: pointer; }
+    .compare-bar { position:fixed;bottom:70px;left:50%;transform:translateX(-50%); background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border); border-radius:40px;padding:0.5rem 1.2rem;display:none;gap:0.8rem;align-items:center; z-index:99;box-shadow:var(--shadow); }
+    .compare-bar.active { display:flex; }
+    .compare-item { display:flex;align-items:center;gap:0.4rem;background:rgba(90,122,82,0.2);padding:0.2rem 0.6rem;border-radius:20px;font-size:0.7rem;color:var(--text-primary); }
+    .compare-btn { background:var(--sage);border:none;border-radius:30px;padding:0.35rem 0.9rem;color:white;font-size:0.72rem;cursor:pointer;font-family:'DM Sans',sans-serif; }
+
+    /* ═══ TAB SYSTEM ═══ */
+    .tab-nav { display:flex;gap:0.4rem;background:rgba(0,0,0,0.22);padding:0.35rem;border-radius:var(--radius-md); margin-bottom:1.5rem;border:1px solid var(--border-light); }
+    body.light-mode .tab-nav { background:rgba(255,255,255,0.3); }
+    .tab-btn { flex:1;padding:0.6rem;border:none;border-radius:var(--radius-sm);cursor:pointer; font-size:0.8rem;font-weight:600;font-family:'DM Sans',sans-serif; color:var(--text-secondary);background:transparent;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:0.4rem; }
+    .tab-btn.active { background:linear-gradient(135deg,var(--sage-dark),var(--sage));color:white;box-shadow:0 4px 12px rgba(0,0,0,0.3); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+
+    /* ═══ FARMER HUB ═══ */
+    .hub-hero { background:linear-gradient(135deg,rgba(61,92,54,0.38),rgba(90,122,82,0.18)); border:1px solid rgba(90,122,82,0.35);border-radius:var(--radius-lg); padding:1.6rem;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem; }
+    .hub-hero h2 { font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--text-primary); }
+    .hub-hero p { font-size:0.82rem;color:var(--text-secondary);margin-top:0.3rem;max-width:420px; }
+    .hub-stats { display:flex;gap:1.2rem;flex-wrap:wrap; }
+    .hub-stat .val { font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent);font-weight:800; }
+    .hub-stat .lbl { font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary); }
+    .two-col { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
+    @media(max-width:700px) { .two-col{grid-template-columns:1fr} }
+
+    .organic-toggle { display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1rem; background:rgba(90,122,82,0.08);border:1px solid var(--border-light);border-radius:var(--radius-sm);margin-bottom:0.7rem;cursor:pointer; }
+    .organic-toggle span { font-size:0.85rem;color:var(--text-primary); }
+    .toggle-sw { width:38px;height:20px;background:var(--border);border-radius:20px;position:relative;transition:.25s; }
+    .toggle-sw::after { content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:white;transition:.25s; }
+    .toggle-sw.on { background:var(--sage); }
+    .toggle-sw.on::after { left:21px; }
+
+    .product-table { width:100%;border-collapse:collapse;font-size:0.8rem; }
+    .product-table th { padding:0.5rem 0.7rem;text-align:left;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);border-bottom:1px solid var(--border); }
+    .product-table td { padding:0.6rem 0.7rem;border-bottom:1px solid rgba(90,122,82,0.08);color:var(--text-primary); }
+    .product-table tr:last-child td { border-bottom:none; }
+
+    .grant-card { background:linear-gradient(135deg,rgba(61,92,54,0.28),rgba(10,16,10,0.38)); border:1px solid rgba(90,122,82,0.4);border-radius:var(--radius-md);padding:1.2rem;margin-bottom:0.8rem; }
+    .grant-card h4 { font-size:0.9rem;font-weight:700;color:var(--accent);margin-bottom:0.4rem; }
+    .grant-card p { font-size:0.78rem;color:var(--text-secondary);line-height:1.55;margin-bottom:0.6rem; }
+    .grant-amount { font-family:'DM Mono',monospace;font-size:1.1rem;color:var(--gold);font-weight:500; }
+
+    /* ═══ INSTITUTIONAL ═══ */
+    .inst-hero { background:linear-gradient(135deg,rgba(20,40,60,0.45),rgba(30,60,90,0.18)); border:1px solid rgba(100,150,200,0.18);border-radius:var(--radius-lg);padding:1.6rem;margin-bottom:1.2rem; }
+    .inst-hero h2 { font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text-primary); }
+    .inst-hero p { font-size:0.82rem;color:var(--text-secondary);margin-top:0.3rem; }
+    .partner-logos { display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1rem; }
+    .partner-logo { background:var(--accent-dim);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.5rem 1rem;font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem; }
+    .partner-logo i { color:var(--accent); }
+    .contract-row { display:flex;justify-content:space-between;align-items:center; padding:0.9rem;background:rgba(0,0,0,0.18);border-radius:var(--radius-sm); border:1px solid var(--border-light);margin-bottom:0.6rem;flex-wrap:wrap;gap:0.5rem; }
+    body.light-mode .contract-row { background:rgba(255,255,255,0.3); }
+    .contract-row .inst-name { font-weight:600;font-size:0.88rem;color:var(--text-primary); }
+    .contract-row .inst-meta { font-size:0.72rem;color:var(--text-secondary);margin-top:0.1rem; }
+    .contract-savings .amount { font-family:'DM Mono',monospace;font-size:0.95rem;color:var(--accent);font-weight:600; }
+    .contract-savings .save-note { font-size:0.65rem;color:#4ade80; }
+    .info-banner { background:rgba(90,122,82,0.1);border:1px solid rgba(90,122,82,0.25);border-radius:var(--radius-sm); padding:0.8rem 1rem;font-size:0.78rem;color:var(--text-secondary);display:flex;gap:0.6rem;align-items:flex-start;margin-bottom:1rem; }
+    .info-banner i { color:var(--accent);margin-top:0.1rem;flex-shrink:0; }
+
+    /* ═══ ANALYTICS ═══ */
+    .analytics-hero { display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.8rem;margin-bottom:1.5rem; }
+    .metric-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:1rem; display:flex;flex-direction:column;gap:0.25rem; }
+    .metric-card .m-icon { font-size:1.3rem; }
+    .metric-card .m-val { font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:var(--accent); }
+    .metric-card .m-lbl { font-size:0.63rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary); }
+    .metric-card .m-chg { font-size:0.7rem;color:#4ade80; }
+
+    /* ═══ LOGISTICS ═══ */
+    .logistics-map-placeholder { background:linear-gradient(135deg,rgba(20,40,30,0.6),rgba(10,20,15,0.8)); border:1px solid var(--border);border-radius:var(--radius-lg); height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem; margin-bottom:1.2rem;position:relative;overflow:hidden; }
+    .logistics-map-placeholder::before { content:'';position:absolute;inset:0; background:radial-gradient(ellipse at 30% 60%,rgba(90,122,82,0.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(168,212,138,0.07) 0%,transparent 50%); }
+    .map-dot { width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim);animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 4px var(--accent-dim)} 50%{box-shadow:0 0 0 12px rgba(168,212,138,0.04)} }
+    .shipment-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md); padding:1rem;margin-bottom:0.7rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap; }
+    .ship-icon { width:40px;height:40px;border-radius:12px;background:rgba(90,122,82,0.15);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0; }
+    .ship-info { flex:1; }
+    .ship-info .route { font-weight:600;font-size:0.88rem;color:var(--text-primary); }
+    .ship-info .detail { font-size:0.72rem;color:var(--text-secondary);margin-top:0.15rem; }
+    .ship-progress { flex:1;min-width:120px; }
+    .ship-eta { text-align:right; }
+    .ship-eta .time { font-family:'DM Mono',monospace;color:var(--accent);font-size:0.9rem;font-weight:600; }
+
+    /* ═══ IMPACT ═══ */
+    .impact-hero { background:linear-gradient(135deg,rgba(20,50,20,0.5),rgba(30,80,30,0.18)); border:1px solid rgba(74,222,128,0.2);border-radius:var(--radius-lg); padding:1.8rem;margin-bottom:1.5rem;text-align:center; }
+    .impact-hero h2 { font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--text-primary); }
+    .impact-hero p { font-size:0.85rem;color:var(--text-secondary);margin-top:0.4rem;max-width:500px;margin-left:auto;margin-right:auto; }
+    .sdg-chips { display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-top:1rem; }
+    .sdg-chip { background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);border-radius:20px;padding:0.3rem 0.8rem;font-size:0.7rem;color:#86efac; }
+    .impact-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem; }
+    .impact-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:1.2rem;text-align:center; }
+    .impact-card .i-icon { font-size:1.8rem;margin-bottom:0.5rem; }
+    .impact-card .i-val { font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:800;color:var(--accent); }
+    .impact-card .i-lbl { font-size:0.72rem;color:var(--text-secondary);margin-top:0.2rem; }
+    .testimonial-card { background:var(--bg-glass);border:1px solid var(--border);border-radius:var(--radius-md); padding:1.3rem;margin-bottom:0.8rem;position:relative; }
+    .testimonial-card::before { content:'\201C';font-family:'Playfair Display',serif;font-size:4rem;color:var(--accent);opacity:0.18;position:absolute;top:-0.5rem;left:1rem;line-height:1; }
+    .testimonial-card p { font-size:0.85rem;color:var(--text-primary);font-style:italic;line-height:1.6;padding-left:0.5rem; }
+    .testimonial-card .tauthor { font-size:0.72rem;color:var(--text-secondary);margin-top:0.6rem;padding-left:0.5rem;font-style:normal; }
+    .testimonial-card .tauthor strong { color:var(--accent); }
+
+    /* ═══ AI ASSISTANT ═══ */
+    .ai-chat-wrap { display:flex;flex-direction:column;min-height:400px; }
+    .ai-header { display:flex;align-items:center;gap:0.8rem;padding:1rem 1.2rem; background:linear-gradient(135deg,rgba(61,92,54,0.3),rgba(20,40,20,0.4));border:1px solid var(--border); border-radius:var(--radius-lg);margin-bottom:1rem; }
+    .ai-avatar { width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--sage-dark),var(--sage-light));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0; }
+    .ai-header-info h3 { font-size:0.95rem;font-weight:700;color:var(--text-primary); }
+    .ai-online { display:flex;align-items:center;gap:0.4rem;font-size:0.65rem;color:#4ade80;margin-top:0.2rem; }
+    .ai-online::before { content:'';width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite; }
+    .ai-messages-wrap { height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:0.8rem; padding:1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:0.8rem; }
+    .ai-messages-wrap::-webkit-scrollbar { width:3px; }
+    .ai-messages-wrap::-webkit-scrollbar-thumb { background:var(--sage-dark);border-radius:4px; }
+    .ai-msg { display:flex;gap:0.6rem;align-items:flex-start;max-width:85%; }
+    .ai-msg.user { align-self:flex-end;flex-direction:row-reverse; }
+    .ai-msg .bubble { padding:0.7rem 1rem;border-radius:18px;font-size:0.83rem;line-height:1.5;color:var(--text-primary); }
+    .ai-msg.bot .bubble { background:rgba(90,122,82,0.15);border:1px solid var(--border-light);border-bottom-left-radius:4px; }
+    .ai-msg.user .bubble { background:rgba(90,122,82,0.35);border-bottom-right-radius:4px; }
+    .ai-msg .msg-av { width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;margin-top:2px; }
+    .ai-msg.bot .msg-av { background:linear-gradient(135deg,var(--sage-dark),var(--sage));color:white; }
+    .ai-msg.user .msg-av { background:rgba(90,122,82,0.3);color:var(--accent); }
+    .ai-suggestions { display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.8rem; }
+    .ai-suggestion { background:var(--accent-dim);border:1px solid var(--border);border-radius:20px;padding:0.4rem 0.9rem;font-size:0.75rem;cursor:pointer;color:var(--text-secondary);transition:.2s;font-family:'DM Sans',sans-serif; }
+    .ai-suggestion:hover { background:rgba(90,122,82,0.25);color:var(--text-primary);border-color:var(--accent); }
+    .ai-input-row { display:flex;gap:0.5rem; }
+    .ai-input-row input { flex:1;background:var(--bg-glass);border:1px solid var(--border);border-radius:40px; padding:0.7rem 1.2rem;color:var(--text-primary);font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none; transition:border-color .2s,box-shadow .2s; }
+    .ai-input-row input:focus { border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim); }
+    .ai-input-row input::placeholder { color:var(--text-secondary); }
+    .ai-send-btn { background:linear-gradient(135deg,var(--sage-dark),var(--sage-light));border:none;border-radius:50%;width:42px;height:42px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0; }
+    .ai-send-btn:hover { filter:brightness(1.1);transform:scale(1.05); }
+
+    /* Orders */
+    .order-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md); padding:1.1rem;margin-bottom:0.8rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap; }
+    .order-icon { width:42px;height:42px;border-radius:12px;background:rgba(90,122,82,0.15);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0; }
+    .order-id { font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--text-secondary); }
+    .order-items { font-size:0.78rem;color:var(--text-primary);margin-top:0.2rem; }
+    .order-total { font-weight:700;font-size:0.95rem;color:var(--accent);font-family:'DM Mono',monospace; }
+    .page-header { margin-bottom:1.5rem; }
+    .page-header h2 { font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--text-primary); }
+    .page-header p { font-size:0.82rem;color:var(--text-secondary);margin-top:0.3rem; }
   </style>
 </head>
 <body class="dark">
@@ -520,17 +340,20 @@
   <canvas class="particles" id="particleCanvas"></canvas>
 
   <div class="app-shell">
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="logo">🌾 AgroCart</div>
-      <div class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><span>Dark</span></div>
+      <div class="logo">🌾 AgroCart <small>USDA</small></div>
+      <div class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><span>Dark Mode</span></div>
+
       <div class="nav-section">Marketplace</div>
       <div class="nav-item active" data-view="marketplace"><i class="fas fa-store"></i> Browse Produce <span class="nav-badge" id="productCountBadge">0</span></div>
       <div class="nav-item" data-view="wishlist"><i class="fas fa-heart"></i> Wishlist <span class="nav-badge" id="wishlistBadge">0</span></div>
       <div class="nav-item" data-view="orders"><i class="fas fa-receipt"></i> My Orders</div>
+
       <div class="nav-section">Producer</div>
-      <div class="nav-item" data-view="farmer"><i class="fas fa-seedling"></i> Farmer Hub (FMPP)</div>
+      <div class="nav-item" data-view="farmer"><i class="fas fa-seedling"></i> Farmer Hub</div>
       <div class="nav-item" data-view="institutional"><i class="fas fa-building"></i> Institutional / LFPP</div>
+
       <div class="nav-section">Intelligence</div>
       <div class="nav-item" data-view="analytics"><i class="fas fa-chart-line"></i> Analytics</div>
       <div class="nav-item" data-view="logistics"><i class="fas fa-truck"></i> Smart Logistics</div>
@@ -541,118 +364,466 @@
         <h4><i class="fas fa-basket-shopping"></i> Cart (<span id="cartCountSidebar">0</span>)</h4>
         <div id="sidebarCartItems" class="cart-item-list"></div>
         <div class="cart-total"><span>Total</span><span>$<span id="cartTotalSidebar">0.00</span></span></div>
-        <button class="btn-checkout" onclick="openCheckout()">Secure Checkout</button>
+        <button class="btn-checkout" onclick="openCheckout()"><i class="fas fa-lock" style="margin-right:.4rem;font-size:.75rem;"></i>Secure Checkout</button>
       </div>
     </aside>
 
-    <!-- Main Content -->
+    <!-- MAIN -->
     <main class="main">
-      <!-- Marketplace View -->
+
+      <!-- MARKETPLACE -->
       <div id="view-marketplace" class="view active">
         <div class="view-header">
           <div>
-            <h2 style="font-family:'Playfair Display'; font-size:1.8rem;">Fresh from the Field</h2>
-            <p style="font-size:0.8rem;">Direct farmgate · No middlemen</p>
+            <h2>Fresh from the Field</h2>
+            <p>Direct farmgate · No middlemen · USDA-verified</p>
           </div>
           <div class="search-bar">
             <i class="fas fa-search"></i>
             <input type="text" id="globalSearch" placeholder="Search produce, farm..." oninput="renderMarketplace()" />
           </div>
         </div>
-        <!-- Featured Carousel -->
         <div class="featured-swiper swiper mySwiper">
           <div class="swiper-wrapper" id="featuredSlides"></div>
           <div class="swiper-pagination"></div>
         </div>
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-value" id="kpiGMV">$8.42M</div><div class="kpi-label">GMV YTD</div></div>
-          <div class="kpi-card"><div class="kpi-value">34.6%</div><div class="kpi-label">Farmer Share</div></div>
-          <div class="kpi-card"><div class="kpi-value" id="kpiProducts">0</div><div class="kpi-label">Products</div></div>
-          <div class="kpi-card"><div class="kpi-value">2.1M</div><div class="kpi-label">Waste Saved</div></div>
+          <div class="kpi-card"><div class="kpi-value" id="kpiGMV">$8.42M</div><div class="kpi-label">GMV YTD</div><div class="kpi-trend">↑ 18.4% vs last year</div></div>
+          <div class="kpi-card"><div class="kpi-value">34.6%</div><div class="kpi-label">Farmer Share</div><div class="kpi-trend">↑ from 29% in 2024</div></div>
+          <div class="kpi-card"><div class="kpi-value" id="kpiProducts">0</div><div class="kpi-label">Listed Products</div><div class="kpi-trend">Across 5 regions</div></div>
+          <div class="kpi-card"><div class="kpi-value">2.1M lbs</div><div class="kpi-label">Waste Saved</div><div class="kpi-trend">↑ 67% vs 2024</div></div>
         </div>
         <div class="filter-bar">
-          <button class="filter-chip active" data-region="all">All</button>
-          <button class="filter-chip" data-region="CA">CA</button><button class="filter-chip" data-region="NY">NY</button><button class="filter-chip" data-region="TX">TX</button><button class="filter-chip" data-region="FL">FL</button><button class="filter-chip" data-region="WA">WA</button>
-          <button class="filter-chip" id="organicFilter">🌿 Organic</button>
+          <button class="filter-chip active" data-region="all"><i class="fas fa-globe-americas"></i> All</button>
+          <button class="filter-chip" data-region="CA">🌴 CA</button>
+          <button class="filter-chip" data-region="NY">🗽 NY</button>
+          <button class="filter-chip" data-region="TX">⭐ TX</button>
+          <button class="filter-chip" data-region="FL">🌞 FL</button>
+          <button class="filter-chip" data-region="WA">🌲 WA</button>
+          <button class="filter-chip" id="organicFilter">🌿 Organic Only</button>
           <select class="sort-select" id="sortSelect">
-            <option value="default">Sort</option>
-            <option value="price-asc">Price ↑</option>
-            <option value="price-desc">Price ↓</option>
+            <option value="default">Sort by</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
             <option value="rating">Top Rated</option>
           </select>
         </div>
         <div class="product-grid" id="productGrid"></div>
       </div>
 
-      <!-- Wishlist -->
-      <div id="view-wishlist" class="view"><h2>Your Wishlist</h2><div class="product-grid" id="wishlistGrid"></div><div id="wishlistEmpty" style="display:none; text-align:center; padding:2rem;"><i class="fas fa-heart" style="font-size:2rem;"></i><p>No saved items</p></div></div>
+      <!-- WISHLIST -->
+      <div id="view-wishlist" class="view">
+        <div class="page-header"><h2>Your Wishlist</h2><p>Products saved for later</p></div>
+        <div class="product-grid" id="wishlistGrid"></div>
+        <div id="wishlistEmpty" style="display:none;text-align:center;padding:3rem;">
+          <div style="font-size:3rem;margin-bottom:1rem;">🌾</div>
+          <h3 style="font-family:'Playfair Display',serif;color:var(--text-primary);">Nothing saved yet</h3>
+          <p style="color:var(--text-secondary);margin-top:.5rem;font-size:.85rem;">Browse the marketplace and tap ♥ to save items.</p>
+        </div>
+      </div>
 
-      <!-- Orders -->
-      <div id="view-orders" class="view"><h2>My Orders</h2><div id="ordersList"></div></div>
+      <!-- ORDERS -->
+      <div id="view-orders" class="view">
+        <div class="page-header"><h2>My Orders</h2><p>Track your farm-fresh deliveries</p></div>
+        <div id="ordersList"></div>
+      </div>
 
-      <!-- Farmer Hub -->
+      <!-- FARMER HUB -->
       <div id="view-farmer" class="view">
-        <div class="card" style="background:var(--bg-glass); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:var(--radius-md); padding:1.5rem;">
-          <h3>📋 List New Produce (FMPP)</h3>
-          <input class="form-input" id="productName" placeholder="Product name"><input class="form-input" id="farmNameInput" placeholder="Farm name" value="Sunrise Co-op">
-          <div style="display:flex; gap:0.5rem;"><input class="form-input" id="productPrice" placeholder="Price $"><input class="form-input" id="productUnit" placeholder="Unit"></div>
-          <div style="display:flex; gap:0.5rem;"><input class="form-input" id="productQty" placeholder="Quantity"><select id="productRegion" class="form-input"><option>CA</option><option>NY</option><option>TX</option><option>FL</option><option>WA</option></select></div>
-          <label style="display:flex; align-items:center; gap:0.5rem;"><input type="checkbox" id="productOrganic"> Organic</label>
-          <input class="form-input" id="productImage" placeholder="Image URL (optional)"><button class="btn-primary" id="addProductBtn">+ List to Marketplace</button>
+        <div class="hub-hero">
+          <div>
+            <h2>🌱 Farmer Hub</h2>
+            <p>FMPP-backed direct-to-market platform. List produce, manage inventory, and access federal grant funding — all in one place.</p>
+          </div>
+          <div class="hub-stats">
+            <div class="hub-stat"><div class="val">$500K</div><div class="lbl">Max FMPP Grant</div></div>
+            <div class="hub-stat"><div class="val">0%</div><div class="lbl">Commission</div></div>
+            <div class="hub-stat"><div class="val">48hr</div><div class="lbl">Avg Payout</div></div>
+          </div>
         </div>
-        <div class="card" style="background:var(--bg-glass); backdrop-filter:blur(20px); margin-top:1rem;">
-          <h3>🌱 Your Products</h3><div id="farmerProductsList"></div><div class="progress-bar"><div class="progress-fill" style="width:63%"></div></div><div class="status-pill">FMPP grant: $12,400 available</div>
+
+        <div class="tab-nav" id="farmerTabNav">
+          <button class="tab-btn active" data-tab="ft-list"><i class="fas fa-plus-circle"></i> List Produce</button>
+          <button class="tab-btn" data-tab="ft-listings"><i class="fas fa-boxes-stacked"></i> My Listings</button>
+          <button class="tab-btn" data-tab="ft-grants"><i class="fas fa-hand-holding-dollar"></i> Grants</button>
+        </div>
+
+        <!-- List Produce -->
+        <div id="ft-list" class="tab-panel active">
+          <div class="two-col">
+            <div class="card">
+              <h3><i class="fas fa-seedling" style="color:var(--accent);margin-right:.5rem;"></i>New Produce Listing</h3>
+              <label class="form-label">Product Name</label>
+              <input class="form-input" id="productName" placeholder="e.g. Heirloom Tomatoes">
+              <label class="form-label">Farm Name</label>
+              <input class="form-input" id="farmNameInput" value="Sunrise Co-op">
+              <div class="form-row">
+                <div style="flex:1;"><label class="form-label">Price ($)</label><input class="form-input" id="productPrice" placeholder="0.00" type="number"></div>
+                <div style="flex:1;"><label class="form-label">Unit</label><input class="form-input" id="productUnit" placeholder="lb / bunch / jar"></div>
+              </div>
+              <div class="form-row">
+                <div style="flex:1;"><label class="form-label">Quantity</label><input class="form-input" id="productQty" placeholder="Units available" type="number"></div>
+                <div style="flex:1;"><label class="form-label">Region</label><select id="productRegion" class="form-input"><option>CA</option><option>NY</option><option>TX</option><option>FL</option><option>WA</option></select></div>
+              </div>
+              <div class="organic-toggle" onclick="toggleOrganic(this)">
+                <span>🌿 Certified Organic</span>
+                <div class="toggle-sw" id="organicToggleSw"></div>
+                <input type="checkbox" id="productOrganic" style="display:none;">
+              </div>
+              <label class="form-label">Product Image URL <span style="opacity:.5;">(optional)</span></label>
+              <input class="form-input" id="productImage" placeholder="https://...">
+              <button class="btn-primary" id="addProductBtn"><i class="fas fa-arrow-up-from-bracket" style="margin-right:.4rem;"></i>List to Marketplace</button>
+            </div>
+            <div class="card">
+              <h3><i class="fas fa-chart-simple" style="color:var(--accent);margin-right:.5rem;"></i>Farm Dashboard</h3>
+              <div style="margin-bottom:1rem;">
+                <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.3rem;"><span style="color:var(--text-secondary);">Monthly Revenue</span><span style="color:var(--accent);font-family:'DM Mono',monospace;">$4,820</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div>
+              </div>
+              <div style="margin-bottom:1rem;">
+                <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.3rem;"><span style="color:var(--text-secondary);">FMPP Grant Utilization</span><span style="color:var(--gold);font-family:'DM Mono',monospace;">63%</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:63%;background:linear-gradient(90deg,#8b6900,var(--gold));"></div></div>
+              </div>
+              <div style="margin-bottom:1.2rem;">
+                <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.3rem;"><span style="color:var(--text-secondary);">Inventory Health</span><span style="color:#4ade80;">Healthy</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:88%;background:linear-gradient(90deg,#14532d,#4ade80);"></div></div>
+              </div>
+              <div style="padding:.9rem;background:rgba(90,122,82,0.1);border-radius:var(--radius-sm);border:1px solid var(--border-light);margin-bottom:1rem;">
+                <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-secondary);margin-bottom:.4rem;">Available Grant Balance</div>
+                <div style="font-family:'DM Mono',monospace;font-size:1.5rem;color:var(--gold);">$12,400</div>
+                <div style="font-size:.7rem;color:var(--text-secondary);margin-top:.2rem;">FMPP FY2025 · Expires Dec 31</div>
+              </div>
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+                <span class="status-pill"><i class="fas fa-circle-check"></i> USDA Verified</span>
+                <span class="status-pill"><i class="fas fa-leaf"></i> Organic Cert.</span>
+                <span class="status-pill warning"><i class="fas fa-clock"></i> Renew in 42 days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Listings -->
+        <div id="ft-listings" class="tab-panel">
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+              <h3 style="margin-bottom:0;"><i class="fas fa-boxes-stacked" style="color:var(--accent);margin-right:.5rem;"></i>Active Listings</h3>
+              <span class="status-pill">Sunrise Co-op</span>
+            </div>
+            <div id="farmerProductsList">
+              <p style="color:var(--text-secondary);font-size:.85rem;">No products listed yet. Use the "List Produce" tab to add your first item.</p>
+            </div>
+          </div>
+          <div class="card">
+            <h3><i class="fas fa-arrow-trend-up" style="color:var(--accent);margin-right:.5rem;"></i>Sales This Month</h3>
+            <canvas id="farmerSalesChart" height="110"></canvas>
+          </div>
+        </div>
+
+        <!-- Grants -->
+        <div id="ft-grants" class="tab-panel">
+          <div class="grant-card">
+            <h4>🌾 Farmers Market Promotion Program (FMPP)</h4>
+            <p>Federal grants supporting local and regional food systems. Funds direct producer-to-consumer markets, regional food hubs, and agri-tourism operations. Eligible entities include agricultural businesses, non-profits, and producer networks.</p>
+            <div class="grant-amount">Up to $500,000</div>
+            <div style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+              <span class="status-pill"><i class="fas fa-door-open"></i> Applications Open</span>
+              <span class="status-pill warning"><i class="fas fa-calendar"></i> Deadline: March 15</span>
+            </div>
+          </div>
+          <div class="grant-card">
+            <h4>🏪 Local Food Promotion Program (LFPP)</h4>
+            <p>Supports development of local and regional food business enterprises that process, distribute, aggregate, or store locally-produced food. Ideal for food hubs, cooperatives, and farm networks looking to expand distribution capacity.</p>
+            <div class="grant-amount">Up to $500,000</div>
+            <div style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+              <span class="status-pill"><i class="fas fa-door-open"></i> Applications Open</span>
+              <span class="status-pill warning"><i class="fas fa-calendar"></i> Deadline: March 15</span>
+            </div>
+          </div>
+          <div class="grant-card">
+            <h4>🌱 Organic Certification Cost Share</h4>
+            <p>USDA reimburses up to 75% of organic certification costs (max $500/year) for certified organic producers and handlers. Rolling applications accepted year-round through your State Department of Agriculture.</p>
+            <div class="grant-amount">Up to $500 / year</div>
+            <div style="margin-top:.8rem;">
+              <span class="status-pill"><i class="fas fa-circle-check"></i> Rolling applications</span>
+            </div>
+          </div>
+          <div class="grant-card">
+            <h4>🚛 Value-Added Producer Grant (VAPG)</h4>
+            <p>For independent producers or producer groups wanting to create value-added products. Covers planning activities, working capital, and marketing expenses for new value-added ventures.</p>
+            <div class="grant-amount">Up to $75,000 (planning) · $250,000 (working capital)</div>
+            <div style="margin-top:.8rem;">
+              <span class="status-pill warning"><i class="fas fa-clock"></i> Opens Q2 2026</span>
+            </div>
+          </div>
+          <div class="info-banner">
+            <i class="fas fa-circle-info"></i>
+            <span>AgroCart connects you with USDA-accredited grant advisors. <strong style="color:var(--accent);">Book a free 30-min consultation</strong> to review your eligibility across all programs — most members qualify for at least two.</span>
+          </div>
         </div>
       </div>
 
-      <!-- Institutional -->
+      <!-- INSTITUTIONAL -->
       <div id="view-institutional" class="view">
-        <div class="card" style="background:var(--bg-glass);">
-          <h3>🏛️ Institutional Bulk Order (LFPP)</h3>
-          <select id="instProductSelect" class="form-input"></select>
-          <input class="form-input" id="instQuantity" placeholder="Quantity">
-          <input class="form-input" id="instName" placeholder="Institution" value="NYC Public Schools">
-          <button class="btn-primary" id="placeBulkOrderBtn">Place Contract (15% LFPP offset)</button>
+        <div class="inst-hero">
+          <h2>🏛️ Institutional Procurement</h2>
+          <p>LFPP-offset bulk contracting for schools, hospitals, cafeterias, and food banks. Get up to 15% cost reduction through federal subsidy pass-through, with farm-to-institution traceability on every delivery.</p>
+          <div class="partner-logos">
+            <div class="partner-logo"><i class="fas fa-school"></i> K-12 Schools</div>
+            <div class="partner-logo"><i class="fas fa-hospital"></i> Hospitals</div>
+            <div class="partner-logo"><i class="fas fa-utensils"></i> Cafeterias</div>
+            <div class="partner-logo"><i class="fas fa-heart"></i> Food Banks</div>
+            <div class="partner-logo"><i class="fas fa-building-columns"></i> Universities</div>
+          </div>
         </div>
-        <div class="card" style="background:var(--bg-glass); margin-top:1rem;">
-          <h3>📄 Active Contracts</h3><div id="instOrdersList"></div>
+
+        <div class="tab-nav" id="instTabNav">
+          <button class="tab-btn active" data-tab="it-order"><i class="fas fa-file-contract"></i> New Contract</button>
+          <button class="tab-btn" data-tab="it-contracts"><i class="fas fa-list-check"></i> Active Contracts</button>
+          <button class="tab-btn" data-tab="it-suppliers"><i class="fas fa-handshake"></i> Suppliers</button>
+        </div>
+
+        <!-- New Contract -->
+        <div id="it-order" class="tab-panel active">
+          <div class="two-col">
+            <div class="card">
+              <h3><i class="fas fa-file-contract" style="color:var(--accent);margin-right:.5rem;"></i>Place Bulk Contract</h3>
+              <div class="info-banner">
+                <i class="fas fa-tag"></i>
+                <span>LFPP subsidy applied automatically — <strong style="color:var(--accent);">15% below listed price</strong> for all qualifying institutions.</span>
+              </div>
+              <label class="form-label">Select Product</label>
+              <select id="instProductSelect" class="form-input"></select>
+              <label class="form-label">Quantity</label>
+              <input class="form-input" id="instQuantity" placeholder="Number of units" type="number">
+              <label class="form-label">Institution Name</label>
+              <input class="form-input" id="instName" value="NYC Public Schools">
+              <label class="form-label">Institution Type</label>
+              <select class="form-input" id="instType">
+                <option>K-12 School District</option>
+                <option>University / College</option>
+                <option>Hospital / Healthcare</option>
+                <option>Corporate Cafeteria</option>
+                <option>Food Bank / Nonprofit</option>
+              </select>
+              <label class="form-label">Delivery Frequency</label>
+              <select class="form-input" id="instFreq">
+                <option>Weekly</option>
+                <option>Bi-weekly</option>
+                <option>Monthly</option>
+                <option>One-time</option>
+              </select>
+              <button class="btn-primary" id="placeBulkOrderBtn"><i class="fas fa-file-signature" style="margin-right:.4rem;"></i>Submit Contract Request</button>
+            </div>
+            <div class="card">
+              <h3><i class="fas fa-calculator" style="color:var(--accent);margin-right:.5rem;"></i>Savings Estimator</h3>
+              <div style="padding:1rem;background:rgba(0,0,0,0.18);border-radius:var(--radius-sm);border:1px solid var(--border-light);margin-bottom:1rem;">
+                <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-secondary);margin-bottom:.8rem;">Typical 1-Year Contract</div>
+                <div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid rgba(90,122,82,0.12);">
+                  <span style="font-size:.8rem;color:var(--text-secondary);">Market Price</span>
+                  <span style="font-family:'DM Mono',monospace;color:var(--text-primary);">$48,200</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid rgba(90,122,82,0.12);">
+                  <span style="font-size:.8rem;color:var(--text-secondary);">LFPP Subsidy (15%)</span>
+                  <span style="font-family:'DM Mono',monospace;color:#4ade80;">−$7,230</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:.6rem 0 .2rem;">
+                  <span style="font-size:.9rem;font-weight:700;color:var(--text-primary);">You Pay</span>
+                  <span style="font-family:'DM Mono',monospace;font-size:1.1rem;color:var(--accent);font-weight:700;">$40,970</span>
+                </div>
+              </div>
+              <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-secondary);margin-bottom:.6rem;">Why AgroCart?</div>
+              <div style="display:flex;flex-direction:column;gap:.45rem;font-size:.8rem;color:var(--text-secondary);">
+                <div><i class="fas fa-circle-check" style="color:var(--accent);margin-right:.5rem;"></i>Farm-to-institution traceability</div>
+                <div><i class="fas fa-circle-check" style="color:var(--accent);margin-right:.5rem;"></i>USDA organic &amp; GAP certifications</div>
+                <div><i class="fas fa-circle-check" style="color:var(--accent);margin-right:.5rem;"></i>Cold-chain logistics included</div>
+                <div><i class="fas fa-circle-check" style="color:var(--accent);margin-right:.5rem;"></i>Net-30 invoicing terms</div>
+                <div><i class="fas fa-circle-check" style="color:var(--accent);margin-right:.5rem;"></i>Dedicated procurement manager</div>
+                <div><i class="fas fa-circle-check" style="color:var(--accent);margin-right:.5rem;"></i>Nutrition data + allergen reports</div>
+              </div>
+              <div style="margin-top:1rem;">
+                <span class="status-pill"><i class="fas fa-shield-halved"></i> USDA LFPP Certified Vendor</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Contracts -->
+        <div id="it-contracts" class="tab-panel">
+          <div id="instOrdersList">
+            <div style="text-align:center;padding:2.5rem;color:var(--text-secondary);">
+              <i class="fas fa-file-contract" style="font-size:2rem;opacity:.3;display:block;margin-bottom:.8rem;"></i>
+              <p>No active contracts yet. Submit your first bulk order to get started.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suppliers -->
+        <div id="it-suppliers" class="tab-panel">
+          <div class="card">
+            <h3><i class="fas fa-handshake" style="color:var(--accent);margin-right:.5rem;"></i>Approved Supplier Network</h3>
+            <p style="font-size:.82rem;color:var(--text-secondary);margin-bottom:1.2rem;">All suppliers are USDA-verified, carry GAP certification, and participate in the LFPP offset program.</p>
+            <div style="display:flex;flex-direction:column;gap:.7rem;">
+              <div class="contract-row">
+                <div><div class="inst-name">Golden State Farms</div><div class="inst-meta">CA · Organic Certified · Vegetables &amp; Herbs</div></div>
+                <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;"><span class="status-pill"><i class="fas fa-star"></i> 4.9</span><span class="status-pill"><i class="fas fa-leaf"></i> Organic</span></div>
+              </div>
+              <div class="contract-row">
+                <div><div class="inst-name">Hudson Valley Co-op</div><div class="inst-meta">NY · GAP Certified · Dairy &amp; Produce</div></div>
+                <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;"><span class="status-pill"><i class="fas fa-star"></i> 4.8</span><span class="status-pill warning">Conventional</span></div>
+              </div>
+              <div class="contract-row">
+                <div><div class="inst-name">Lone Star Ranch</div><div class="inst-meta">TX · USDA Grade A · Eggs &amp; Poultry</div></div>
+                <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;"><span class="status-pill"><i class="fas fa-star"></i> 4.7</span><span class="status-pill">Pasture-Raised</span></div>
+              </div>
+              <div class="contract-row">
+                <div><div class="inst-name">Roots &amp; Soil Collective</div><div class="inst-meta">WA · Organic · Root Vegetables &amp; Herbs</div></div>
+                <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;"><span class="status-pill"><i class="fas fa-star"></i> 4.6</span><span class="status-pill"><i class="fas fa-leaf"></i> Organic</span></div>
+              </div>
+              <div class="contract-row">
+                <div><div class="inst-name">Vermont Gold Maple Co.</div><div class="inst-meta">NY · Specialty · Maple Syrup &amp; Honey</div></div>
+                <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;"><span class="status-pill"><i class="fas fa-star"></i> 4.9</span><span class="status-pill"><i class="fas fa-leaf"></i> Organic</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Analytics -->
+      <!-- ANALYTICS -->
       <div id="view-analytics" class="view">
-        <div class="charts-container"><div class="chart-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:1rem;">
-          <div class="chart-card"><canvas id="farmerShareChart"></canvas></div>
-          <div class="chart-card"><canvas id="foodWasteChart"></canvas></div>
-          <div class="chart-card"><canvas id="farmerIncomeChart"></canvas></div>
-          <div class="chart-card"><canvas id="logisticsChart"></canvas></div>
-          <div class="chart-card" style="grid-column: span 2;"><canvas id="regionalChart"></canvas></div>
-        </div></div>
-      </div>
-
-      <!-- Logistics -->
-      <div id="view-logistics" class="view"><div class="card"><h3>🚚 Active Shipments</h3><div id="pendingOrdersList"></div></div></div>
-
-      <!-- Impact -->
-      <div id="view-impact" class="view">
-        <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-value">46%</div><div>Farmer income ↑</div></div>
-          <div class="kpi-card"><div class="kpi-value">2.1M</div><div>Lbs waste averted</div></div>
-          <div class="kpi-card"><div class="kpi-value">$14.2M</div><div>Direct revenue</div></div>
-          <div class="kpi-card"><div class="kpi-value">452</div><div>Institutions</div></div>
+        <div class="view-header">
+          <div><h2>Analytics</h2><p>Real-time platform intelligence · Updated daily</p></div>
         </div>
-        <div class="card"><i class="fas fa-quote-left"></i> “Before AgroCart, wholesalers took 55% margins. Now I keep over 70%.” – Maria Lopez, CA</div>
+        <div class="analytics-hero">
+          <div class="metric-card"><div class="m-icon">📈</div><div class="m-val">$8.42M</div><div class="m-lbl">Gross Merchandise Value</div><div class="m-chg">↑ 18.4% YoY</div></div>
+          <div class="metric-card"><div class="m-icon">🧑‍🌾</div><div class="m-val">1,240</div><div class="m-lbl">Active Farmers</div><div class="m-chg">↑ 340 new this year</div></div>
+          <div class="metric-card"><div class="m-icon">🏛️</div><div class="m-val">452</div><div class="m-lbl">Institutions</div><div class="m-chg">↑ 62 this year</div></div>
+          <div class="metric-card"><div class="m-icon">🌿</div><div class="m-val">34.6%</div><div class="m-lbl">Farmer Income Share</div><div class="m-chg">↑ from 12% in 2022</div></div>
+          <div class="metric-card"><div class="m-icon">♻️</div><div class="m-val">2.1M</div><div class="m-lbl">Lbs Waste Saved</div><div class="m-chg">↑ 67% vs 2024</div></div>
+          <div class="metric-card"><div class="m-icon">💰</div><div class="m-val">$14.2M</div><div class="m-lbl">Total Farm Revenue</div><div class="m-chg">↑ 46% since 2023</div></div>
+        </div>
+        <div class="charts-grid">
+          <div class="chart-card"><h4>Farmer Income Share (%)</h4><canvas id="farmerShareChart" height="140"></canvas></div>
+          <div class="chart-card"><h4>Food Waste Diverted (lbs ×1000)</h4><canvas id="foodWasteChart" height="140"></canvas></div>
+          <div class="chart-card"><h4>Platform Revenue ($k cumulative)</h4><canvas id="farmerIncomeChart" height="140"></canvas></div>
+          <div class="chart-card"><h4>Logistics Deliveries / Quarter</h4><canvas id="logisticsChart" height="140"></canvas></div>
+          <div class="chart-card" style="grid-column:span 2;"><h4>Regional GMV by State ($M)</h4><canvas id="regionalChart" height="100"></canvas></div>
+        </div>
       </div>
 
-      <!-- AI Assistant -->
-      <div id="view-assistant" class="view">
-        <div class="card"><div id="aiMessages" style="max-height:300px; overflow-y:auto; display:flex; flex-direction:column; gap:0.6rem; margin-bottom:1rem;"></div>
-        <div style="display:flex; gap:0.5rem;"><input id="aiInput" style="flex:1; background:rgba(0,0,0,0.5); border:1px solid var(--border); border-radius:40px; padding:0.6rem 1rem; color:var(--text-primary);" placeholder="Ask me about FMPP, pricing, logistics..."><button onclick="sendAI()" style="background:var(--sage); border:none; border-radius:40px; padding:0.6rem 1.2rem; color:white;">Send</button></div></div>
+      <!-- LOGISTICS -->
+      <div id="view-logistics" class="view">
+        <div class="view-header">
+          <div><h2>Smart Logistics</h2><p>Cold-chain tracking · Last-mile transparency</p></div>
+          <button class="btn-secondary"><i class="fas fa-download"></i> Export Report</button>
+        </div>
+        <div class="logistics-map-placeholder">
+          <div class="map-dot"></div>
+          <p style="font-size:.82rem;color:var(--text-secondary);z-index:1;margin-top:.5rem;">Live route map · 33 active shipments</p>
+          <p style="font-size:.7rem;color:rgba(245,240,232,0.3);z-index:1;">[Google Maps API integration available]</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;margin-bottom:1.5rem;">
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">33</div><div class="m-lbl">Active Shipments</div></div>
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">98.2%</div><div class="m-lbl">On-time Rate</div></div>
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">4.1°C</div><div class="m-lbl">Avg Cold-Chain Temp</div></div>
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">$0.42</div><div class="m-lbl">Cost / lb Delivered</div></div>
+        </div>
+        <h3 style="font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Active Shipments</h3>
+        <div id="pendingOrdersList">
+          <div class="shipment-card">
+            <div class="ship-icon">🚛</div>
+            <div class="ship-info"><div class="route">Sunrise Co-op → NYC Schools</div><div class="detail">Kale Bundle · 120 units · Cold-chain active · 4.0°C</div></div>
+            <div class="ship-progress"><div style="font-size:.65rem;color:var(--text-secondary);margin-bottom:.3rem;">Progress</div><div class="progress-bar" style="margin:0;"><div class="progress-fill" style="width:65%"></div></div></div>
+            <div class="ship-eta"><div class="time">14h</div><div style="color:var(--text-secondary);font-size:.65rem;">ETA remaining</div></div>
+          </div>
+          <div class="shipment-card">
+            <div class="ship-icon">🚐</div>
+            <div class="ship-info"><div class="route">Golden State → Bay Area Hub</div><div class="detail">Heirloom Tomatoes · 85 lbs · Temp: 4.2°C</div></div>
+            <div class="ship-progress"><div style="font-size:.65rem;color:var(--text-secondary);margin-bottom:.3rem;">Progress</div><div class="progress-bar" style="margin:0;"><div class="progress-fill" style="width:90%"></div></div></div>
+            <div class="ship-eta"><div class="time">2h</div><div style="color:var(--text-secondary);font-size:.65rem;">ETA remaining</div></div>
+          </div>
+          <div class="shipment-card">
+            <div class="ship-icon">✈️</div>
+            <div class="ship-info"><div class="route">Michigan Patch → NY Food Bank</div><div class="detail">Blueberries · 45 pints · Air freight · 3.8°C</div></div>
+            <div class="ship-progress"><div style="font-size:.65rem;color:var(--text-secondary);margin-bottom:.3rem;">Progress</div><div class="progress-bar" style="margin:0;"><div class="progress-fill" style="width:40%"></div></div></div>
+            <div class="ship-eta"><div class="time">28h</div><div style="color:var(--text-secondary);font-size:.65rem;">ETA remaining</div></div>
+          </div>
+        </div>
       </div>
+
+      <!-- IMPACT -->
+      <div id="view-impact" class="view">
+        <div class="impact-hero">
+          <h2>🌍 Our Collective Impact</h2>
+          <p>Every purchase through AgroCart strengthens local food systems, reduces waste, and puts more money directly into farmers' hands.</p>
+          <div class="sdg-chips">
+            <span class="sdg-chip">SDG 2: Zero Hunger</span>
+            <span class="sdg-chip">SDG 8: Decent Work</span>
+            <span class="sdg-chip">SDG 12: Responsible Consumption</span>
+            <span class="sdg-chip">SDG 15: Life on Land</span>
+          </div>
+        </div>
+        <div class="impact-grid">
+          <div class="impact-card"><div class="i-icon">🧑‍🌾</div><div class="i-val">1,240</div><div class="i-lbl">Farmer families supported</div></div>
+          <div class="impact-card"><div class="i-icon">♻️</div><div class="i-val">2.1M lbs</div><div class="i-lbl">Food waste prevented</div></div>
+          <div class="impact-card"><div class="i-icon">💚</div><div class="i-val">34.6%</div><div class="i-lbl">Farmer revenue share</div></div>
+          <div class="impact-card"><div class="i-icon">🏛️</div><div class="i-val">452</div><div class="i-lbl">Institutions served</div></div>
+          <div class="impact-card"><div class="i-icon">🌱</div><div class="i-val">14,200</div><div class="i-lbl">Organic acres supported</div></div>
+          <div class="impact-card"><div class="i-icon">🚗</div><div class="i-val">−42%</div><div class="i-lbl">CO₂ vs wholesale chain</div></div>
+        </div>
+        <div class="card">
+          <h3>What People Are Saying</h3>
+          <div class="testimonial-card">
+            <p>Before AgroCart, wholesalers took 55% margins. Now I keep over 70% of every sale and I know exactly who is eating my food. That changes everything.</p>
+            <div class="tauthor">— <strong>Maria Lopez</strong>, Golden State Farms, CA · Organic tomatoes &amp; herbs</div>
+          </div>
+          <div class="testimonial-card">
+            <p>The FMPP grant process used to take months. AgroCart's team had our application ready in two weeks. We received $48,000 and expanded our cold storage the same season.</p>
+            <div class="tauthor">— <strong>James Okafor</strong>, Hudson Fresh Co-op, NY · Kale, lettuce &amp; seasonal greens</div>
+          </div>
+          <div class="testimonial-card">
+            <p>Our district feeds 14,000 children daily. Through the LFPP contract we save $60k annually and source 100% within 200 miles. The kids actually notice the difference in quality.</p>
+            <div class="tauthor">— <strong>Patricia Nguyen</strong>, Director of Nutrition, NYC Public Schools</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Year-over-Year Impact Growth</h3>
+          <canvas id="impactChart" height="120"></canvas>
+        </div>
+      </div>
+
+      <!-- AI ASSISTANT -->
+      <div id="view-assistant" class="view">
+        <div class="view-header">
+          <div><h2>AI Assistant</h2><p>Your agricultural intelligence advisor</p></div>
+        </div>
+        <div class="ai-chat-wrap">
+          <div class="ai-header">
+            <div class="ai-avatar">🌾</div>
+            <div class="ai-header-info">
+              <h3>AgroBot</h3>
+              <p style="color:var(--text-secondary);font-size:.78rem;">Powered by USDA agricultural data &amp; market intelligence</p>
+              <div class="ai-online">Online · Avg response &lt;1s</div>
+            </div>
+          </div>
+          <div class="ai-messages-wrap" id="aiMessages"></div>
+          <div class="ai-suggestions" id="aiSuggestions">
+            <button class="ai-suggestion" onclick="sendAISuggestion(this)">💰 FMPP grant eligibility</button>
+            <button class="ai-suggestion" onclick="sendAISuggestion(this)">🌿 Organic certification steps</button>
+            <button class="ai-suggestion" onclick="sendAISuggestion(this)">📦 Current tomato pricing</button>
+            <button class="ai-suggestion" onclick="sendAISuggestion(this)">🚛 Cold-chain logistics tips</button>
+            <button class="ai-suggestion" onclick="sendAISuggestion(this)">🏛️ LFPP institutional contracts</button>
+          </div>
+          <div class="ai-input-row">
+            <input id="aiInput" placeholder="Ask about grants, pricing, certification, logistics..." onkeydown="if(event.key==='Enter')sendAI()">
+            <button class="ai-send-btn" onclick="sendAI()"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 
-  <!-- Mobile bottom nav -->
+  <!-- Mobile nav -->
   <div class="mobile-bottom-nav">
     <button class="mob-nav-item active" data-view="marketplace"><i class="fas fa-store"></i><span>Market</span></button>
     <button class="mob-nav-item" data-view="farmer"><i class="fas fa-seedling"></i><span>Farm</span></button>
@@ -664,457 +835,514 @@
   </div>
 
   <!-- Checkout Modal -->
-  <div id="checkoutModal" class="modal"><div class="modal-content"><h3>Secure Checkout</h3><div id="checkoutSummary"></div><input class="form-input" id="checkoutName" placeholder="Full name"><input class="form-input" id="checkoutEmail" placeholder="Email"><div style="display:flex; justify-content:space-between; margin:1rem 0;"><span>Total</span><strong id="modalTotal">$0.00</strong></div><button class="btn-primary" onclick="completeCheckout()">Place Order</button><button onclick="closeCheckout()" style="margin-top:0.5rem; background:none; border:1px solid var(--border); border-radius:40px; padding:0.5rem;">Cancel</button></div></div>
+  <div id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <h3>🔒 Secure Checkout</h3>
+      <div id="checkoutSummary" style="margin-bottom:1rem;font-size:.82rem;color:var(--text-secondary);"></div>
+      <input class="form-input" id="checkoutName" placeholder="Full name">
+      <input class="form-input" id="checkoutEmail" placeholder="Email address">
+      <div style="display:flex;justify-content:space-between;padding:.8rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:.8rem 0;">
+        <span style="font-weight:600;color:var(--text-primary);">Total</span><strong id="modalTotal" style="color:var(--accent);">$0.00</strong>
+      </div>
+      <button class="btn-primary" onclick="completeCheckout()"><i class="fas fa-lock" style="margin-right:.4rem;"></i>Place Order</button>
+      <button onclick="closeCheckout()" style="margin-top:.6rem;width:100%;background:none;border:1px solid var(--border);border-radius:40px;padding:.55rem;color:var(--text-secondary);cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>
+    </div>
+  </div>
 
   <!-- Product Detail Modal -->
   <div id="productDetailModal" class="modal"><div class="modal-content" id="productDetailContent"></div></div>
 
   <!-- Compare Bar -->
   <div id="compareBar" class="compare-bar">
-    <span>Compare (<span id="compareCount">0</span>)</span>
+    <span style="font-size:.78rem;color:var(--text-secondary);">Compare (<span id="compareCount">0</span>)</span>
     <div id="compareItems"></div>
-    <button class="compare-btn" onclick="compareProducts()">Compare</button>
+    <button class="compare-btn" onclick="compareProducts()">Compare Now</button>
   </div>
 
   <div class="toast-container" id="toastContainer"></div>
-
   <script>
-    (function() {
-      // ============= PRODUCT DATASET (expanded) =============
-      const products = [
-        { id:"p1", name:"Heirloom Tomatoes", farm:"Golden State", price:5.49, unit:"lb", qty:210, region:"CA", organic:true, rating:4.7, img:"https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400" },
-        { id:"p2", name:"Organic Strawberries", farm:"Berry Bliss", price:6.99, unit:"lb", qty:140, region:"FL", organic:true, rating:4.8, img:"https://images.unsplash.com/photo-1587393855524-087f83d95bc9?q=80&w=760&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-        { id:"p3", name:"Kale Bundle", farm:"Hudson Fresh", price:3.49, unit:"bundle", qty:300, region:"NY", organic:false, rating:4.3, img:"https://images.unsplash.com/photo-1524179091875-bf99a9a6af57?w=400" },
-        { id:"p4", name:"Wildflower Honey", farm:"Appalachia", price:14.99, unit:"jar", qty:85, region:"NY", organic:false, rating:4.9, img:"https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=400" },
-        { id:"p5", name:"Pasture Eggs", farm:"Freedom Farms", price:8.49, unit:"dozen", qty:180, region:"TX", organic:false, rating:4.5, img:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=400" },
-        { id:"p6", name:"Rainbow Carrots", farm:"Roots & Soil", price:4.29, unit:"bunch", qty:245, region:"WA", organic:true, rating:4.6, img:"https://images.unsplash.com/photo-1741518359356-623aa8385826?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-        { id:"p7", name:"Artisan Lettuce", farm:"Salad Collective", price:5.99, unit:"bag", qty:112, region:"CA", organic:false, rating:4.4, img:"https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400" },
-        { id:"p8", name:"Blueberries", farm:"Michigan Patch", price:7.29, unit:"pint", qty:96, region:"NY", organic:false, rating:4.7, img:"https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=400" },
-        { id:"p9", name:"Sunflower Oil", farm:"Prairie Gold", price:9.99, unit:"bottle", qty:60, region:"TX", organic:false, rating:4.2, img:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400" },
-        { id:"p10", name:"Goat Cheese", farm:"Hilltop Dairy", price:11.49, unit:"log", qty:42, region:"CA", organic:true, rating:4.8, img:"https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400" },
-        { id:"p11", name:"Cherry Tomatoes", farm:"Vine & Sun", price:4.99, unit:"pint", qty:150, region:"FL", organic:false, rating:4.5, img:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400" },
-        { id:"p12", name:"Sourdough Bread", farm:"Artisan Oven", price:7.99, unit:"loaf", qty:80, region:"NY", organic:false, rating:4.9, img:"https://images.unsplash.com/photo-1517141544637-42b300cb4ee9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-        { id:"p13", name:"Acacia Honey", farm:"Bee Kind", price:16.49, unit:"jar", qty:55, region:"TX", organic:true, rating:4.7, img:"https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400" },
-        { id:"p14", name:"Beefsteak Tomato", farm:"Delta Farms", price:5.99, unit:"lb", qty:90, region:"CA", organic:false, rating:4.4, img:"https://images.unsplash.com/photo-1762710526532-e05fc5fd08c6?q=80&w=689&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-        { id:"p15", name:"Fresh Basil", farm:"Herb Haven", price:2.99, unit:"bunch", qty:200, region:"WA", organic:true, rating:4.6, img:"https://images.unsplash.com/photo-1527964105263-1ac6265a569f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-        { id:"p16", name:"Farmstead Butter", farm:"Creamery Co", price:9.29, unit:"block", qty:70, region:"NY", organic:false, rating:4.8, img:"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400" },
-        { id:"p17", name:"Jalapeños", farm:"Spice Ranch", price:3.79, unit:"lb", qty:130, region:"TX", organic:false, rating:4.3, img:"https://images.unsplash.com/photo-1770353361865-608a07f03ef8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-        { id:"p18", name:"Maple Syrup", farm:"Vermont Gold", price:18.99, unit:"bottle", qty:40, region:"NY", organic:true, rating:4.9, img:"https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400" },
-        { id:"p19", name:"Sweet Potatoes", farm:"Roots & Soil", price:3.99, unit:"lb", qty:175, region:"WA", organic:true, rating:4.5, img:"https://images.unsplash.com/photo-1744659749700-c4213f840355?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-        { id:"p20", name:"Fresh Mint", farm:"Herb Haven", price:2.49, unit:"bunch", qty:220, region:"FL", organic:false, rating:4.4, img:"https://images.unsplash.com/photo-1632232812783-c774e55bbbe9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }
-      ];
+  (function() {
+    const products = [
+      { id:"p1",  name:"Heirloom Tomatoes",   farm:"Golden State",     price:5.49,  unit:"lb",     qty:210, region:"CA", organic:true,  rating:4.7, img:"https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400" },
+      { id:"p2",  name:"Organic Strawberries", farm:"Berry Bliss",      price:6.99,  unit:"lb",     qty:140, region:"FL", organic:true,  rating:4.8, img:"https://images.unsplash.com/photo-1587393855524-087f83d95bc9?w=400" },
+      { id:"p3",  name:"Kale Bundle",          farm:"Hudson Fresh",     price:3.49,  unit:"bundle", qty:300, region:"NY", organic:false, rating:4.3, img:"https://images.unsplash.com/photo-1524179091875-bf99a9a6af57?w=400" },
+      { id:"p4",  name:"Wildflower Honey",     farm:"Appalachia",       price:14.99, unit:"jar",    qty:85,  region:"NY", organic:false, rating:4.9, img:"https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=400" },
+      { id:"p5",  name:"Pasture Eggs",         farm:"Freedom Farms",    price:8.49,  unit:"dozen",  qty:180, region:"TX", organic:false, rating:4.5, img:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=400" },
+      { id:"p6",  name:"Rainbow Carrots",      farm:"Roots & Soil",     price:4.29,  unit:"bunch",  qty:245, region:"WA", organic:true,  rating:4.6, img:"https://images.unsplash.com/photo-1741518359356-623aa8385826?w=400" },
+      { id:"p7",  name:"Artisan Lettuce",      farm:"Salad Collective", price:5.99,  unit:"bag",    qty:112, region:"CA", organic:false, rating:4.4, img:"https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400" },
+      { id:"p8",  name:"Blueberries",          farm:"Michigan Patch",   price:7.29,  unit:"pint",   qty:96,  region:"NY", organic:false, rating:4.7, img:"https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=400" },
+      { id:"p9",  name:"Sunflower Oil",        farm:"Prairie Gold",     price:9.99,  unit:"bottle", qty:60,  region:"TX", organic:false, rating:4.2, img:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400" },
+      { id:"p10", name:"Goat Cheese",          farm:"Hilltop Dairy",    price:11.49, unit:"log",    qty:42,  region:"CA", organic:true,  rating:4.8, img:"https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400" },
+      { id:"p11", name:"Cherry Tomatoes",      farm:"Vine & Sun",       price:4.99,  unit:"pint",   qty:150, region:"FL", organic:false, rating:4.5, img:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400" },
+      { id:"p12", name:"Sourdough Bread",      farm:"Artisan Oven",     price:7.99,  unit:"loaf",   qty:80,  region:"NY", organic:false, rating:4.9, img:"https://images.unsplash.com/photo-1517141544637-42b300cb4ee9?w=400" },
+      { id:"p13", name:"Acacia Honey",         farm:"Bee Kind",         price:16.49, unit:"jar",    qty:55,  region:"TX", organic:true,  rating:4.7, img:"https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400" },
+      { id:"p14", name:"Beefsteak Tomato",     farm:"Delta Farms",      price:5.99,  unit:"lb",     qty:90,  region:"CA", organic:false, rating:4.4, img:"https://images.unsplash.com/photo-1762710526532-e05fc5fd08c6?w=400" },
+      { id:"p15", name:"Fresh Basil",          farm:"Herb Haven",       price:2.99,  unit:"bunch",  qty:200, region:"WA", organic:true,  rating:4.6, img:"https://images.unsplash.com/photo-1527964105263-1ac6265a569f?w=400" },
+      { id:"p16", name:"Farmstead Butter",     farm:"Creamery Co",      price:9.29,  unit:"block",  qty:70,  region:"NY", organic:false, rating:4.8, img:"https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400" },
+      { id:"p17", name:"Jalapeños",            farm:"Spice Ranch",      price:3.79,  unit:"lb",     qty:130, region:"TX", organic:false, rating:4.3, img:"https://images.unsplash.com/photo-1770353361865-608a07f03ef8?w=400" },
+      { id:"p18", name:"Maple Syrup",          farm:"Vermont Gold",     price:18.99, unit:"bottle", qty:40,  region:"NY", organic:true,  rating:4.9, img:"https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400" },
+      { id:"p19", name:"Sweet Potatoes",       farm:"Roots & Soil",     price:3.99,  unit:"lb",     qty:175, region:"WA", organic:true,  rating:4.5, img:"https://images.unsplash.com/photo-1744659749700-c4213f840355?w=400" },
+      { id:"p20", name:"Fresh Mint",           farm:"Herb Haven",       price:2.49,  unit:"bunch",  qty:220, region:"FL", organic:false, rating:4.4, img:"https://images.unsplash.com/photo-1632232812783-c774e55bbbe9?w=400" }
+    ];
 
-      let cart = [], wishlist = new Set(), orders = [], institutionalOrders = [];
-      let activeRegion = "all", organicOnly = false, currentSort = "default";
-      let compareSet = new Set();
+    let cart=[], wishlist=new Set(), orders=[], institutionalOrders=[];
+    let activeRegion="all", organicOnly=false, currentSort="default";
+    let compareSet=new Set();
+    const $=s=>document.querySelector(s);
+    const $$=s=>document.querySelectorAll(s);
 
-      const $ = (s) => document.querySelector(s);
-      const $$ = (s) => document.querySelectorAll(s);
+    function init() {
+      renderMarketplace(); renderCart(); renderFeaturedSlides();
+      initCharts(); bindEvents(); initParticles(); initThemeToggle(); initTabs();
+      document.getElementById('aiMessages').innerHTML =
+        `<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">🌾 Hi! I'm AgroBot. Ask me about FMPP/LFPP grants, organic certification, pricing trends, cold-chain logistics, or anything farm-to-table related.</div></div>`;
+    }
 
-      function init() {
-        renderMarketplace();
-        renderCart();
-        renderFeaturedSlides();
-        initCharts();
-        bindEvents();
-        initParticles();
-        initThemeToggle();
-        document.getElementById('aiMessages').innerHTML = '<div class="ai-msg bot" style="background:rgba(139,105,20,0.2); padding:0.7rem; border-radius:18px;">🌾 Hi! Ask about FMPP grants, organic certification, pricing trends, or logistics.</div>';
-      }
-
-      function bindEvents() {
-        $('#addProductBtn').addEventListener('click', addFarmerProduct);
-        $('#placeBulkOrderBtn').addEventListener('click', placeBulkOrder);
-        $('#sortSelect').addEventListener('change', e => { currentSort = e.target.value; renderMarketplace(); });
-        $('#organicFilter').addEventListener('click', function() { organicOnly = !organicOnly; this.classList.toggle('active', organicOnly); renderMarketplace(); });
-        $$('.filter-chip[data-region]').forEach(btn => btn.addEventListener('click', () => {
-          activeRegion = btn.dataset.region;
-          $$('.filter-chip[data-region]').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          renderMarketplace();
-        }));
-        $$('.nav-item, .mob-nav-item').forEach(btn => btn.addEventListener('click', () => {
-          if (btn.dataset.view) switchView(btn.dataset.view);
-        }));
-        $('#cartMobBtn').addEventListener('click', openCheckout);
-      }
-
-      function initThemeToggle() {
-        const toggle = $('#themeToggle');
-        const body = document.body;
-        const update = () => {
-          if (body.classList.contains('light-mode')) {
-            toggle.innerHTML = '<i class="fas fa-sun"></i><span>Light</span>';
-          } else {
-            toggle.innerHTML = '<i class="fas fa-moon"></i><span>Dark</span>';
-          }
-        };
-        toggle.addEventListener('click', () => {
-          body.classList.toggle('light-mode');
-          update();
+    /* ── Tab system ── */
+    function initTabs() {
+      $$('.tab-nav').forEach(nav => {
+        nav.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const panelId = btn.dataset.tab;
+            nav.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            let el = nav.nextElementSibling;
+            while (el && el.classList.contains('tab-panel')) {
+              el.classList.remove('active'); el = el.nextElementSibling;
+            }
+            const target = document.getElementById(panelId);
+            if (target) target.classList.add('active');
+            if (panelId==='ft-listings') renderFarmerProducts();
+            if (panelId==='it-contracts') renderInstOrders();
+            if (panelId==='it-order') renderInstDropdown();
+          });
         });
-        update();
-      }
+      });
+    }
 
-      function initParticles() {
-        const canvas = document.getElementById('particleCanvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const resize = () => {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        };
-        window.addEventListener('resize', resize);
-        resize();
-        for (let i = 0; i < 35; i++) {
-          particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 2 + 1,
-            dx: (Math.random() - 0.5) * 0.5,
-            dy: (Math.random() - 0.5) * 0.5,
-            opacity: Math.random() * 0.4 + 0.2
-          });
-        }
-        function animate() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          particles.forEach(p => {
-            p.x += p.dx;
-            p.y += p.dy;
-            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(168,212,138,${p.opacity})`;
-            ctx.fill();
-          });
-          requestAnimationFrame(animate);
-        }
-        animate();
-      }
+    /* ── Organic toggle ── */
+    window.toggleOrganic = function(wrapper) {
+      const sw = wrapper.querySelector('.toggle-sw');
+      const cb = document.getElementById('productOrganic');
+      sw.classList.toggle('on'); cb.checked = sw.classList.contains('on');
+    };
 
-      function renderFeaturedSlides() {
-        const container = document.getElementById('featuredSlides');
-        const featuredProducts = products.filter(p => p.rating >= 4.7).slice(0, 4);
-        container.innerHTML = featuredProducts.map(p => `
-          <div class="swiper-slide">
-            <img src="${p.img}" alt="${p.name}">
-            <div class="slide-caption">
-              <strong>${p.name}</strong> · $${p.price} · ⭐${p.rating}
+    /* ── Events ── */
+    function bindEvents() {
+      $('#addProductBtn').addEventListener('click', addFarmerProduct);
+      $('#placeBulkOrderBtn').addEventListener('click', placeBulkOrder);
+      $('#sortSelect').addEventListener('change', e => { currentSort=e.target.value; renderMarketplace(); });
+      $('#organicFilter').addEventListener('click', function() { organicOnly=!organicOnly; this.classList.toggle('active',organicOnly); renderMarketplace(); });
+      $$('.filter-chip[data-region]').forEach(btn => btn.addEventListener('click', () => {
+        activeRegion = btn.dataset.region;
+        $$('.filter-chip[data-region]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active'); renderMarketplace();
+      }));
+      $$('.nav-item,.mob-nav-item').forEach(btn => btn.addEventListener('click', () => {
+        if (btn.dataset.view) switchView(btn.dataset.view);
+      }));
+      $('#cartMobBtn').addEventListener('click', openCheckout);
+    }
+
+    /* ── Theme ── */
+    function initThemeToggle() {
+      const toggle=$('#themeToggle'), body=document.body;
+      const update=()=>{
+        if (body.classList.contains('light-mode'))
+          toggle.innerHTML='<i class="fas fa-sun"></i><span>Light Mode</span>';
+        else
+          toggle.innerHTML='<i class="fas fa-moon"></i><span>Dark Mode</span>';
+      };
+      toggle.addEventListener('click',()=>{ body.classList.toggle('light-mode'); update(); });
+      update();
+    }
+
+    /* ── Particles ── */
+    function initParticles() {
+      const canvas=document.getElementById('particleCanvas'); if(!canvas) return;
+      const ctx=canvas.getContext('2d'); let pts=[];
+      const resize=()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; };
+      window.addEventListener('resize',resize); resize();
+      for(let i=0;i<30;i++) pts.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.6+0.8,dx:(Math.random()-.5)*.4,dy:(Math.random()-.5)*.4,op:Math.random()*.32+0.12});
+      (function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pts.forEach(p=>{p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>canvas.width)p.dx*=-1;if(p.y<0||p.y>canvas.height)p.dy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(168,212,138,${p.op})`;ctx.fill();});
+        requestAnimationFrame(animate);
+      })();
+    }
+
+    /* ── Featured slides ── */
+    function renderFeaturedSlides() {
+      const container=document.getElementById('featuredSlides');
+      const featured=products.filter(p=>p.rating>=4.7).slice(0,5);
+      container.innerHTML=featured.map(p=>`
+        <div class="swiper-slide">
+          <img src="${p.img}" alt="${p.name}">
+          <div class="slide-caption">
+            <strong>${p.name}</strong><span class="slide-badge">${p.organic?'🌿 Organic':'Farm-Fresh'}</span>
+            <div style="font-size:.78rem;opacity:.8;margin-top:.2rem;">${p.farm} · ${p.region} · ⭐${p.rating} · <strong>$${p.price}</strong>/${p.unit}</div>
+          </div>
+        </div>`).join('');
+      if(window.Swiper) new Swiper('.mySwiper',{loop:true,autoplay:{delay:3500,disableOnInteraction:false},pagination:{el:'.swiper-pagination',clickable:true}});
+    }
+
+    /* ── Marketplace ── */
+    window.renderMarketplace = function() {
+      let list=products.filter(p=>(activeRegion==="all"||p.region===activeRegion)&&(!organicOnly||p.organic));
+      const q=$('#globalSearch')?.value.toLowerCase()||'';
+      if(q) list=list.filter(p=>p.name.toLowerCase().includes(q)||p.farm.toLowerCase().includes(q));
+      if(currentSort==="price-asc") list.sort((a,b)=>a.price-b.price);
+      else if(currentSort==="price-desc") list.sort((a,b)=>b.price-a.price);
+      else if(currentSort==="rating") list.sort((a,b)=>b.rating-a.rating);
+      document.getElementById('kpiProducts').innerText=products.length;
+      document.getElementById('productCountBadge').innerText=products.length;
+      const grid=document.getElementById('productGrid');
+      grid.innerHTML=list.map(p=>{
+        const inW=wishlist.has(p.id), inC=compareSet.has(p.id);
+        const reviews=Math.floor(p.rating*10+Math.random()*30+10);
+        return `<div class="product-card">
+          <div class="img-wrap">
+            <img class="product-img" src="${p.img}" alt="${p.name}">
+            ${p.organic?'<span class="organic-tag">🌿 Organic</span>':''}
+            <button class="wishlist-btn ${inW?'liked':''}" onclick="toggleWishlist('${p.id}')"><i class="fas fa-heart"></i></button>
+            <button class="quick-view-btn" onclick="openProductDetail('${p.id}')">Quick View</button>
+          </div>
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-farm"><i class="fas fa-map-marker-alt"></i> ${p.farm} · ${p.region}</div>
+            <div class="rating"><i class="fas fa-star"></i> ${p.rating} <span style="color:var(--text-secondary);margin-left:.3rem;">(${reviews})</span></div>
+            <div class="price-row">
+              <span class="price">$${p.price}<span style="font-size:.65rem;font-weight:400;color:var(--text-secondary);">/${p.unit}</span></span>
+              <span style="font-size:.65rem;color:var(--text-secondary);">${p.qty} left</span>
+            </div>
+            <div style="display:flex;gap:.4rem;align-items:center;margin-top:.3rem;">
+              <button class="add-btn" onclick="addToCart('${p.id}')"><i class="fas fa-basket-shopping"></i> Add</button>
+              <label style="display:flex;align-items:center;gap:.25rem;cursor:pointer;font-size:.7rem;color:var(--text-secondary);flex-shrink:0;white-space:nowrap;">
+                <input type="checkbox" ${inC?'checked':''} onchange="toggleCompare('${p.id}',this.checked)" style="accent-color:var(--accent);"> Compare
+              </label>
             </div>
           </div>
-        `).join('');
-        if (window.Swiper) {
-          new Swiper('.mySwiper', {
-            loop: true,
-            autoplay: { delay: 3500, disableOnInteraction: false },
-            pagination: { el: '.swiper-pagination', clickable: true },
-          });
-        }
-      }
+        </div>`;
+      }).join('');
+    };
 
-      window.renderMarketplace = function() {
-        let list = products.filter(p => (activeRegion==="all"||p.region===activeRegion) && (!organicOnly||p.organic));
-        const q = $('#globalSearch')?.value.toLowerCase() || '';
-        if (q) list = list.filter(p => p.name.toLowerCase().includes(q) || p.farm.toLowerCase().includes(q));
-        if (currentSort === "price-asc") list.sort((a,b) => a.price - b.price);
-        else if (currentSort === "price-desc") list.sort((a,b) => b.price - a.price);
-        else if (currentSort === "rating") list.sort((a,b) => b.rating - a.rating);
+    /* ── Compare ── */
+    window.toggleCompare=function(id,checked){
+      if(checked) compareSet.add(id); else compareSet.delete(id);
+      updateCompareBar(); renderMarketplace();
+    };
+    function updateCompareBar(){
+      const bar=document.getElementById('compareBar'), count=compareSet.size;
+      document.getElementById('compareCount').innerText=count;
+      document.getElementById('compareItems').innerHTML=Array.from(compareSet).map(id=>{
+        const p=products.find(x=>x.id===id);
+        return `<span class="compare-item">${p.name} <i class="fas fa-times" onclick="toggleCompare('${id}',false)" style="cursor:pointer;"></i></span>`;
+      }).join('');
+      if(count>0) bar.classList.add('active'); else bar.classList.remove('active');
+    }
+    window.compareProducts=function(){
+      const ids=Array.from(compareSet);
+      if(ids.length<2) return toast('Select at least 2 products to compare','info');
+      const sel=products.filter(p=>ids.includes(p.id));
+      document.getElementById('productDetailContent').innerHTML=`
+        <h3>Product Comparison</h3>
+        <div style="overflow-x:auto;margin-top:1rem;">
+        <table style="width:100%;font-size:.8rem;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid var(--border);">
+            <th style="padding:.5rem;text-align:left;color:var(--text-secondary);"></th>
+            ${sel.map(p=>`<th style="padding:.5rem;text-align:center;color:var(--text-primary);"><img src="${p.img}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;display:block;margin:0 auto .3rem;"><div>${p.name}</div></th>`).join('')}
+          </tr>
+          ${[['Price',sel.map(p=>`<span style="color:var(--accent);font-family:'DM Mono',monospace;">$${p.price}</span>`)],
+             ['Farm',sel.map(p=>p.farm)],
+             ['Region',sel.map(p=>p.region)],
+             ['Organic',sel.map(p=>p.organic?'<span style="color:#86efac;">🌿 Yes</span>':'No')],
+             ['Rating',sel.map(p=>`⭐${p.rating}`)],
+             ['Stock',sel.map(p=>`${p.qty} ${p.unit}`)]
+            ].map(([label,vals])=>`<tr style="border-bottom:1px solid rgba(90,122,82,0.1);">
+              <td style="padding:.5rem;color:var(--text-secondary);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;">${label}</td>
+              ${vals.map(v=>`<td style="padding:.5rem;text-align:center;color:var(--text-primary);">${v}</td>`).join('')}
+            </tr>`).join('')}
+        </table></div>
+        <button onclick="closeProductDetail()" style="margin-top:1rem;width:100%;background:var(--sage);border:none;padding:.6rem;border-radius:20px;color:white;cursor:pointer;font-family:'DM Sans',sans-serif;">Close</button>`;
+      document.getElementById('productDetailModal').classList.add('open');
+    };
 
-        document.getElementById('kpiProducts').innerText = products.length;
-        document.getElementById('productCountBadge').innerText = products.length;
+    /* ── Product detail ── */
+    window.openProductDetail=function(id){
+      const p=products.find(x=>x.id===id); if(!p) return;
+      const reviews=Math.floor(p.rating*10+Math.random()*30+10);
+      document.getElementById('productDetailContent').innerHTML=`
+        <img class="detail-img" src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <div class="product-farm" style="margin-top:.4rem;color:var(--text-secondary);font-size:.78rem;"><i class="fas fa-map-marker-alt"></i> ${p.farm} · ${p.region}</div>
+        <div class="rating" style="margin:.5rem 0;"><i class="fas fa-star"></i> ${p.rating} <span style="color:var(--text-secondary);margin-left:.3rem;">${reviews} verified reviews</span></div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:.3rem;">$${p.price} <span style="font-size:.75rem;font-weight:400;color:var(--text-secondary);">/ ${p.unit}</span></div>
+        <div style="font-size:.8rem;margin-bottom:.8rem;color:var(--text-secondary);">${p.qty} units in stock · ${p.organic?'🌿 Certified Organic':'Conventionally grown'}</div>
+        <div style="display:flex;gap:.5rem;margin-top:1rem;">
+          <button class="add-btn" style="flex:1;" onclick="addToCart('${p.id}');closeProductDetail();"><i class="fas fa-basket-shopping"></i> Add to Cart</button>
+          <button class="wishlist-btn ${wishlist.has(p.id)?'liked':''}" style="position:static;width:42px;height:42px;" onclick="toggleWishlist('${p.id}');closeProductDetail();"><i class="fas fa-heart"></i></button>
+        </div>
+        <button onclick="closeProductDetail()" style="margin-top:.8rem;width:100%;background:none;border:1px solid var(--border);padding:.5rem;border-radius:20px;color:var(--text-secondary);cursor:pointer;font-family:'DM Sans',sans-serif;">Close</button>`;
+      document.getElementById('productDetailModal').classList.add('open');
+    };
+    window.closeProductDetail=()=>document.getElementById('productDetailModal').classList.remove('open');
 
-        const grid = document.getElementById('productGrid');
-        grid.innerHTML = list.map(p => {
-          const inWishlist = wishlist.has(p.id);
-          const inCompare = compareSet.has(p.id);
-          return `
-            <div class="product-card">
-              <div class="img-wrap">
-                <img class="product-img" src="${p.img}" alt="${p.name}">
-                <button class="wishlist-btn ${inWishlist?'liked':''}" onclick="toggleWishlist('${p.id}')"><i class="fas fa-heart"></i></button>
-                <button class="quick-view-btn" onclick="openProductDetail('${p.id}')">Quick View</button>
-              </div>
-              <div class="product-info">
-                <div class="product-name">${p.name}</div>
-                <div class="product-farm"><i class="fas fa-map-marker-alt"></i> ${p.farm} · ${p.region}</div>
-                <div class="rating"><i class="fas fa-star"></i> ${p.rating}</div>
-                <div class="price-row">
-                  <span class="price">$${p.price}</span>
-                  <span style="font-size:0.7rem;">${p.qty} left</span>
-                </div>
-                <div style="display:flex; gap:0.3rem; margin-top:0.4rem;">
-                  <button class="add-btn" onclick="addToCart('${p.id}')"><i class="fas fa-basket-shopping"></i> Add</button>
-                  <label style="display:flex; align-items:center; gap:0.2rem; cursor:pointer;">
-                    <input type="checkbox" ${inCompare?'checked':''} onchange="toggleCompare('${p.id}', this.checked)" style="accent-color:var(--accent);"> Compare
-                  </label>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-      };
-
-      window.toggleCompare = function(id, checked) {
-        if (checked) compareSet.add(id);
-        else compareSet.delete(id);
-        updateCompareBar();
-        renderMarketplace();
-      };
-      function updateCompareBar() {
-        const bar = document.getElementById('compareBar');
-        const count = compareSet.size;
-        document.getElementById('compareCount').innerText = count;
-        const itemsDiv = document.getElementById('compareItems');
-        itemsDiv.innerHTML = Array.from(compareSet).map(id => {
-          const p = products.find(x => x.id === id);
-          return `<span class="compare-item">${p.name} <i class="fas fa-times" onclick="toggleCompare('${id}', false)" style="cursor:pointer;"></i></span>`;
-        }).join('');
-        if (count > 0) bar.classList.add('active');
-        else bar.classList.remove('active');
-      }
-      window.compareProducts = function() {
-        const ids = Array.from(compareSet);
-        if (ids.length < 2) return toast('Select at least 2 products to compare', 'info');
-        const selected = products.filter(p => ids.includes(p.id));
-        const modal = document.getElementById('productDetailModal');
-        const content = document.getElementById('productDetailContent');
-        content.innerHTML = `
-          <h3>Product Comparison</h3>
-          <table style="width:100%; margin-top:1rem; font-size:0.8rem;">
-            <tr><th></th>${selected.map(p=>`<th>${p.name}</th>`).join('')}</tr>
-            <tr><td>Price</td>${selected.map(p=>`<td>$${p.price}</td>`).join('')}</tr>
-            <tr><td>Farm</td>${selected.map(p=>`<td>${p.farm}</td>`).join('')}</tr>
-            <tr><td>Organic</td>${selected.map(p=>`<td>${p.organic?'Yes':'No'}</td>`).join('')}</tr>
-            <tr><td>Rating</td>${selected.map(p=>`<td>⭐${p.rating}</td>`).join('')}</tr>
-          </table>
-          <button onclick="closeProductDetail()" style="margin-top:1rem; background:var(--sage); border:none; padding:0.4rem 1rem; border-radius:20px; color:white;">Close</button>
-        `;
-        modal.classList.add('open');
-      };
-
-      window.openProductDetail = function(id) {
-        const p = products.find(x => x.id === id);
-        if (!p) return;
-        const modal = document.getElementById('productDetailModal');
-        const content = document.getElementById('productDetailContent');
-        content.innerHTML = `
-          <img class="detail-img" src="${p.img}" alt="${p.name}">
-          <h3 style="margin-top:1rem;">${p.name}</h3>
-          <div class="product-farm"><i class="fas fa-map-marker-alt"></i> ${p.farm} · ${p.region}</div>
-          <div class="rating" style="margin:0.3rem 0;"><i class="fas fa-star"></i> ${p.rating}</div>
-          <p><strong>$${p.price}</strong> / ${p.unit} · ${p.qty} in stock</p>
-          <p style="font-size:0.8rem;">${p.organic ? '🌿 Certified Organic' : 'Conventionally grown'}</p>
-          <div style="display:flex; gap:0.5rem; margin-top:1rem;">
-            <button class="add-btn" onclick="addToCart('${p.id}'); closeProductDetail();">Add to Cart</button>
-            <button onclick="toggleWishlist('${p.id}')" class="wishlist-btn liked"><i class="fas fa-heart"></i></button>
+    /* ── Cart ── */
+    window.addToCart=function(id){
+      const p=products.find(x=>x.id===id); if(!p) return;
+      const ex=cart.find(i=>i.id===id);
+      if(ex){ if(ex.quantity>=p.qty) return toast('Out of stock','error'); ex.quantity++; }
+      else cart.push({id,name:p.name,price:p.price,quantity:1});
+      renderCart(); toast(`${p.name} added to cart 🛒`,'success');
+    };
+    function renderCart(){
+      const total=cart.reduce((s,i)=>s+i.price*i.quantity,0);
+      const qty=cart.reduce((s,i)=>s+i.quantity,0);
+      document.getElementById('cartCountSidebar').innerText=qty;
+      document.getElementById('cartTotalSidebar').innerText=total.toFixed(2);
+      document.getElementById('cartMobBadge').innerText=qty;
+      const el=document.getElementById('sidebarCartItems');
+      if(!cart.length){ el.innerHTML='<div style="text-align:center;padding:.5rem;font-size:.78rem;color:var(--text-secondary);">Cart is empty</div>'; return; }
+      el.innerHTML=cart.map((item,idx)=>`
+        <div class="cart-row">
+          <span style="flex:1;font-size:.72rem;">${item.name} ×${item.quantity}</span>
+          <div style="display:flex;gap:3px;align-items:center;">
+            <button style="background:rgba(90,122,82,.35);border:none;width:20px;height:20px;border-radius:5px;color:white;cursor:pointer;line-height:1;" onclick="changeQty(${idx},-1)">−</button>
+            <button style="background:rgba(90,122,82,.35);border:none;width:20px;height:20px;border-radius:5px;color:white;cursor:pointer;line-height:1;" onclick="changeQty(${idx},1)">+</button>
+            <button onclick="removeCartItem(${idx})" style="background:rgba(248,113,113,.25);border:none;width:20px;height:20px;border-radius:5px;color:#f87171;cursor:pointer;"><i class="fas fa-times" style="font-size:.6rem;"></i></button>
           </div>
-          <button onclick="closeProductDetail()" style="margin-top:0.8rem; background:none; border:1px solid var(--border); padding:0.3rem 0.8rem; border-radius:20px;">Close</button>
-        `;
-        modal.classList.add('open');
-      };
-      window.closeProductDetail = function() {
-        document.getElementById('productDetailModal').classList.remove('open');
-      };
+        </div>`).join('');
+    }
+    window.changeQty=(idx,delta)=>{ const nq=cart[idx].quantity+delta; if(nq<1) removeCartItem(idx); else cart[idx].quantity=nq; renderCart(); };
+    window.removeCartItem=idx=>{ cart.splice(idx,1); renderCart(); };
+    window.openCheckout=()=>{
+      if(!cart.length) return toast('Your cart is empty','error');
+      document.getElementById('modalTotal').innerText='$'+cart.reduce((s,i)=>s+i.price*i.quantity,0).toFixed(2);
+      document.getElementById('checkoutSummary').innerHTML='<div style="display:flex;flex-direction:column;gap:.3rem;">'+cart.map(i=>`<div style="display:flex;justify-content:space-between;"><span>${i.name} ×${i.quantity}</span><strong style="color:var(--accent);">$${(i.price*i.quantity).toFixed(2)}</strong></div>`).join('')+'</div>';
+      document.getElementById('checkoutModal').classList.add('open');
+    };
+    window.closeCheckout=()=>document.getElementById('checkoutModal').classList.remove('open');
+    window.completeCheckout=()=>{
+      if(!document.getElementById('checkoutName').value.trim()) return toast('Please enter your name','error');
+      const total=cart.reduce((s,i)=>s+i.price*i.quantity,0);
+      orders.unshift({id:'ORD'+Date.now(),items:[...cart],total:total.toFixed(2),status:'In Transit'});
+      for(let c of cart){ const p=products.find(x=>x.id===c.id); if(p) p.qty-=c.quantity; }
+      cart=[]; closeCheckout(); renderCart(); renderMarketplace(); renderOrders();
+      toast('Order placed! 🎉 Farmers notified.','success');
+    };
 
-      window.addToCart = function(id) {
-        const p = products.find(x => x.id === id);
-        if (!p) return;
-        const existing = cart.find(i => i.id === id);
-        if (existing) {
-          if (existing.quantity >= p.qty) return toast('Out of stock', 'error');
-          existing.quantity++;
-        } else {
-          cart.push({ id, name: p.name, price: p.price, quantity: 1 });
-        }
-        renderCart();
-        toast(`${p.name} added`, 'success');
-      };
-      function renderCart() {
-        const total = cart.reduce((s,i) => s + i.price * i.quantity, 0);
-        const qty = cart.reduce((s,i) => s + i.quantity, 0);
-        document.getElementById('cartCountSidebar').innerText = qty;
-        document.getElementById('cartTotalSidebar').innerText = total.toFixed(2);
-        document.getElementById('cartMobBadge').innerText = qty;
-        const el = document.getElementById('sidebarCartItems');
-        if (!cart.length) {
-          el.innerHTML = '<div style="text-align:center; padding:0.5rem;">Cart empty</div>';
-          return;
-        }
-        el.innerHTML = cart.map((item, idx) => `
-          <div class="cart-row">
-            <span>${item.name} x${item.quantity}</span>
-            <div>
-              <button style="background:rgba(90,122,82,0.4); border:none; width:22px; border-radius:6px; color:white;" onclick="changeQty(${idx},-1)">−</button>
-              <span style="margin:0 4px;">${item.quantity}</span>
-              <button style="background:rgba(90,122,82,0.4); border:none; width:22px; border-radius:6px;" onclick="changeQty(${idx},1)">+</button>
-              <button onclick="removeCartItem(${idx})" style="background:#f87171; margin-left:4px; border:none; color:white;"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>`).join('');
-      }
-      window.changeQty = (idx, delta) => {
-        const newQty = cart[idx].quantity + delta;
-        if (newQty < 1) removeCartItem(idx);
-        else cart[idx].quantity = newQty;
-        renderCart();
-      };
-      window.removeCartItem = (idx) => { cart.splice(idx, 1); renderCart(); };
-      window.openCheckout = () => {
-        if (!cart.length) return toast('Cart empty', 'error');
-        document.getElementById('modalTotal').innerText = '$' + cart.reduce((s,i)=>s+i.price*i.quantity,0).toFixed(2);
-        document.getElementById('checkoutSummary').innerHTML = cart.map(i=>`<div>${i.name} x${i.quantity} = $${(i.price*i.quantity).toFixed(2)}</div>`).join('');
-        document.getElementById('checkoutModal').classList.add('open');
-      };
-      window.closeCheckout = () => document.getElementById('checkoutModal').classList.remove('open');
-      window.completeCheckout = () => {
-        if (!document.getElementById('checkoutName').value.trim()) return toast('Enter name', 'error');
-        const total = cart.reduce((s,i)=>s+i.price*i.quantity,0);
-        orders.unshift({ id:"ORD"+Date.now(), items:[...cart], total:total.toFixed(2), status:"In Transit" });
-        for (let c of cart) {
-          const p = products.find(x=>x.id===c.id);
-          if (p) p.qty -= c.quantity;
-        }
-        cart = [];
-        closeCheckout();
-        renderCart();
-        renderMarketplace();
-        renderOrders();
-        toast('Order placed! 🎉', 'success');
-      };
+    /* ── Wishlist ── */
+    window.toggleWishlist=function(id){
+      if(wishlist.has(id)) wishlist.delete(id); else wishlist.add(id);
+      renderMarketplace(); renderWishlistView();
+      document.getElementById('wishlistBadge').innerText=wishlist.size;
+    };
+    function renderWishlistView(){
+      const items=products.filter(p=>wishlist.has(p.id));
+      const grid=document.getElementById('wishlistGrid');
+      const empty=document.getElementById('wishlistEmpty');
+      if(!items.length){ grid.innerHTML=''; empty.style.display='block'; return; }
+      empty.style.display='none';
+      grid.innerHTML=items.map(p=>`
+        <div class="product-card">
+          <div class="img-wrap"><img class="product-img" src="${p.img}"><button class="wishlist-btn liked" onclick="toggleWishlist('${p.id}')"><i class="fas fa-heart"></i></button></div>
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-farm"><i class="fas fa-map-marker-alt"></i> ${p.farm}</div>
+            <div class="price-row"><span class="price">$${p.price}<span style="font-size:.65rem;font-weight:400;color:var(--text-secondary);">/${p.unit}</span></span></div>
+            <button class="add-btn" onclick="addToCart('${p.id}')"><i class="fas fa-basket-shopping"></i> Add to Cart</button>
+          </div>
+        </div>`).join('');
+    }
 
-      window.toggleWishlist = function(id) {
-        if (wishlist.has(id)) wishlist.delete(id);
-        else wishlist.add(id);
-        renderMarketplace();
-        renderWishlistView();
-        document.getElementById('wishlistBadge').innerText = wishlist.size;
-      };
-      function renderWishlistView() {
-        const items = products.filter(p => wishlist.has(p.id));
-        const grid = document.getElementById('wishlistGrid');
-        const empty = document.getElementById('wishlistEmpty');
-        if (!items.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
-        empty.style.display = 'none';
-        grid.innerHTML = items.map(p => `
-          <div class="product-card">
-            <div class="img-wrap"><img class="product-img" src="${p.img}"><button class="wishlist-btn liked" onclick="toggleWishlist('${p.id}')"><i class="fas fa-heart"></i></button></div>
-            <div class="product-info"><strong>${p.name}</strong><div>$${p.price}</div><button class="add-btn" onclick="addToCart('${p.id}')">Add to cart</button></div>
-          </div>`).join('');
-      }
+    /* ── Orders ── */
+    function renderOrders(){
+      const el=document.getElementById('ordersList');
+      if(!orders.length){ el.innerHTML='<div style="text-align:center;padding:2.5rem;color:var(--text-secondary);"><i class="fas fa-receipt" style="font-size:2rem;opacity:.3;display:block;margin-bottom:.8rem;"></i><p>No orders yet. Browse the marketplace to get started.</p></div>'; return; }
+      el.innerHTML=orders.map(o=>`
+        <div class="order-card">
+          <div class="order-icon">📦</div>
+          <div style="flex:1;">
+            <div class="order-id">${o.id}</div>
+            <div class="order-items">${o.items.map(i=>i.name).join(', ')}</div>
+          </div>
+          <span class="status-pill"><i class="fas fa-truck"></i> ${o.status}</span>
+          <div class="order-total">$${o.total}</div>
+        </div>`).join('');
+    }
 
-      function renderOrders() {
-        const el = document.getElementById('ordersList');
-        if (!orders.length) { el.innerHTML = '<p>No orders yet</p>'; return; }
-        el.innerHTML = orders.map(o => `<div class="card"><strong>${o.id}</strong> · $${o.total} <span class="status-pill">${o.status}</span><div style="font-size:0.7rem;">${o.items.map(i=>i.name).join(', ')}</div></div>`).join('');
-      }
-      function renderLogistics() {
-        document.getElementById('pendingOrdersList').innerHTML = orders.length ? orders.map(o=>`<div class="card">🚛 ${o.id} · ${o.status}</div>`).join('') : '<p>No active shipments</p>';
-      }
+    /* ── Logistics ── */
+    function renderLogistics(){
+      const el=document.getElementById('pendingOrdersList');
+      if(!orders.length) return;
+      orders.forEach(o=>{
+        el.insertAdjacentHTML('afterbegin',`
+          <div class="shipment-card">
+            <div class="ship-icon">🚛</div>
+            <div class="ship-info"><div class="route">${o.id}</div><div class="detail">${o.items.map(i=>i.name).join(', ')} · $${o.total}</div></div>
+            <span class="status-pill">${o.status}</span>
+          </div>`);
+      });
+    }
 
-      function addFarmerProduct() {
-        const name = document.getElementById('productName').value.trim();
-        if (!name) return toast('Enter product name', 'error');
-        const farm = document.getElementById('farmNameInput').value || 'Sunrise Co-op';
-        const price = parseFloat(document.getElementById('productPrice').value);
-        const unit = document.getElementById('productUnit').value;
-        const qty = parseInt(document.getElementById('productQty').value);
-        const region = document.getElementById('productRegion').value;
-        const organic = document.getElementById('productOrganic').checked;
-        const img = document.getElementById('productImage').value || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400';
-        products.push({
-          id: 'p' + Date.now(), name, farm, price, unit, qty, region, organic, rating: (Math.random()*2+3).toFixed(1), img
-        });
-        renderMarketplace();
-        renderFarmerProducts();
-        toast('Product listed!', 'success');
-      }
-      function renderFarmerProducts() {
-        const my = products.filter(p => p.farm === "Sunrise Co-op");
-        document.getElementById('farmerProductsList').innerHTML = my.length ? my.map(p => `<div style="display:flex; justify-content:space-between; padding:0.3rem 0;"><span>${p.name} (${p.qty}) $${p.price}</span><button onclick="deleteProduct('${p.id}')" style="background:none; border:none; color:#f87171;">✖</button></div>`).join('') : '<p>No products listed</p>';
-      }
-      window.deleteProduct = (id) => {
-        products = products.filter(p => p.id !== id);
-        renderMarketplace();
-        renderFarmerProducts();
-        renderInstDropdown();
-        toast('Removed', 'info');
-      };
+    /* ── Farmer listing ── */
+    function addFarmerProduct(){
+      const name=document.getElementById('productName').value.trim();
+      if(!name) return toast('Enter a product name','error');
+      const farm=document.getElementById('farmNameInput').value||'Sunrise Co-op';
+      const price=parseFloat(document.getElementById('productPrice').value);
+      if(isNaN(price)||price<=0) return toast('Enter a valid price','error');
+      const unit=document.getElementById('productUnit').value||'unit';
+      const qty=parseInt(document.getElementById('productQty').value)||50;
+      const region=document.getElementById('productRegion').value;
+      const organic=document.getElementById('productOrganic').checked;
+      const img=document.getElementById('productImage').value||'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400';
+      products.push({id:'p'+Date.now(),name,farm,price,unit,qty,region,organic,rating:(Math.random()*1.5+3.4).toFixed(1),img});
+      renderMarketplace(); renderFarmerProducts();
+      document.getElementById('productName').value='';
+      document.getElementById('productImage').value='';
+      toast(`${name} listed on marketplace! 🌱`,'success');
+    }
+    function renderFarmerProducts(){
+      const my=products.filter(p=>p.farm==='Sunrise Co-op');
+      const el=document.getElementById('farmerProductsList');
+      if(!my.length){ el.innerHTML='<p style="color:var(--text-secondary);font-size:.85rem;">No products listed yet.</p>'; return; }
+      el.innerHTML=`<table class="product-table"><thead><tr><th>Product</th><th>Price</th><th>Stock</th><th>Type</th><th></th></tr></thead><tbody>
+        ${my.map(p=>`<tr>
+          <td style="font-weight:600;">${p.name}</td>
+          <td style="color:var(--accent);font-family:'DM Mono',monospace;">$${p.price}</td>
+          <td style="color:var(--text-secondary);">${p.qty} ${p.unit}</td>
+          <td>${p.organic?'<span style="color:#86efac;font-size:.7rem;">🌿 Organic</span>':'<span style="font-size:.7rem;color:var(--text-secondary);">Conventional</span>'}</td>
+          <td><button onclick="deleteProduct('${p.id}')" style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.3);color:#f87171;border-radius:8px;padding:.2rem .6rem;cursor:pointer;font-size:.7rem;">Remove</button></td>
+        </tr>`).join('')}
+      </tbody></table>`;
+    }
+    window.deleteProduct=id=>{
+      const idx=products.findIndex(p=>p.id===id);
+      if(idx>-1) products.splice(idx,1);
+      renderMarketplace(); renderFarmerProducts(); renderInstDropdown();
+      toast('Product removed','info');
+    };
 
-      function renderInstDropdown() {
-        const sel = document.getElementById('instProductSelect');
-        if (sel) sel.innerHTML = products.map(p => `<option value="${p.id}">${p.name} - $${p.price}</option>`).join('');
+    /* ── Institutional ── */
+    function renderInstDropdown(){
+      const sel=document.getElementById('instProductSelect');
+      if(sel) sel.innerHTML=products.map(p=>`<option value="${p.id}">${p.name} — $${p.price}/${p.unit} (${p.qty} avail.)</option>`).join('');
+    }
+    function placeBulkOrder(){
+      const pid=document.getElementById('instProductSelect').value;
+      const qty=parseInt(document.getElementById('instQuantity').value);
+      const inst=document.getElementById('instName').value.trim()||'Institution';
+      const type=document.getElementById('instType').value;
+      const freq=document.getElementById('instFreq').value;
+      if(!pid||isNaN(qty)||qty<1) return toast('Enter a valid quantity','error');
+      const p=products.find(x=>x.id===pid);
+      if(!p||p.qty<qty) return toast('Insufficient stock available','error');
+      p.qty-=qty;
+      const total=(p.price*qty*0.85).toFixed(2);
+      const savings=(p.price*qty*0.15).toFixed(2);
+      institutionalOrders.unshift({institution:inst,type,freq,product:p.name,qty,total,savings});
+      renderInstOrders(); renderMarketplace();
+      toast(`Contract for ${inst} placed! LFPP savings: $${savings}`,'success');
+    }
+    function renderInstOrders(){
+      const div=document.getElementById('instOrdersList');
+      if(!institutionalOrders.length){
+        div.innerHTML='<div style="text-align:center;padding:2.5rem;color:var(--text-secondary);"><i class="fas fa-file-contract" style="font-size:1.8rem;opacity:.3;display:block;margin-bottom:.8rem;"></i><p>No contracts yet.</p></div>';
+        return;
       }
-      function placeBulkOrder() {
-        const pid = document.getElementById('instProductSelect').value;
-        const qty = parseInt(document.getElementById('instQuantity').value);
-        const inst = document.getElementById('instName').value.trim();
-        if (!pid || isNaN(qty) || qty < 1) return toast('Invalid quantity', 'error');
-        const p = products.find(x => x.id === pid);
-        if (!p || p.qty < qty) return toast('Insufficient stock', 'error');
-        p.qty -= qty;
-        const total = (p.price * qty * 0.85).toFixed(2);
-        institutionalOrders.unshift({ institution: inst, product: p.name, qty, total });
-        renderInstOrders();
-        renderMarketplace();
-        toast(`Bulk order for ${inst} placed`, 'success');
-      }
-      function renderInstOrders() {
-        const div = document.getElementById('instOrdersList');
-        div.innerHTML = institutionalOrders.length ? institutionalOrders.map(o => `<div class="card">${o.institution}: ${o.qty}× ${o.product} · $${o.total}</div>`).join('') : '<p>No contracts</p>';
-      }
+      div.innerHTML=institutionalOrders.map(o=>`
+        <div class="contract-row">
+          <div>
+            <div class="inst-name">${o.institution}</div>
+            <div class="inst-meta">${o.type} · ${o.qty}× ${o.product} · ${o.freq} delivery</div>
+          </div>
+          <div class="contract-savings">
+            <div class="amount">$${o.total}</div>
+            <div class="save-note">Saved $${o.savings} via LFPP</div>
+          </div>
+          <span class="status-pill"><i class="fas fa-circle-check"></i> Active</span>
+        </div>`).join('');
+    }
 
-      window.sendAI = () => {
-        const input = document.getElementById('aiInput');
-        const msg = input.value.trim();
-        if (!msg) return;
-        input.value = '';
-        const msgs = document.getElementById('aiMessages');
-        msgs.innerHTML += `<div style="align-self:flex-end; background:rgba(90,122,82,0.3); padding:0.6rem; border-radius:18px;">${msg}</div>`;
-        msgs.scrollTop = msgs.scrollHeight;
-        setTimeout(() => {
-          let reply = "I can help with FMPP grants, organic certification, or pricing strategies.";
-          if (msg.toLowerCase().includes("grant")) reply = "FMPP offers direct marketing grants up to $50k. LFPP supports aggregation & cold-chain. Apply at grants.usda.gov.";
-          else if (msg.toLowerCase().includes("organic")) reply = "Organic certification requires a 3-year transition period. We can connect you with USDA-accredited certifiers.";
-          else if (msg.toLowerCase().includes("price")) reply = "Current average tomato price is $4.80/lb across our network. Your region may vary.";
-          msgs.innerHTML += `<div style="background:rgba(139,105,20,0.2); padding:0.6rem; border-radius:18px;">${reply}</div>`;
-          msgs.scrollTop = msgs.scrollHeight;
-        }, 500);
-      };
+    /* ── AI ── */
+    const aiKB = {
+      grant:     "FMPP offers grants up to $500k for direct marketing. LFPP supports food business enterprises. Apply at grants.usda.gov — deadline March 15. Most AgroCart farmers qualify for both. Your platform activity also counts toward eligibility documentation.",
+      organic:   "Organic certification requires a 3-year transition. USDA's Cost Share reimburses up to $500/year. AgroCart partners with 12 USDA-accredited certifiers. Timeline: application → inspection → certificate typically takes 6–9 months. We can connect you with a local certifier today.",
+      price:     "Current averages: tomatoes $4.80/lb, blueberries $7.10/pint, honey $15.20/jar, leafy greens up 8% due to winter demand. AgroCart pricing runs 12–18% above wholesale average — that margin goes directly to farmers.",
+      logistics: "Cold-chain best practices: maintain 2–4°C, use ethylene-absorbing packaging for mixed loads, and minimize stops. AgroCart's network averages 98.2% on-time delivery with GPS-monitored refrigerated transport. We offer free cold-chain audits for farms shipping 50+ lbs weekly.",
+      lfpp:      "LFPP (Local Food Promotion Program) offers up to $500k for food hubs, distributors, and aggregators. Institutional contracts on AgroCart qualify for automatic 15% offset. Contracts of 6+ months receive priority grant review. 452 institutions are currently enrolled.",
+      default:   "I can help with FMPP/LFPP grants, organic certification, regional pricing trends, cold-chain logistics, and institutional procurement. What would you like to explore?"
+    };
+    window.sendAI=function(){
+      const input=document.getElementById('aiInput');
+      const msg=input.value.trim(); if(!msg) return;
+      input.value='';
+      const msgs=document.getElementById('aiMessages');
+      msgs.innerHTML+=`<div class="ai-msg user"><div class="msg-av"><i class="fas fa-user"></i></div><div class="bubble">${msg}</div></div>`;
+      msgs.scrollTop=msgs.scrollHeight;
+      document.getElementById('aiSuggestions').style.display='none';
+      setTimeout(()=>{
+        const ml=msg.toLowerCase();
+        let reply=aiKB.default;
+        if(ml.includes('grant')||ml.includes('fmpp')) reply=aiKB.grant;
+        else if(ml.includes('organic')||ml.includes('certif')) reply=aiKB.organic;
+        else if(ml.includes('price')||ml.includes('cost')||ml.includes('pricing')) reply=aiKB.price;
+        else if(ml.includes('logistic')||ml.includes('cold')||ml.includes('deliver')||ml.includes('ship')) reply=aiKB.logistics;
+        else if(ml.includes('lfpp')||ml.includes('institution')||ml.includes('school')||ml.includes('bulk')) reply=aiKB.lfpp;
+        msgs.innerHTML+=`<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">${reply}</div></div>`;
+        msgs.scrollTop=msgs.scrollHeight;
+      }, 550);
+    };
+    window.sendAISuggestion=function(btn){
+      document.getElementById('aiInput').value=btn.textContent.replace(/^.\s/,'');
+      sendAI();
+    };
 
-      function initCharts() {
-        if (document.getElementById('farmerShareChart')) new Chart(document.getElementById('farmerShareChart'), {type:'line', data:{labels:['2022','2023','2024','2025'], datasets:[{data:[12,14,28,34.6], borderColor:'#a8d48a'}]}});
-        if (document.getElementById('foodWasteChart')) new Chart(document.getElementById('foodWasteChart'), {type:'bar', data:{labels:['2023','2024','2025e'], datasets:[{data:[32,67,124], backgroundColor:'#4ade80'}]}});
-        if (document.getElementById('farmerIncomeChart')) new Chart(document.getElementById('farmerIncomeChart'), {type:'bar', data:{labels:['2023','2024','2025e'], datasets:[{data:[52,78,114], backgroundColor:'#f5d878'}]}});
-        if (document.getElementById('logisticsChart')) new Chart(document.getElementById('logisticsChart'), {type:'line', data:{labels:['Q1','Q2','Q3','Q4'], datasets:[{data:[12,18,27,33], borderColor:'#60a5fa'}]}});
-        if (document.getElementById('regionalChart')) new Chart(document.getElementById('regionalChart'), {type:'bar', data:{labels:['CA','NY','TX','FL','WA'], datasets:[{data:[3.2,2.1,1.4,0.9,0.82], backgroundColor:'#a8d48a'}]}});
-      }
+    /* ── Charts ── */
+    let chartsInited=false;
+    function initCharts(){
+      if(chartsInited) return; chartsInited=true;
+      const tick={color:'rgba(245,240,232,0.45)',font:{size:10}};
+      const grid={color:'rgba(90,122,82,0.1)'};
+      const base={plugins:{legend:{display:false}},scales:{x:{grid,ticks:tick},y:{grid,ticks:tick}}};
 
-      function switchView(view) {
-        $$('.view').forEach(v => v.classList.remove('active'));
-        const target = document.getElementById(`view-${view}`);
-        if (target) target.classList.add('active');
-        $$('.nav-item, .mob-nav-item').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll(`.nav-item[data-view="${view}"], .mob-nav-item[data-view="${view}"]`).forEach(el => el.classList.add('active'));
-        if (view === 'wishlist') renderWishlistView();
-        if (view === 'orders') renderOrders();
-        if (view === 'logistics') renderLogistics();
-        if (view === 'farmer') renderFarmerProducts();
-        if (view === 'institutional') { renderInstDropdown(); renderInstOrders(); }
-      }
+      if($('#farmerShareChart')) new Chart($('#farmerShareChart'),{type:'line',data:{labels:['2022','2023','2024','2025'],datasets:[{data:[12,21,29,34.6],borderColor:'#a8d48a',backgroundColor:'rgba(168,212,138,0.1)',tension:0.4,fill:true,pointBackgroundColor:'#a8d48a',pointRadius:4}]},options:{...base}});
+      if($('#foodWasteChart')) new Chart($('#foodWasteChart'),{type:'bar',data:{labels:['2023','2024','2025e'],datasets:[{data:[32,67,124],backgroundColor:['rgba(90,122,82,0.5)','rgba(90,122,82,0.7)','rgba(168,212,138,0.85)'],borderRadius:6}]},options:{...base}});
+      if($('#farmerIncomeChart')) new Chart($('#farmerIncomeChart'),{type:'bar',data:{labels:['Q1 23','Q2 23','Q3 23','Q4 23','Q1 24','Q2 24','Q3 24','Q4 24'],datasets:[{data:[28,34,42,52,61,74,88,114],backgroundColor:'rgba(245,216,120,0.72)',borderRadius:5}]},options:{...base}});
+      if($('#logisticsChart')) new Chart($('#logisticsChart'),{type:'line',data:{labels:['Q1','Q2','Q3','Q4'],datasets:[{data:[12,18,27,33],borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.1)',tension:0.4,fill:true,pointRadius:4}]},options:{...base}});
+      if($('#regionalChart')) new Chart($('#regionalChart'),{type:'bar',data:{labels:['California','New York','Texas','Florida','Washington'],datasets:[{data:[3.2,2.1,1.4,0.9,0.82],backgroundColor:['rgba(168,212,138,0.85)','rgba(168,212,138,0.7)','rgba(168,212,138,0.55)','rgba(168,212,138,0.4)','rgba(168,212,138,0.28)'],borderRadius:8}]},options:{...base,indexAxis:'y'}});
+      if($('#impactChart')) new Chart($('#impactChart'),{type:'line',data:{labels:['2022','2023','2024','2025'],datasets:[{label:'Farmers',data:[280,640,980,1240],borderColor:'#a8d48a',tension:0.4,pointRadius:4},{label:'Institutions',data:[40,120,290,452],borderColor:'#60a5fa',tension:0.4,pointRadius:4},{label:'Waste (×100k lbs)',data:[3,9,20,21],borderColor:'#f5d878',tension:0.4,pointRadius:4}]},options:{plugins:{legend:{display:true,labels:{color:'rgba(245,240,232,0.55)',font:{size:10}}}},scales:{x:{grid,ticks:tick},y:{grid,ticks:tick}}}});
+      if($('#farmerSalesChart')) new Chart($('#farmerSalesChart'),{type:'line',data:{labels:['Wk1','Wk2','Wk3','Wk4'],datasets:[{data:[820,1240,970,1480],borderColor:'#a8d48a',backgroundColor:'rgba(168,212,138,0.1)',tension:0.4,fill:true,pointRadius:4}]},options:{...base}});
+    }
 
-      function toast(msg, type = 'info') {
-        const container = document.getElementById('toastContainer');
-        const el = document.createElement('div');
-        el.className = 'toast';
-        el.innerHTML = `<i class="fas fa-${type==='error'?'exclamation-circle':'info-circle'}"></i> ${msg}`;
-        container.appendChild(el);
-        setTimeout(() => el.remove(), 2500);
-      }
+    /* ── View switching ── */
+    function switchView(view){
+      $$('.view').forEach(v=>v.classList.remove('active'));
+      const target=document.getElementById(`view-${view}`);
+      if(target) target.classList.add('active');
+      $$('.nav-item,.mob-nav-item').forEach(el=>el.classList.remove('active'));
+      document.querySelectorAll(`.nav-item[data-view="${view}"],.mob-nav-item[data-view="${view}"]`).forEach(el=>el.classList.add('active'));
+      if(view==='wishlist') renderWishlistView();
+      if(view==='orders') renderOrders();
+      if(view==='logistics') renderLogistics();
+      if(view==='farmer') { renderFarmerProducts(); }
+      if(view==='institutional') { renderInstDropdown(); renderInstOrders(); }
+    }
 
-      // Start everything
-      init();
-    })();
+    /* ── Toast ── */
+    function toast(msg,type='info'){
+      const container=document.getElementById('toastContainer');
+      const el=document.createElement('div');
+      el.className=`toast ${type}`;
+      const icon=type==='error'?'exclamation-circle':type==='success'?'circle-check':'info-circle';
+      el.innerHTML=`<i class="fas fa-${icon}"></i> ${msg}`;
+      container.appendChild(el);
+      setTimeout(()=>el.remove(),2800);
+    }
+
+    init();
+  })();
   </script>
 </body>
 </html>
