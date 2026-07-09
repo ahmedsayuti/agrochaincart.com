@@ -23,10 +23,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
@@ -283,6 +281,8 @@
     .metric-card .m-chg { font-size:0.7rem;color:#4ade80; }
 
     /* ═══ LOGISTICS ═══ */
+    .logistics-map-placeholder { background:linear-gradient(135deg,rgba(20,40,30,0.6),rgba(10,20,15,0.8)); border:1px solid var(--border);border-radius:var(--radius-lg); height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem; margin-bottom:1.2rem;position:relative;overflow:hidden; }
+    .logistics-map-placeholder::before { content:'';position:absolute;inset:0; background:radial-gradient(ellipse at 30% 60%,rgba(90,122,82,0.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(168,212,138,0.07) 0%,transparent 50%); }
     .map-dot { width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim);animation:pulse 2s infinite; }
     @keyframes pulse { 0%,100%{box-shadow:0 0 0 4px var(--accent-dim)} 50%{box-shadow:0 0 0 12px rgba(168,212,138,0.04)} }
     .shipment-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md); padding:1rem;margin-bottom:0.7rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap; }
@@ -293,60 +293,6 @@
     .ship-progress { flex:1;min-width:120px; }
     .ship-eta { text-align:right; }
     .ship-eta .time { font-family:'DM Mono',monospace;color:var(--accent);font-size:0.9rem;font-weight:600; }
-    .ship-track-btn { background:var(--accent-dim);border:1px solid var(--border);color:var(--text-primary);border-radius:20px;padding:.3rem .8rem;font-size:.68rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;flex-shrink:0; }
-    .ship-track-btn:hover { background:rgba(90,122,82,0.3);border-color:var(--accent); }
-
-    /* ═══ FREIGHT MAP ═══ */
-    .freight-map-wrap { border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.2rem;position:relative; }
-    #freightMap { height:340px;width:100%;background:#0d140d; }
-    #trackMap { height:220px;width:100%;background:#0d140d;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:.8rem; }
-    .leaflet-tile { filter: saturate(0.75) brightness(0.62) contrast(1.05) hue-rotate(-4deg); }
-    body.light-mode .leaflet-tile { filter: saturate(0.85) brightness(1.02); }
-    .leaflet-popup-content-wrapper { background:var(--bg-glass);backdrop-filter:blur(16px);color:var(--text-primary);border-radius:var(--radius-sm);border:1px solid var(--border); }
-    .leaflet-popup-content { font-family:'DM Sans',sans-serif;font-size:.78rem;margin:.6rem .8rem; }
-    .leaflet-popup-tip { background:var(--bg-glass); }
-    .leaflet-control-zoom a { background:var(--bg-glass) !important;color:var(--text-primary) !important;border-color:var(--border) !important; }
-    .map-legend { position:absolute;bottom:10px;left:10px;z-index:400;background:var(--bg-glass);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.5rem .8rem;font-size:.66rem;color:var(--text-secondary);display:flex;gap:.9rem;flex-wrap:wrap; }
-    .map-legend span { display:flex;align-items:center;gap:.35rem; }
-    .legend-dot { width:9px;height:9px;border-radius:50%;display:inline-block; }
-    .map-badge-count { position:absolute;top:10px;right:10px;z-index:400;background:var(--bg-glass);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:20px;padding:.35rem .9rem;font-size:.7rem;color:var(--text-primary);font-weight:600; }
-    .divIcon-carrier { background:#60a5fa;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(96,165,250,.25); }
-    .divIcon-carrier.busy { background:var(--gold); }
-    .divIcon-shipment { background:var(--accent);border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px var(--accent-dim); }
-
-    /* ═══ FREIGHT MARKETPLACE ═══ */
-    .carrier-grid { display:grid;grid-template-columns:1fr;gap:1rem; }
-    @media(min-width:700px) { .carrier-grid { grid-template-columns:repeat(2,1fr); } }
-    @media(min-width:1150px) { .carrier-grid { grid-template-columns:repeat(3,1fr); } }
-    .carrier-card { background:var(--bg-card);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--radius-md); padding:1.1rem;transition:all .25s;position:relative;display:flex;flex-direction:column;gap:.55rem; }
-    .carrier-card:hover { transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(96,165,250,0.45); }
-    .carrier-top { display:flex;gap:.7rem;align-items:flex-start; }
-    .carrier-icon { width:46px;height:46px;border-radius:12px;background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.3);display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0; }
-    .carrier-name { font-weight:700;font-size:.92rem;color:var(--text-primary);line-height:1.3; }
-    .carrier-base { font-size:.7rem;color:var(--text-secondary);margin-top:.15rem; }
-    .verified-badge { display:inline-flex;align-items:center;gap:.25rem;font-size:.62rem;color:#60a5fa;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);padding:.1rem .5rem;border-radius:20px;margin-top:.3rem; }
-    .carrier-rating { display:flex;align-items:center;gap:.25rem;font-size:.72rem;color:var(--gold); }
-    .carrier-tags { display:flex;flex-wrap:wrap;gap:.35rem; }
-    .carrier-tag { background:rgba(90,122,82,0.12);border:1px solid var(--border-light);color:var(--text-secondary);font-size:.63rem;padding:.15rem .55rem;border-radius:20px; }
-    .carrier-tag.cold { background:rgba(96,165,250,0.12);border-color:rgba(96,165,250,0.3);color:#60a5fa; }
-    .carrier-stats-row { display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-secondary);border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);padding:.55rem 0; }
-    .carrier-stats-row strong { color:var(--text-primary);font-family:'DM Mono',monospace; }
-    .carrier-avail { font-size:.68rem;color:var(--text-secondary); }
-    .carrier-avail.busy-note { color:var(--gold); }
-    .book-carrier-btn { width:100%;padding:.6rem;background:linear-gradient(120deg,#2563eb,#60a5fa);border:none;border-radius:30px;color:white;font-weight:700;cursor:pointer;font-size:.8rem;transition:.2s;font-family:'DM Sans',sans-serif; }
-    .book-carrier-btn:hover { filter:brightness(1.1);transform:translateY(-1px); }
-    .book-carrier-btn:disabled { background:rgba(120,120,120,.3);cursor:not-allowed;transform:none;filter:none; }
-    .stars i { font-size:.68rem; }
-
-    /* ═══ CARRIER PORTAL / FLEET ═══ */
-    .checkbox-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:.5rem;margin-bottom:.9rem; }
-    .region-check { display:flex;align-items:center;gap:.4rem;background:rgba(90,122,82,0.08);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:.45rem .6rem;font-size:.76rem;cursor:pointer;color:var(--text-secondary);transition:.2s; }
-    .region-check.checked { background:rgba(96,165,250,0.15);border-color:rgba(96,165,250,0.4);color:#60a5fa; }
-    .region-check input { accent-color:#60a5fa; }
-    .fleet-row { display:flex;justify-content:space-between;align-items:center;padding:.85rem;background:rgba(0,0,0,0.18);border-radius:var(--radius-sm);border:1px solid var(--border-light);margin-bottom:.6rem;flex-wrap:wrap;gap:.6rem; }
-    body.light-mode .fleet-row { background:rgba(255,255,255,0.3); }
-    .booking-row { display:flex;justify-content:space-between;align-items:center;padding:.7rem .9rem;border-bottom:1px solid rgba(90,122,82,0.1);font-size:.78rem;gap:.6rem;flex-wrap:wrap; }
-    .booking-row:last-child { border-bottom:none; }
 
     /* ═══ IMPACT ═══ */
     .impact-hero { background:linear-gradient(135deg,rgba(20,50,20,0.5),rgba(30,80,30,0.18)); border:1px solid rgba(74,222,128,0.2);border-radius:var(--radius-lg); padding:1.8rem;margin-bottom:1.5rem;text-align:center; }
@@ -423,11 +369,9 @@
       <div class="nav-item" data-view="farmer"><i class="fas fa-seedling"></i> Farmer Hub</div>
       <div class="nav-item" data-view="institutional"><i class="fas fa-building"></i> Institutional / LFPP</div>
 
-      <div class="nav-section">Freight &amp; Logistics</div>
-      <div class="nav-item" data-view="logistics"><i class="fas fa-truck-fast"></i> Freight &amp; Logistics <span class="nav-badge" id="carrierCountBadge">0</span></div>
-
       <div class="nav-section">Intelligence</div>
       <div class="nav-item" data-view="analytics"><i class="fas fa-chart-line"></i> Analytics</div>
+      <div class="nav-item" data-view="logistics"><i class="fas fa-truck"></i> Smart Logistics</div>
       <div class="nav-item" data-view="impact"><i class="fas fa-leaf"></i> Impact Report</div>
       <div class="nav-item" data-view="assistant"><i class="fas fa-robot"></i> AI Assistant</div>
 
@@ -778,172 +722,45 @@
           <div class="chart-card"><h4>Platform Revenue ($k cumulative)</h4><canvas id="farmerIncomeChart" height="140"></canvas></div>
           <div class="chart-card"><h4>Logistics Deliveries / Quarter</h4><canvas id="logisticsChart" height="140"></canvas></div>
           <div class="chart-card" style="grid-column:span 2;"><h4>Regional GMV by State ($M)</h4><canvas id="regionalChart" height="100"></canvas></div>
-          <div class="chart-card"><h4>Registered Carriers by Region</h4><canvas id="carrierRegionChart" height="140"></canvas></div>
         </div>
       </div>
 
-      <!-- LOGISTICS / FREIGHT -->
+      <!-- LOGISTICS -->
       <div id="view-logistics" class="view">
-        <div class="hub-hero" style="background:linear-gradient(135deg,rgba(37,99,235,0.28),rgba(96,165,250,0.12));border-color:rgba(96,165,250,0.35);">
-          <div>
-            <h2>🚛 Freight &amp; Logistics</h2>
-            <p>Live cold-chain tracking, and an open carrier marketplace where freight &amp; truck companies list availability and shippers book capacity directly — no broker markup.</p>
-          </div>
-          <div class="hub-stats">
-            <div class="hub-stat"><div class="val" id="hubActiveShipments">0</div><div class="lbl">Active Shipments</div></div>
-            <div class="hub-stat"><div class="val" id="hubCarrierCount">0</div><div class="lbl">Registered Carriers</div></div>
-            <div class="hub-stat"><div class="val">0%</div><div class="lbl">Booking Commission</div></div>
-          </div>
+        <div class="view-header">
+          <div><h2>Smart Logistics</h2><p>Cold-chain tracking · Last-mile transparency</p></div>
+          <button class="btn-secondary"><i class="fas fa-download"></i> Export Report</button>
         </div>
-
-        <div class="tab-nav" id="logisticsTabNav">
-          <button class="tab-btn active" data-tab="lg-map"><i class="fas fa-map-location-dot"></i> Live Map</button>
-          <button class="tab-btn" data-tab="lg-find"><i class="fas fa-magnifying-glass-location"></i> Find Carriers</button>
-          <button class="tab-btn" data-tab="lg-list"><i class="fas fa-truck-ramp-box"></i> List My Truck</button>
-          <button class="tab-btn" data-tab="lg-fleet"><i class="fas fa-warehouse"></i> My Fleet</button>
+        <div class="logistics-map-placeholder">
+          <div class="map-dot"></div>
+          <p style="font-size:.82rem;color:var(--text-secondary);z-index:1;margin-top:.5rem;">Live route map · 33 active shipments</p>
+          <p style="font-size:.7rem;color:rgba(245,240,232,0.3);z-index:1;">[Google Maps API integration available]</p>
         </div>
-
-        <!-- LIVE MAP -->
-        <div id="lg-map" class="tab-panel active">
-          <div class="freight-map-wrap">
-            <div id="freightMap"></div>
-            <div class="map-badge-count"><i class="fas fa-satellite-dish"></i> <span id="mapShipmentCount">0</span> shipments · <span id="mapCarrierCount">0</span> carriers live</div>
-            <div class="map-legend">
-              <span><i class="legend-dot" style="background:#60a5fa;"></i> Carrier available</span>
-              <span><i class="legend-dot" style="background:var(--gold);"></i> Carrier on a job</span>
-              <span><i class="legend-dot" style="background:var(--accent);"></i> Active shipment</span>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;margin-bottom:1.5rem;">
-            <div class="metric-card"><div class="m-val" style="font-size:1.2rem;" id="statActiveShipments">0</div><div class="m-lbl">Active Shipments</div></div>
-            <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">98.2%</div><div class="m-lbl">On-time Rate</div></div>
-            <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">4.1°C</div><div class="m-lbl">Avg Cold-Chain Temp</div></div>
-            <div class="metric-card"><div class="m-val" style="font-size:1.2rem;" id="statAvgRate">$2.70</div><div class="m-lbl">Avg $/mile</div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
-            <h3 style="font-size:1rem;color:var(--text-primary);">Active Shipments</h3>
-            <button class="btn-secondary"><i class="fas fa-download"></i> Export Report</button>
-          </div>
-          <div id="pendingOrdersList"></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;margin-bottom:1.5rem;">
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">33</div><div class="m-lbl">Active Shipments</div></div>
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">98.2%</div><div class="m-lbl">On-time Rate</div></div>
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">4.1°C</div><div class="m-lbl">Avg Cold-Chain Temp</div></div>
+          <div class="metric-card"><div class="m-val" style="font-size:1.2rem;">$0.42</div><div class="m-lbl">Cost / lb Delivered</div></div>
         </div>
-
-        <!-- FIND CARRIERS -->
-        <div id="lg-find" class="tab-panel">
-          <div class="info-banner">
-            <i class="fas fa-circle-info"></i>
-            <span>Every carrier below has enlisted their own truck and availability window. Book directly — AgroCart never takes a cut of the freight rate.</span>
+        <h3 style="font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Active Shipments</h3>
+        <div id="pendingOrdersList">
+          <div class="shipment-card">
+            <div class="ship-icon">🚛</div>
+            <div class="ship-info"><div class="route">Sunrise Co-op → NYC Schools</div><div class="detail">Kale Bundle · 120 units · Cold-chain active · 4.0°C</div></div>
+            <div class="ship-progress"><div style="font-size:.65rem;color:var(--text-secondary);margin-bottom:.3rem;">Progress</div><div class="progress-bar" style="margin:0;"><div class="progress-fill" style="width:65%"></div></div></div>
+            <div class="ship-eta"><div class="time">14h</div><div style="color:var(--text-secondary);font-size:.65rem;">ETA remaining</div></div>
           </div>
-          <div class="filter-bar">
-            <button class="filter-chip active" data-carrier-region="all"><i class="fas fa-globe-americas"></i> All Regions</button>
-            <button class="filter-chip" data-carrier-region="CA">🌴 CA</button>
-            <button class="filter-chip" data-carrier-region="NY">🗽 NY</button>
-            <button class="filter-chip" data-carrier-region="TX">⭐ TX</button>
-            <button class="filter-chip" data-carrier-region="FL">🌞 FL</button>
-            <button class="filter-chip" data-carrier-region="WA">🌲 WA</button>
-            <button class="filter-chip" id="coldChainFilter">❄️ Cold-Chain Only</button>
-            <select class="sort-select" id="carrierSortSelect">
-              <option value="default">Sort by</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-              <option value="capacity">Largest Capacity</option>
-            </select>
+          <div class="shipment-card">
+            <div class="ship-icon">🚐</div>
+            <div class="ship-info"><div class="route">Golden State → Bay Area Hub</div><div class="detail">Heirloom Tomatoes · 85 lbs · Temp: 4.2°C</div></div>
+            <div class="ship-progress"><div style="font-size:.65rem;color:var(--text-secondary);margin-bottom:.3rem;">Progress</div><div class="progress-bar" style="margin:0;"><div class="progress-fill" style="width:90%"></div></div></div>
+            <div class="ship-eta"><div class="time">2h</div><div style="color:var(--text-secondary);font-size:.65rem;">ETA remaining</div></div>
           </div>
-          <div class="carrier-grid" id="carrierGrid"></div>
-        </div>
-
-        <!-- LIST MY TRUCK (carrier portal) -->
-        <div id="lg-list" class="tab-panel">
-          <div class="two-col">
-            <div class="card">
-              <h3><i class="fas fa-truck-ramp-box" style="color:#60a5fa;margin-right:.5rem;"></i>Enlist Your Truck's Availability</h3>
-              <label class="form-label">Freight / Trucking Company Name</label>
-              <input class="form-input" id="carrierCompany" placeholder="e.g. Blue Ridge Freight Co.">
-              <div class="form-row">
-                <div style="flex:1;"><label class="form-label">Contact Name</label><input class="form-input" id="carrierContact" placeholder="Dispatcher name"></div>
-                <div style="flex:1;"><label class="form-label">Phone</label><input class="form-input" id="carrierPhone" placeholder="(555) 555-0100"></div>
-              </div>
-              <label class="form-label">Base City (pickup hub)</label>
-              <input class="form-input" id="carrierBaseCity" placeholder="e.g. Newark, NJ" list="cityList">
-              <datalist id="cityList"></datalist>
-              <div class="form-row">
-                <div style="flex:1;"><label class="form-label">Truck Type</label>
-                  <select class="form-input" id="carrierTruckType">
-                    <option value="Dry Van 53ft">🚚 Dry Van 53ft</option>
-                    <option value="Reefer 53ft">❄️ Reefer (Refrigerated) 53ft</option>
-                    <option value="Flatbed 48ft">🪵 Flatbed 48ft</option>
-                    <option value="Box Truck">📦 Box Truck</option>
-                    <option value="Tanker">🛢️ Tanker</option>
-                  </select>
-                </div>
-                <div style="flex:1;"><label class="form-label">Capacity (lbs)</label><input class="form-input" id="carrierCapacity" placeholder="44000" type="number"></div>
-              </div>
-              <div class="form-row">
-                <div style="flex:1;"><label class="form-label">Rate ($ / mile)</label><input class="form-input" id="carrierRate" placeholder="2.75" type="number" step="0.01"></div>
-                <div style="flex:1;"><label class="form-label">USDOT # <span style="opacity:.5;">(optional)</span></label><input class="form-input" id="carrierDot" placeholder="USDOT 1234567"></div>
-              </div>
-              <div class="form-row">
-                <div style="flex:1;"><label class="form-label">Available From</label><input class="form-input" id="carrierAvailFrom" type="date"></div>
-                <div style="flex:1;"><label class="form-label">Available Until</label><input class="form-input" id="carrierAvailTo" type="date"></div>
-              </div>
-              <label class="form-label">Regions Served</label>
-              <div class="checkbox-grid" id="carrierRegionChecks">
-                <label class="region-check"><input type="checkbox" value="CA">CA</label>
-                <label class="region-check"><input type="checkbox" value="NY">NY</label>
-                <label class="region-check"><input type="checkbox" value="TX">TX</label>
-                <label class="region-check"><input type="checkbox" value="FL">FL</label>
-                <label class="region-check"><input type="checkbox" value="WA">WA</label>
-              </div>
-              <div class="organic-toggle" onclick="toggleColdChain(this)">
-                <span>❄️ Refrigerated / Cold-Chain Equipped</span>
-                <div class="toggle-sw" id="coldChainToggleSw"></div>
-                <input type="checkbox" id="carrierColdChain" style="display:none;">
-              </div>
-              <button class="btn-primary" id="addCarrierBtn" style="background:linear-gradient(120deg,#2563eb,#60a5fa);"><i class="fas fa-truck-fast" style="margin-right:.4rem;"></i>List My Availability</button>
-            </div>
-            <div class="card">
-              <h3><i class="fas fa-lightbulb" style="color:#60a5fa;margin-right:.5rem;"></i>Why List on AgroCart Freight?</h3>
-              <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.82rem;color:var(--text-secondary);margin-bottom:1.2rem;">
-                <div><i class="fas fa-circle-check" style="color:#60a5fa;margin-right:.5rem;"></i>Zero commission — you set and keep your own rate</div>
-                <div><i class="fas fa-circle-check" style="color:#60a5fa;margin-right:.5rem;"></i>Direct bookings from farms &amp; institutions, no broker in between</div>
-                <div><i class="fas fa-circle-check" style="color:#60a5fa;margin-right:.5rem;"></i>Backhaul visibility across 452 institutional buyers</div>
-                <div><i class="fas fa-circle-check" style="color:#60a5fa;margin-right:.5rem;"></i>Live shipment tracking &amp; digital proof-of-delivery</div>
-                <div><i class="fas fa-circle-check" style="color:#60a5fa;margin-right:.5rem;"></i>Cold-chain jobs pay a premium rate automatically</div>
-              </div>
-              <div style="padding:.9rem;background:rgba(96,165,250,0.08);border-radius:var(--radius-sm);border:1px solid rgba(96,165,250,0.25);margin-bottom:1rem;">
-                <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-secondary);margin-bottom:.4rem;">Freight Cost Estimator</div>
-                <div style="font-size:.78rem;color:var(--text-secondary);margin-bottom:.4rem;">300 mi · Reefer · Cold-chain load</div>
-                <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(90,122,82,0.12);"><span style="font-size:.78rem;color:var(--text-secondary);">Base (300mi × $2.85)</span><span style="font-family:'DM Mono',monospace;">$855.00</span></div>
-                <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(90,122,82,0.12);"><span style="font-size:.78rem;color:var(--text-secondary);">Cold-chain surcharge (12%)</span><span style="font-family:'DM Mono',monospace;color:var(--gold);">+$102.60</span></div>
-                <div style="display:flex;justify-content:space-between;padding:.5rem 0 .1rem;"><span style="font-weight:700;font-size:.85rem;">Est. Total</span><span style="font-family:'DM Mono',monospace;font-size:1rem;color:#60a5fa;font-weight:700;">$957.60</span></div>
-              </div>
-              <span class="status-pill"><i class="fas fa-shield-halved"></i> USDOT verification on file</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- MY FLEET -->
-        <div id="lg-fleet" class="tab-panel">
-          <div class="card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
-              <h3 style="margin-bottom:0;"><i class="fas fa-warehouse" style="color:#60a5fa;margin-right:.5rem;"></i>My Listed Trucks</h3>
-              <span class="status-pill"><i class="fas fa-truck"></i> Fleet Owner View</span>
-            </div>
-            <div id="myFleetList">
-              <p style="color:var(--text-secondary);font-size:.85rem;">No trucks listed yet. Use "List My Truck" to enlist your first vehicle's availability.</p>
-            </div>
-          </div>
-          <div class="two-col">
-            <div class="card">
-              <h3><i class="fas fa-file-invoice-dollar" style="color:#60a5fa;margin-right:.5rem;"></i>Incoming Bookings</h3>
-              <div id="fleetBookingsList">
-                <p style="color:var(--text-secondary);font-size:.85rem;">No bookings yet.</p>
-              </div>
-            </div>
-            <div class="card">
-              <h3><i class="fas fa-chart-column" style="color:#60a5fa;margin-right:.5rem;"></i>Fleet Utilization</h3>
-              <canvas id="fleetUtilChart" height="140"></canvas>
-            </div>
+          <div class="shipment-card">
+            <div class="ship-icon">✈️</div>
+            <div class="ship-info"><div class="route">Michigan Patch → NY Food Bank</div><div class="detail">Blueberries · 45 pints · Air freight · 3.8°C</div></div>
+            <div class="ship-progress"><div style="font-size:.65rem;color:var(--text-secondary);margin-bottom:.3rem;">Progress</div><div class="progress-bar" style="margin:0;"><div class="progress-fill" style="width:40%"></div></div></div>
+            <div class="ship-eta"><div class="time">28h</div><div style="color:var(--text-secondary);font-size:.65rem;">ETA remaining</div></div>
           </div>
         </div>
       </div>
@@ -1010,7 +827,6 @@
             <button class="ai-suggestion" onclick="sendAISuggestion(this)">📦 Current tomato pricing</button>
             <button class="ai-suggestion" onclick="sendAISuggestion(this)">🚛 Cold-chain logistics tips</button>
             <button class="ai-suggestion" onclick="sendAISuggestion(this)">🏛️ LFPP institutional contracts</button>
-            <button class="ai-suggestion" onclick="sendAISuggestion(this)">🚚 List my truck as a carrier</button>
           </div>
           <div class="ai-input-row">
             <input id="aiInput" placeholder="Ask about grants, pricing, certification, logistics..." onkeydown="if(event.key==='Enter')sendAI()">
@@ -1027,7 +843,6 @@
     <button class="mob-nav-item active" data-view="marketplace"><i class="fas fa-store"></i><span>Market</span></button>
     <button class="mob-nav-item" data-view="farmer"><i class="fas fa-seedling"></i><span>Farm</span></button>
     <button class="mob-nav-item" data-view="institutional"><i class="fas fa-building"></i><span>LFPP</span></button>
-    <button class="mob-nav-item" data-view="logistics"><i class="fas fa-truck-fast"></i><span>Freight</span></button>
     <button class="mob-nav-item" data-view="analytics"><i class="fas fa-chart-line"></i><span>Stats</span></button>
     <button class="mob-nav-item" data-view="impact"><i class="fas fa-leaf"></i><span>Impact</span></button>
     <button class="mob-nav-item" data-view="assistant"><i class="fas fa-robot"></i><span>AI</span></button>
@@ -1051,46 +866,6 @@
 
   <!-- Product Detail Modal -->
   <div id="productDetailModal" class="modal"><div class="modal-content" id="productDetailContent"></div></div>
-
-  <!-- Book Carrier Modal -->
-  <div id="bookCarrierModal" class="modal">
-    <div class="modal-content">
-      <h3>🚛 Book Carrier</h3>
-      <div id="bookCarrierSummary" style="margin-bottom:1rem;font-size:.82rem;color:var(--text-secondary);"></div>
-      <input type="hidden" id="bookCarrierId">
-      <label class="form-label">Shipper / Institution Name</label>
-      <input class="form-input" id="bookShipperName" placeholder="e.g. Sunrise Co-op">
-      <div class="form-row">
-        <div style="flex:1;"><label class="form-label">Pickup Location</label><input class="form-input" id="bookOrigin" placeholder="e.g. Fresno, CA"></div>
-        <div style="flex:1;"><label class="form-label">Destination</label><input class="form-input" id="bookDestination" placeholder="e.g. Seattle, WA"></div>
-      </div>
-      <div class="form-row">
-        <div style="flex:1;"><label class="form-label">Cargo</label><input class="form-input" id="bookCargo" placeholder="e.g. Organic strawberries"></div>
-        <div style="flex:1;"><label class="form-label">Weight (lbs)</label><input class="form-input" id="bookWeight" placeholder="12000" type="number"></div>
-      </div>
-      <label class="form-label">Pickup Date</label>
-      <input class="form-input" id="bookDate" type="date">
-      <div id="bookCostBreakdown" style="padding:1rem;background:rgba(0,0,0,0.18);border-radius:var(--radius-sm);border:1px solid var(--border-light);margin:.8rem 0;font-size:.8rem;color:var(--text-secondary);">
-        Fill in pickup and destination to estimate freight cost.
-      </div>
-      <button class="btn-primary" style="background:linear-gradient(120deg,#2563eb,#60a5fa);" onclick="confirmBooking()"><i class="fas fa-file-signature" style="margin-right:.4rem;"></i>Confirm Booking</button>
-      <button onclick="closeModal('bookCarrierModal')" style="margin-top:.6rem;width:100%;background:none;border:1px solid var(--border);border-radius:40px;padding:.55rem;color:var(--text-secondary);cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Track Shipment Modal -->
-  <div id="trackShipmentModal" class="modal">
-    <div class="modal-content" style="max-width:560px;">
-      <h3>📍 Live Shipment Tracking</h3>
-      <div id="trackSummary" style="margin-bottom:.7rem;font-size:.82rem;color:var(--text-secondary);"></div>
-      <div id="trackMap"></div>
-      <div class="progress-bar" style="margin:.4rem 0;"><div class="progress-fill" id="trackProgressFill" style="width:0%"></div></div>
-      <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-secondary);margin-bottom:1rem;">
-        <span id="trackOriginLbl">Origin</span><span id="trackEtaLbl">ETA —</span><span id="trackDestLbl">Destination</span>
-      </div>
-      <button onclick="closeModal('trackShipmentModal')" style="width:100%;background:none;border:1px solid var(--border);border-radius:40px;padding:.55rem;color:var(--text-secondary);cursor:pointer;font-family:'DM Sans',sans-serif;">Close</button>
-    </div>
-  </div>
 
   <!-- Compare Bar -->
   <div id="compareBar" class="compare-bar">
@@ -1131,75 +906,11 @@
     const $=s=>document.querySelector(s);
     const $$=s=>document.querySelectorAll(s);
 
-    /* ── Freight & Logistics: carriers, bookings, geo ── */
-    const cityGeo = {
-      "newark, nj":[40.7357,-74.1724], "fresno, ca":[36.7378,-119.7871], "seattle, wa":[47.6062,-122.3321],
-      "dallas, tx":[32.7767,-96.7970], "miami, fl":[25.7617,-80.1918], "nyc schools":[40.7128,-74.0060],
-      "new york, ny":[40.7128,-74.0060], "los angeles, ca":[34.0522,-118.2437], "houston, tx":[29.7604,-95.3698],
-      "chicago, il":[41.8781,-87.6298], "atlanta, ga":[33.7490,-84.3880], "denver, co":[39.7392,-104.9903],
-      "portland, or":[45.5152,-122.6784], "sacramento, ca":[38.5816,-121.4944], "austin, tx":[30.2672,-97.7431],
-      "san diego, ca":[32.7157,-117.1611], "orlando, fl":[28.5383,-81.3792], "tampa, fl":[27.9506,-82.4572],
-      "albany, ny":[42.6526,-73.7562], "spokane, wa":[47.6588,-117.4260], "bay area hub":[37.7749,-122.4194],
-      "san francisco, ca":[37.7749,-122.4194], "ny food bank":[40.7128,-74.0060], "buffalo, ny":[42.8864,-78.8784],
-      "el paso, tx":[31.7619,-106.4850], "jacksonville, fl":[30.3322,-81.6557], "salem, or":[44.9429,-123.0351]
-    };
-    function geocode(name){
-      if(!name) return null;
-      const k=name.trim().toLowerCase();
-      if(cityGeo[k]) return cityGeo[k];
-      const partial=Object.keys(cityGeo).find(c=>c.includes(k.split(',')[0].trim())||k.includes(c.split(',')[0]));
-      if(partial) return cityGeo[partial];
-      // fallback: rough region centroid based on state code mentioned
-      if(/\bca\b/i.test(name)) return [36.77,-119.4];
-      if(/\bny\b/i.test(name)) return [42.9,-75.5];
-      if(/\btx\b/i.test(name)) return [31.9,-99.9];
-      if(/\bfl\b/i.test(name)) return [27.9,-81.7];
-      if(/\bwa\b/i.test(name)) return [47.4,-120.7];
-      return [39.5,-98.35]; // center of US
-    }
-    function haversineMiles(a,b){
-      const R=3958.8, toRad=d=>d*Math.PI/180;
-      const dLat=toRad(b[0]-a[0]), dLng=toRad(b[1]-a[1]);
-      const x=Math.sin(dLat/2)**2 + Math.cos(toRad(a[0]))*Math.cos(toRad(b[0]))*Math.sin(dLng/2)**2;
-      return Math.round(R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x)));
-    }
-    /* Rolling availability windows: always computed relative to today, so listings never look stale/expired */
-    function fmtDate(d){ return d.toISOString().slice(0,10); }
-    function addDays(base,days){ const d=new Date(base); d.setDate(d.getDate()+days); return d; }
-    function randomAvailability(minStart=0,maxStart=6,minDuration=18,maxDuration=55){
-      const startOffset=minStart+Math.floor(Math.random()*(maxStart-minStart+1));
-      const duration=minDuration+Math.floor(Math.random()*(maxDuration-minDuration+1));
-      const from=addDays(new Date(),startOffset);
-      const to=addDays(from,duration);
-      return {availFrom:fmtDate(from), availTo:fmtDate(to)};
-    }
-
-    let carriers = [
-      {id:'c1', company:'Blue Ridge Freight Co.', contact:'Dana Reyes', phone:'(704) 555-0142', truckType:'Reefer 53ft', capacity:44000, coldChain:true, regions:['NY','NJ'], baseCity:'Newark, NJ', dot:'USDOT 2318842', pricePerMile:2.85, rating:4.8, reviews:62, status:'available', verified:true},
-      {id:'c2', company:'Golden Gate Hauling', contact:'Marcus Webb', phone:'(415) 555-0188', truckType:'Reefer 53ft', capacity:42000, coldChain:true, regions:['CA','WA'], baseCity:'Fresno, CA', dot:'USDOT 1187733', pricePerMile:3.05, rating:4.9, reviews:88, status:'available', verified:true},
-      {id:'c3', company:'Lone Star Logistics', contact:'Carlos Ibarra', phone:'(214) 555-0119', truckType:'Dry Van 53ft', capacity:45000, coldChain:false, regions:['TX','FL'], baseCity:'Dallas, TX', dot:'USDOT 3390221', pricePerMile:2.40, rating:4.5, reviews:41, status:'available', verified:true},
-      {id:'c4', company:'Cascade Cold Chain', contact:'Emily Tran', phone:'(206) 555-0173', truckType:'Reefer 53ft', capacity:40000, coldChain:true, regions:['WA','CA'], baseCity:'Seattle, WA', dot:'USDOT 4471982', pricePerMile:3.20, rating:5.0, reviews:29, status:'busy', verified:true},
-      {id:'c5', company:'Sunbelt Express', contact:'Renee Foster', phone:'(305) 555-0164', truckType:'Box Truck', capacity:16000, coldChain:false, regions:['FL','TX'], baseCity:'Miami, FL', dot:'USDOT 2205671', pricePerMile:2.15, rating:4.3, reviews:23, status:'available', verified:false},
-      {id:'c6', company:'Empire State Transport', contact:'James Kowalski', phone:'(518) 555-0197', truckType:'Flatbed 48ft', capacity:48000, coldChain:false, regions:['NY'], baseCity:'Albany, NY', dot:'USDOT 5563210', pricePerMile:2.60, rating:4.6, reviews:34, status:'available', verified:true},
-      {id:'c7', company:'Pacific Crest Carriers', contact:'Lily Nakamura', phone:'(503) 555-0155', truckType:'Reefer 53ft', capacity:41000, coldChain:true, regions:['WA','CA'], baseCity:'Portland, OR', dot:'USDOT 6689012', pricePerMile:2.95, rating:4.7, reviews:52, status:'available', verified:true}
-    ];
-    carriers.forEach(c=>Object.assign(c, randomAvailability()));
-    let bookings = [];
-
-    let shipments = [
-      {id:'sh1', from:'Sunrise Co-op', to:'NYC Schools', cargo:'Kale Bundle · 120 units', temp:'4.0°C', coldChain:true, progress:65, etaHours:14, icon:'🚛', originLL:[42.6526,-73.7562], destLL:[40.7128,-74.0060], carrier:'Empire State Transport'},
-      {id:'sh2', from:'Golden State', to:'Bay Area Hub', cargo:'Heirloom Tomatoes · 85 lbs', temp:'4.2°C', coldChain:true, progress:90, etaHours:2, icon:'🚐', originLL:[36.7378,-119.7871], destLL:[37.7749,-122.4194], carrier:'Golden Gate Hauling'},
-      {id:'sh3', from:'Michigan Patch', to:'NY Food Bank', cargo:'Blueberries · 45 pints', temp:'3.8°C', coldChain:true, progress:40, etaHours:28, icon:'✈️', originLL:[42.3314,-83.0458], destLL:[40.7128,-74.0060], carrier:'Air Freight Partner'}
-    ];
-
     function init() {
       renderMarketplace(); renderCart(); renderFeaturedSlides();
       initCharts(); bindEvents(); initParticles(); initThemeToggle(); initTabs();
-      refreshFreightBadges();
-      const cf=document.getElementById('carrierAvailFrom'), ct=document.getElementById('carrierAvailTo');
-      if(cf&&ct){ const today=new Date(); cf.value=fmtDate(today); ct.value=fmtDate(addDays(today,30)); cf.min=fmtDate(today); ct.min=fmtDate(today); }
       document.getElementById('aiMessages').innerHTML =
-        `<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">🌾 Hi! I'm AgroBot. Ask me about FMPP/LFPP grants, organic certification, pricing trends, cold-chain logistics, freight carriers, or anything farm-to-table related.</div></div>`;
+        `<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">🌾 Hi! I'm AgroBot. Ask me about FMPP/LFPP grants, organic certification, pricing trends, cold-chain logistics, or anything farm-to-table related.</div></div>`;
     }
 
     /* ── Tab system ── */
@@ -1219,9 +930,6 @@
             if (panelId==='ft-listings') renderFarmerProducts();
             if (panelId==='it-contracts') renderInstOrders();
             if (panelId==='it-order') renderInstDropdown();
-            if (panelId==='lg-find') renderCarriers();
-            if (panelId==='lg-fleet') renderFleet();
-            if (panelId==='lg-map') { renderShipments(); setTimeout(()=>{ initFreightMap(); if(freightMapInstance) freightMapInstance.invalidateSize(); },50); }
           });
         });
       });
@@ -1238,8 +946,6 @@
     function bindEvents() {
       $('#addProductBtn').addEventListener('click', addFarmerProduct);
       $('#placeBulkOrderBtn').addEventListener('click', placeBulkOrder);
-      $('#addCarrierBtn').addEventListener('click', addCarrierListing);
-      initCarrierFilters();
       $('#sortSelect').addEventListener('change', e => { currentSort=e.target.value; renderMarketplace(); });
       $('#organicFilter').addEventListener('click', function() { organicOnly=!organicOnly; this.classList.toggle('active',organicOnly); renderMarketplace(); });
       $$('.filter-chip[data-region]').forEach(btn => btn.addEventListener('click', () => {
@@ -1480,290 +1186,18 @@
         </div>`).join('');
     }
 
-    /* ── Freight & Logistics ── */
-    window.closeModal=id=>document.getElementById(id).classList.remove('open');
-
-    function regionTag(t){ return t==='CA'?'🌴':t==='NY'?'🗽':t==='TX'?'⭐':t==='FL'?'🌞':t==='WA'?'🌲':'📍'; }
-    function starHtml(rating){
-      const full=Math.floor(rating), half=rating-full>=0.5;
-      let s='';
-      for(let i=0;i<full;i++) s+='<i class="fas fa-star"></i>';
-      if(half) s+='<i class="fas fa-star-half-stroke"></i>';
-      for(let i=full+(half?1:0);i<5;i++) s+='<i class="fa-regular fa-star"></i>';
-      return s;
-    }
-
-    function refreshFreightBadges(){
-      const carrierCount=carriers.length;
-      const avail=carriers.filter(c=>c.status==='available').length;
-      document.getElementById('carrierCountBadge').textContent=carrierCount;
-      const hubC=document.getElementById('hubCarrierCount'); if(hubC) hubC.textContent=carrierCount;
-      const hubS=document.getElementById('hubActiveShipments'); if(hubS) hubS.textContent=shipments.length;
-      const mapCC=document.getElementById('mapCarrierCount'); if(mapCC) mapCC.textContent=carrierCount;
-      const mapSC=document.getElementById('mapShipmentCount'); if(mapSC) mapSC.textContent=shipments.length;
-      const statAS=document.getElementById('statActiveShipments'); if(statAS) statAS.textContent=shipments.length;
-      const avgRate=document.getElementById('statAvgRate');
-      if(avgRate && carriers.length) avgRate.textContent='$'+(carriers.reduce((a,c)=>a+c.pricePerMile,0)/carriers.length).toFixed(2);
-    }
-
-    /* Active shipments list */
-    function renderShipments(){
+    /* ── Logistics ── */
+    function renderLogistics(){
       const el=document.getElementById('pendingOrdersList');
-      if(!el) return;
-      if(!shipments.length){ el.innerHTML='<p style="color:var(--text-secondary);font-size:.85rem;">No active shipments right now.</p>'; return; }
-      el.innerHTML=shipments.map(s=>`
-        <div class="shipment-card">
-          <div class="ship-icon">${s.icon}</div>
-          <div class="ship-info"><div class="route">${s.from} → ${s.to}</div><div class="detail">${s.cargo}${s.coldChain?` · Cold-chain active · ${s.temp}`:''} · Carrier: ${s.carrier}</div></div>
-          <div class="ship-progress"><div style="font-size:.65rem;color:var(--text-secondary);margin-bottom:.3rem;">Progress</div><div class="progress-bar" style="margin:0;"><div class="progress-fill" style="width:${s.progress}%"></div></div></div>
-          <div class="ship-eta"><div class="time">${s.etaHours}h</div><div style="color:var(--text-secondary);font-size:.65rem;">ETA remaining</div></div>
-          <button class="ship-track-btn" onclick="trackShipment('${s.id}')"><i class="fas fa-location-crosshairs"></i> Track</button>
-        </div>`).join('');
-      refreshFreightBadges();
-    }
-
-    /* Carrier marketplace */
-    let carrierRegionFilter='all', coldChainOnly=false, carrierSort='default';
-    function renderCarriers(){
-      const grid=document.getElementById('carrierGrid');
-      if(!grid) return;
-      let list=carriers.filter(c=>carrierRegionFilter==='all'||c.regions.includes(carrierRegionFilter));
-      if(coldChainOnly) list=list.filter(c=>c.coldChain);
-      if(carrierSort==='price-asc') list=[...list].sort((a,b)=>a.pricePerMile-b.pricePerMile);
-      else if(carrierSort==='price-desc') list=[...list].sort((a,b)=>b.pricePerMile-a.pricePerMile);
-      else if(carrierSort==='rating') list=[...list].sort((a,b)=>b.rating-a.rating);
-      else if(carrierSort==='capacity') list=[...list].sort((a,b)=>b.capacity-a.capacity);
-
-      if(!list.length){ grid.innerHTML='<p style="color:var(--text-secondary);font-size:.85rem;grid-column:1/-1;">No carriers match these filters yet.</p>'; refreshFreightBadges(); return; }
-
-      grid.innerHTML=list.map(c=>`
-        <div class="carrier-card">
-          <div class="carrier-top">
-            <div class="carrier-icon">${c.coldChain?'❄️':'🚚'}</div>
-            <div style="flex:1;">
-              <div class="carrier-name">${c.company}</div>
-              <div class="carrier-base"><i class="fas fa-location-dot" style="margin-right:.25rem;"></i>${c.baseCity}</div>
-              ${c.verified?`<div class="verified-badge"><i class="fas fa-circle-check"></i> ${c.dot||'DOT Verified'}</div>`:''}
-            </div>
-          </div>
-          <div class="carrier-rating">${starHtml(c.rating)} <span style="color:var(--text-secondary);">${c.rating.toFixed(1)} (${c.reviews})</span></div>
-          <div class="carrier-tags">
-            <span class="carrier-tag">${c.truckType}</span>
-            ${c.coldChain?'<span class="carrier-tag cold">❄️ Cold-chain</span>':''}
-            ${c.regions.map(r=>`<span class="carrier-tag">${regionTag(r)} ${r}</span>`).join('')}
-          </div>
-          <div class="carrier-stats-row">
-            <span>Capacity<br><strong>${c.capacity.toLocaleString()} lbs</strong></span>
-            <span>Rate<br><strong>$${c.pricePerMile.toFixed(2)}/mi</strong></span>
-            <span>Status<br><strong style="color:${c.status==='available'?'#4ade80':'var(--gold)'};">${c.status==='available'?'Available':'On a job'}</strong></span>
-          </div>
-          <div class="carrier-avail ${c.status!=='available'?'busy-note':''}"><i class="fas fa-calendar" style="margin-right:.3rem;"></i>Available ${c.availFrom} → ${c.availTo}</div>
-          <button class="book-carrier-btn" ${c.status!=='available'?'disabled':''} onclick="openBookCarrier('${c.id}')"><i class="fas fa-file-signature" style="margin-right:.4rem;"></i>${c.status==='available'?'Book This Carrier':'Currently Unavailable'}</button>
-        </div>`).join('');
-      refreshFreightBadges();
-    }
-
-    function initCarrierFilters(){
-      $$('.filter-chip[data-carrier-region]').forEach(btn=>btn.addEventListener('click',()=>{
-        carrierRegionFilter=btn.dataset.carrierRegion;
-        $$('.filter-chip[data-carrier-region]').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active'); renderCarriers();
-      }));
-      const coldBtn=document.getElementById('coldChainFilter');
-      if(coldBtn) coldBtn.addEventListener('click',function(){ coldChainOnly=!coldChainOnly; this.classList.toggle('active',coldChainOnly); renderCarriers(); });
-      const sortSel=document.getElementById('carrierSortSelect');
-      if(sortSel) sortSel.addEventListener('change',e=>{ carrierSort=e.target.value; renderCarriers(); });
-      const dl=document.getElementById('cityList');
-      if(dl) dl.innerHTML=Object.keys(cityGeo).map(c=>`<option value="${c.replace(/\b\w/g,ch=>ch.toUpperCase())}">`).join('');
-    }
-
-    /* Enlist a truck (carrier portal) */
-    window.toggleColdChain=function(wrapper){
-      const sw=wrapper.querySelector('.toggle-sw');
-      const cb=document.getElementById('carrierColdChain');
-      sw.classList.toggle('on'); cb.checked=sw.classList.contains('on');
-    };
-    window.addCarrierListing=function(){
-      const company=document.getElementById('carrierCompany').value.trim();
-      if(!company) return toast('Enter your company name','error');
-      const contact=document.getElementById('carrierContact').value.trim()||'Dispatch';
-      const phone=document.getElementById('carrierPhone').value.trim()||'—';
-      const baseCity=document.getElementById('carrierBaseCity').value.trim();
-      if(!baseCity) return toast('Enter a base city','error');
-      const truckType=document.getElementById('carrierTruckType').value;
-      const capacity=parseInt(document.getElementById('carrierCapacity').value)||20000;
-      const pricePerMile=parseFloat(document.getElementById('carrierRate').value);
-      if(isNaN(pricePerMile)||pricePerMile<=0) return toast('Enter a valid rate per mile','error');
-      const dot=document.getElementById('carrierDot').value.trim();
-      const availFrom=document.getElementById('carrierAvailFrom').value||new Date().toISOString().slice(0,10);
-      const availTo=document.getElementById('carrierAvailTo').value||availFrom;
-      const regions=Array.from(document.querySelectorAll('#carrierRegionChecks input:checked')).map(i=>i.value);
-      if(!regions.length) return toast('Select at least one region served','error');
-      const coldChain=document.getElementById('carrierColdChain').checked;
-      const id='car'+Date.now();
-      carriers.push({id, company, contact, phone, truckType, capacity, coldChain, regions, baseCity, dot, pricePerMile, rating:5.0, reviews:0, availFrom, availTo, status:'available', verified:!!dot, mine:true});
-      renderCarriers(); renderFleet(); updateMapMarkers();
-      ['carrierCompany','carrierContact','carrierPhone','carrierBaseCity','carrierCapacity','carrierRate','carrierDot','carrierAvailFrom','carrierAvailTo'].forEach(id2=>document.getElementById(id2).value='');
-      document.querySelectorAll('#carrierRegionChecks input').forEach(i=>i.checked=false);
-      document.getElementById('coldChainToggleSw').classList.remove('on'); document.getElementById('carrierColdChain').checked=false;
-      toast(`${company} listed! Your truck is now visible in the Freight Marketplace 🚚`,'success');
-    };
-
-    document.addEventListener('change',e=>{
-      if(e.target.closest && e.target.closest('#carrierRegionChecks')){
-        e.target.closest('.region-check').classList.toggle('checked',e.target.checked);
-      }
-    });
-
-    /* My Fleet */
-    function renderFleet(){
-      const mine=carriers.filter(c=>c.mine);
-      const listEl=document.getElementById('myFleetList');
-      if(listEl){
-        if(!mine.length){ listEl.innerHTML='<p style="color:var(--text-secondary);font-size:.85rem;">No trucks listed yet. Use "List My Truck" to enlist your first vehicle&#39;s availability.</p>'; }
-        else listEl.innerHTML=mine.map(c=>`
-          <div class="fleet-row">
-            <div><div style="font-weight:600;font-size:.88rem;">${c.company}</div><div style="font-size:.72rem;color:var(--text-secondary);">${c.truckType} · ${c.baseCity} · ${c.regions.join(', ')}</div></div>
-            <div style="text-align:right;"><div style="font-family:'DM Mono',monospace;color:#60a5fa;">$${c.pricePerMile.toFixed(2)}/mi</div><span class="status-pill ${c.status==='available'?'':'warning'}">${c.status==='available'?'Available':'On a job'}</span></div>
-            <button onclick="removeCarrier('${c.id}')" style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.3);color:#f87171;border-radius:8px;padding:.3rem .7rem;cursor:pointer;font-size:.7rem;">Remove</button>
-          </div>`).join('');
-      }
-      const bkEl=document.getElementById('fleetBookingsList');
-      if(bkEl){
-        const mine2=bookings.filter(b=>mine.some(c=>c.id===b.carrierId));
-        if(!mine2.length){ bkEl.innerHTML='<p style="color:var(--text-secondary);font-size:.85rem;">No bookings yet.</p>'; }
-        else bkEl.innerHTML=mine2.map(b=>`
-          <div class="booking-row">
-            <span><strong>${b.shipper}</strong> · ${b.origin} → ${b.destination}</span>
-            <span style="color:var(--accent);font-family:'DM Mono',monospace;">$${b.cost.toFixed(2)}</span>
-          </div>`).join('');
-      }
-      refreshFreightBadges();
-      setTimeout(renderFleetUtilChart,30);
-    }
-    window.removeCarrier=function(id){
-      const idx=carriers.findIndex(c=>c.id===id);
-      if(idx>-1) carriers.splice(idx,1);
-      renderCarriers(); renderFleet(); updateMapMarkers();
-      toast('Truck listing removed','info');
-    };
-
-    /* Booking flow */
-    window.openBookCarrier=function(id){
-      const c=carriers.find(x=>x.id===id); if(!c) return;
-      document.getElementById('bookCarrierId').value=id;
-      document.getElementById('bookCarrierSummary').innerHTML=`Booking <strong style="color:#60a5fa;">${c.company}</strong> — ${c.truckType}, $${c.pricePerMile.toFixed(2)}/mi, based in ${c.baseCity}.`;
-      document.getElementById('bookOrigin').value=c.baseCity;
-      document.getElementById('bookCostBreakdown').innerHTML='Fill in pickup and destination to estimate freight cost.';
-      document.getElementById('bookCarrierModal').classList.add('open');
-      ['bookOrigin','bookDestination'].forEach(idf=>{
-        document.getElementById(idf).oninput=()=>updateBookingEstimate(id);
+      if(!orders.length) return;
+      orders.forEach(o=>{
+        el.insertAdjacentHTML('afterbegin',`
+          <div class="shipment-card">
+            <div class="ship-icon">🚛</div>
+            <div class="ship-info"><div class="route">${o.id}</div><div class="detail">${o.items.map(i=>i.name).join(', ')} · $${o.total}</div></div>
+            <span class="status-pill">${o.status}</span>
+          </div>`);
       });
-    };
-    function updateBookingEstimate(carrierId){
-      const c=carriers.find(x=>x.id===carrierId); if(!c) return;
-      const origin=document.getElementById('bookOrigin').value, dest=document.getElementById('bookDestination').value;
-      if(!origin||!dest){ document.getElementById('bookCostBreakdown').innerHTML='Fill in pickup and destination to estimate freight cost.'; return; }
-      const a=geocode(origin), b=geocode(dest);
-      const dist=haversineMiles(a,b)||1;
-      const base=dist*c.pricePerMile;
-      const surcharge=c.coldChain?base*0.12:0;
-      const total=base+surcharge;
-      document.getElementById('bookCostBreakdown').innerHTML=`
-        <div style="display:flex;justify-content:space-between;padding:.25rem 0;"><span>Distance</span><strong>${dist} mi</strong></div>
-        <div style="display:flex;justify-content:space-between;padding:.25rem 0;"><span>Base (${dist}mi × $${c.pricePerMile.toFixed(2)})</span><strong>$${base.toFixed(2)}</strong></div>
-        ${c.coldChain?`<div style="display:flex;justify-content:space-between;padding:.25rem 0;"><span>Cold-chain surcharge (12%)</span><strong style="color:var(--gold);">+$${surcharge.toFixed(2)}</strong></div>`:''}
-        <div style="display:flex;justify-content:space-between;padding:.4rem 0 0;border-top:1px solid var(--border-light);margin-top:.3rem;"><span style="font-weight:700;">Est. Total</span><strong style="color:#60a5fa;font-size:1rem;">$${total.toFixed(2)}</strong></div>`;
-    }
-    window.confirmBooking=function(){
-      const id=document.getElementById('bookCarrierId').value;
-      const c=carriers.find(x=>x.id===id); if(!c) return;
-      const shipper=document.getElementById('bookShipperName').value.trim()||'Shipper';
-      const origin=document.getElementById('bookOrigin').value.trim();
-      const destination=document.getElementById('bookDestination').value.trim();
-      const cargo=document.getElementById('bookCargo').value.trim()||'General freight';
-      const weight=parseInt(document.getElementById('bookWeight').value)||1000;
-      if(!origin||!destination) return toast('Enter both pickup and destination','error');
-      if(weight>c.capacity) return toast(`Exceeds carrier capacity of ${c.capacity.toLocaleString()} lbs`,'error');
-      const a=geocode(origin), b=geocode(destination);
-      const dist=haversineMiles(a,b)||1;
-      const base=dist*c.pricePerMile;
-      const cost=base+(c.coldChain?base*0.12:0);
-      const bookingId='bk'+Date.now();
-      bookings.unshift({id:bookingId, carrierId:c.id, shipper, origin, destination, cargo, weight, dist, cost});
-      c.status='busy';
-      shipments.unshift({id:'sh'+Date.now(), from:origin, to:destination, cargo:`${cargo} · ${weight.toLocaleString()} lbs`, temp:c.coldChain?'4.0°C':'—', coldChain:c.coldChain, progress:5, etaHours:Math.max(2,Math.round(dist/50)), icon:c.coldChain?'❄️':'🚛', originLL:a, destLL:b, carrier:c.company});
-      renderCarriers(); renderShipments(); renderFleet(); updateMapMarkers();
-      closeModal('bookCarrierModal');
-      toast(`Booked ${c.company} for $${cost.toFixed(2)} · ${dist} mi 🚛`,'success');
-      ['bookShipperName','bookOrigin','bookDestination','bookCargo','bookWeight','bookDate'].forEach(f=>document.getElementById(f).value='');
-    };
-
-    /* Track shipment */
-    let trackMapInstance=null, trackMarker=null, trackInterval=null;
-    window.trackShipment=function(id){
-      const s=shipments.find(x=>x.id===id); if(!s) return;
-      document.getElementById('trackSummary').innerHTML=`<strong>${s.from} → ${s.to}</strong><br>${s.cargo} · Carrier: ${s.carrier}`;
-      document.getElementById('trackOriginLbl').textContent=s.from;
-      document.getElementById('trackDestLbl').textContent=s.to;
-      document.getElementById('trackEtaLbl').textContent=`ETA ${s.etaHours}h`;
-      document.getElementById('trackProgressFill').style.width=s.progress+'%';
-      document.getElementById('trackShipmentModal').classList.add('open');
-      setTimeout(()=>{
-        const mapEl=document.getElementById('trackMap');
-        if(trackMapInstance){ trackMapInstance.remove(); trackMapInstance=null; }
-        if(!window.L) return;
-        trackMapInstance=L.map(mapEl,{zoomControl:false,attributionControl:false}).setView(s.originLL,5);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(trackMapInstance);
-        L.marker(s.originLL).addTo(trackMapInstance).bindPopup(s.from);
-        L.marker(s.destLL).addTo(trackMapInstance).bindPopup(s.to);
-        const line=L.polyline([s.originLL,s.destLL],{color:'#60a5fa',weight:3,dashArray:'6,8'}).addTo(trackMapInstance);
-        trackMapInstance.fitBounds(line.getBounds(),{padding:[24,24]});
-        const lat=s.originLL[0]+(s.destLL[0]-s.originLL[0])*(s.progress/100);
-        const lng=s.originLL[1]+(s.destLL[1]-s.originLL[1])*(s.progress/100);
-        const icon=L.divIcon({className:'divIcon-shipment',iconSize:[16,16]});
-        trackMarker=L.marker([lat,lng],{icon}).addTo(trackMapInstance);
-        if(trackInterval) clearInterval(trackInterval);
-        trackInterval=setInterval(()=>{
-          if(!document.getElementById('trackShipmentModal').classList.contains('open')){ clearInterval(trackInterval); return; }
-          s.progress=Math.min(100,s.progress+1);
-          document.getElementById('trackProgressFill').style.width=s.progress+'%';
-          const lt=s.originLL[0]+(s.destLL[0]-s.originLL[0])*(s.progress/100);
-          const lg=s.originLL[1]+(s.destLL[1]-s.originLL[1])*(s.progress/100);
-          if(trackMarker) trackMarker.setLatLng([lt,lg]);
-        },900);
-      },80);
-    };
-
-    /* Live freight map */
-    let freightMapInstance=null, freightMarkers=[];
-    function initFreightMap(){
-      const mapEl=document.getElementById('freightMap');
-      if(!mapEl||!window.L||freightMapInstance) return;
-      freightMapInstance=L.map(mapEl,{zoomControl:true,attributionControl:false}).setView([39.5,-98.35],4);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:12}).addTo(freightMapInstance);
-      updateMapMarkers();
-    }
-    function updateMapMarkers(){
-      if(!freightMapInstance) return;
-      freightMarkers.forEach(m=>freightMapInstance.removeLayer(m));
-      freightMarkers=[];
-      carriers.forEach(c=>{
-        const ll=geocode(c.baseCity);
-        const icon=L.divIcon({className:'divIcon-carrier'+(c.status!=='available'?' busy':''),iconSize:[14,14]});
-        const m=L.marker(ll,{icon}).addTo(freightMapInstance)
-          .bindPopup(`<strong>${c.company}</strong><br>${c.truckType} · ${c.status==='available'?'Available':'On a job'}<br>$${c.pricePerMile.toFixed(2)}/mi · ⭐${c.rating.toFixed(1)}`);
-        freightMarkers.push(m);
-      });
-      shipments.forEach(s=>{
-        const icon=L.divIcon({className:'divIcon-shipment',iconSize:[14,14]});
-        const lat=s.originLL[0]+(s.destLL[0]-s.originLL[0])*(s.progress/100);
-        const lng=s.originLL[1]+(s.destLL[1]-s.originLL[1])*(s.progress/100);
-        const m=L.marker([lat,lng],{icon}).addTo(freightMapInstance).bindPopup(`<strong>${s.from} → ${s.to}</strong><br>${s.cargo}<br>${s.progress}% complete`);
-        const line=L.polyline([s.originLL,s.destLL],{color:'#a8d48a',weight:2,opacity:0.55,dashArray:'4,7'}).addTo(freightMapInstance);
-        freightMarkers.push(m,line);
-      });
-      refreshFreightBadges();
     }
 
     /* ── Farmer listing ── */
@@ -1853,8 +1287,7 @@
       price:     "Current averages: tomatoes $4.80/lb, blueberries $7.10/pint, honey $15.20/jar, leafy greens up 8% due to winter demand. AgroCart pricing runs 12–18% above wholesale average — that margin goes directly to farmers.",
       logistics: "Cold-chain best practices: maintain 2–4°C, use ethylene-absorbing packaging for mixed loads, and minimize stops. AgroCart's network averages 98.2% on-time delivery with GPS-monitored refrigerated transport. We offer free cold-chain audits for farms shipping 50+ lbs weekly.",
       lfpp:      "LFPP (Local Food Promotion Program) offers up to $500k for food hubs, distributors, and aggregators. Institutional contracts on AgroCart qualify for automatic 15% offset. Contracts of 6+ months receive priority grant review. 452 institutions are currently enrolled.",
-      carrier:   "The Freight & Logistics hub lets any trucking company list their truck's availability for free — zero commission. Go to Freight & Logistics → List My Truck, add your capacity, rate per mile, and regions served, and shippers can book you directly. Reefer trucks earn a 12% cold-chain premium automatically. You can track incoming bookings from the My Fleet tab.",
-      default:   "I can help with FMPP/LFPP grants, organic certification, regional pricing trends, cold-chain logistics, freight carrier bookings, and institutional procurement. What would you like to explore?"
+      default:   "I can help with FMPP/LFPP grants, organic certification, regional pricing trends, cold-chain logistics, and institutional procurement. What would you like to explore?"
     };
     window.sendAI=function(){
       const input=document.getElementById('aiInput');
@@ -1870,7 +1303,6 @@
         if(ml.includes('grant')||ml.includes('fmpp')) reply=aiKB.grant;
         else if(ml.includes('organic')||ml.includes('certif')) reply=aiKB.organic;
         else if(ml.includes('price')||ml.includes('cost')||ml.includes('pricing')) reply=aiKB.price;
-        else if(ml.includes('carrier')||ml.includes('truck')||ml.includes('freight')||ml.includes('haul')) reply=aiKB.carrier;
         else if(ml.includes('logistic')||ml.includes('cold')||ml.includes('deliver')||ml.includes('ship')) reply=aiKB.logistics;
         else if(ml.includes('lfpp')||ml.includes('institution')||ml.includes('school')||ml.includes('bulk')) reply=aiKB.lfpp;
         msgs.innerHTML+=`<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">${reply}</div></div>`;
@@ -1897,15 +1329,6 @@
       if($('#regionalChart')) new Chart($('#regionalChart'),{type:'bar',data:{labels:['California','New York','Texas','Florida','Washington'],datasets:[{data:[3.2,2.1,1.4,0.9,0.82],backgroundColor:['rgba(168,212,138,0.85)','rgba(168,212,138,0.7)','rgba(168,212,138,0.55)','rgba(168,212,138,0.4)','rgba(168,212,138,0.28)'],borderRadius:8}]},options:{...base,indexAxis:'y'}});
       if($('#impactChart')) new Chart($('#impactChart'),{type:'line',data:{labels:['2022','2023','2024','2025'],datasets:[{label:'Farmers',data:[280,640,980,1240],borderColor:'#a8d48a',tension:0.4,pointRadius:4},{label:'Institutions',data:[40,120,290,452],borderColor:'#60a5fa',tension:0.4,pointRadius:4},{label:'Waste (×100k lbs)',data:[3,9,20,21],borderColor:'#f5d878',tension:0.4,pointRadius:4}]},options:{plugins:{legend:{display:true,labels:{color:'rgba(245,240,232,0.55)',font:{size:10}}}},scales:{x:{grid,ticks:tick},y:{grid,ticks:tick}}}});
       if($('#farmerSalesChart')) new Chart($('#farmerSalesChart'),{type:'line',data:{labels:['Wk1','Wk2','Wk3','Wk4'],datasets:[{data:[820,1240,970,1480],borderColor:'#a8d48a',backgroundColor:'rgba(168,212,138,0.1)',tension:0.4,fill:true,pointRadius:4}]},options:{...base}});
-      if($('#carrierRegionChart')) new Chart($('#carrierRegionChart'),{type:'bar',data:{labels:['CA','NY','TX','FL','WA'],datasets:[{data:[3,2,2,2,2],backgroundColor:'rgba(96,165,250,0.7)',borderRadius:6}]},options:{...base}});
-    }
-    let fleetChartInstance=null;
-    function renderFleetUtilChart(){
-      const canvas=document.getElementById('fleetUtilChart'); if(!canvas||!window.Chart) return;
-      const tick={color:'rgba(245,240,232,0.45)',font:{size:10}};
-      const grid={color:'rgba(90,122,82,0.1)'};
-      if(fleetChartInstance) fleetChartInstance.destroy();
-      fleetChartInstance=new Chart(canvas,{type:'bar',data:{labels:['Wk1','Wk2','Wk3','Wk4'],datasets:[{data:[40,58,71,64],backgroundColor:'rgba(96,165,250,0.75)',borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{x:{grid,ticks:tick},y:{grid,ticks:tick,max:100}}}});
     }
 
     /* ── View switching ── */
@@ -1917,10 +1340,7 @@
       document.querySelectorAll(`.nav-item[data-view="${view}"],.mob-nav-item[data-view="${view}"]`).forEach(el=>el.classList.add('active'));
       if(view==='wishlist') renderWishlistView();
       if(view==='orders') renderOrders();
-      if(view==='logistics') {
-        renderShipments(); renderCarriers(); renderFleet();
-        setTimeout(()=>{ initFreightMap(); if(freightMapInstance) freightMapInstance.invalidateSize(); },80);
-      }
+      if(view==='logistics') renderLogistics();
       if(view==='farmer') { renderFarmerProducts(); }
       if(view==='institutional') { renderInstDropdown(); renderInstOrders(); }
     }
