@@ -33,7 +33,7 @@
         }
         .product-card {
             background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e8f0eb;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; position: relative;
         }
         .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
         .product-img {
@@ -51,7 +51,29 @@
             color: white; font-weight: 600; border: none; cursor: pointer;
         }
         .btn-order:hover { background: var(--forest); }
+        .favorite-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(255,255,255,0.85); border: none;
+            font-size: 1.2rem; cursor: pointer; padding: 4px 8px;
+            border-radius: 50%; backdrop-filter: blur(4px);
+            transition: transform 0.2s;
+        }
+        .favorite-btn:hover { transform: scale(1.2); }
+        .favorite-btn.faved { color: #e74c3c; }
+
         .loading, .error { text-align: center; padding: 40px; color: var(--smoke); }
+
+        /* Modal for product detail */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white; border-radius: 16px; padding: 32px; max-width: 500px; width: 90%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2); text-align: center;
+        }
+        .modal img { max-width: 100%; border-radius: 12px; margin-bottom: 16px; }
     </style>
 </head>
 <body>
@@ -77,6 +99,19 @@
         </div>
     </div>
 
+    <!-- Product detail modal -->
+    <div class="modal-overlay" id="detailModal" onclick="closeDetailModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <img id="detailImage" src="" alt="">
+            <h2 id="detailTitle" style="color:var(--forest);"></h2>
+            <p id="detailFarm" style="color:var(--smoke);"></p>
+            <p id="detailDesc" style="color:var(--smoke); margin:12px 0;"></p>
+            <p id="detailPrice" style="font-weight:800; color:var(--grove); font-size:1.2rem;"></p>
+            <button class="btn-order" id="detailOrderBtn" onclick="placeOrderFromDetail()">Order</button>
+            <button class="btn-order outline" style="margin-left:8px;" onclick="closeDetailModal()">Close</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         (function() {
@@ -85,10 +120,20 @@
                 'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
             );
             let allProducts = [];
+            let userFavorites = new Set(); // farmer_ids that the current user has favorited
 
             async function loadProducts() {
                 const grid = document.getElementById('productsGrid');
                 grid.innerHTML = '<div class="loading">Loading fresh produce...</div>';
+
+                // Load user's favorites if logged in
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { data: favs } = await supabase.from('favorites')
+                        .select('farmer_id')
+                        .eq('buyer_id', user.id);
+                    userFavorites = new Set(favs?.map(f => f.farmer_id) || []);
+                }
 
                 const { data, error } = await supabase
                     .from('listings')
@@ -124,9 +169,10 @@
                     const farmerName = p.profiles ? `${p.profiles.first_name} ${p.profiles.last_name}` : 'Unknown farm';
                     const farmerState = p.profiles ? p.profiles.state : '';
                     const imageUrl = p.image_url;
+                    const isFaved = userFavorites.has(p.farmer_id);
 
                     return `
-                    <div class="product-card">
+                    <div class="product-card" onclick="openDetail('${p.id}')">
                         <div class="product-img">
                             ${imageUrl 
                                 ? `<img src="${imageUrl}" alt="${escapeHtml(p.title)}" loading="lazy" />`
@@ -138,9 +184,14 @@
                             <div class="product-farm">${escapeHtml(farmerName)}${farmerState ? ' — ' + escapeHtml(farmerState) : ''}</div>
                             <div class="product-footer">
                                 <div class="product-price">$${p.price}/${p.unit}</div>
-                                <button class="btn-order" onclick="placeOrder('${p.id}', '${escapeHtml(p.title)}', ${p.price})">Order</button>
+                                <button class="btn-order" onclick="event.stopPropagation(); placeOrder('${p.id}', '${escapeHtml(p.title)}', ${p.price})">Order</button>
                             </div>
                         </div>
+                        <button class="favorite-btn ${isFaved ? 'faved' : ''}" 
+                            onclick="event.stopPropagation(); toggleFavorite('${p.farmer_id}', this)"
+                            title="Favorite this farm">
+                            ${isFaved ? '❤️' : '🤍'}
+                        </button>
                     </div>
                     `;
                 }).join('');
@@ -171,8 +222,67 @@
                 else alert('Order placed!');
             }
 
-            // Expose placeOrder to global scope (needed by onclick)
+            // Expose for inline handlers
             window.placeOrder = placeOrder;
+
+            // Favorite toggle
+            window.toggleFavorite = async function(farmerId, btn) {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
+                    alert('Please sign in to favorite farms.');
+                    return;
+                }
+                if (userFavorites.has(farmerId)) {
+                    // Remove from favorites
+                    const { error } = await supabase.from('favorites')
+                        .delete()
+                        .eq('buyer_id', user.id)
+                        .eq('farmer_id', farmerId);
+                    if (error) { alert('Error: ' + error.message); return; }
+                    userFavorites.delete(farmerId);
+                    btn.classList.remove('faved');
+                    btn.innerHTML = '🤍';
+                } else {
+                    // Add to favorites
+                    const { error } = await supabase.from('favorites')
+                        .insert([{ buyer_id: user.id, farmer_id: farmerId }]);
+                    if (error) { alert('Error: ' + error.message); return; }
+                    userFavorites.add(farmerId);
+                    btn.classList.add('faved');
+                    btn.innerHTML = '❤️';
+                }
+            };
+
+            // Product detail modal
+            window.openDetail = function(listingId) {
+                const listing = allProducts.find(p => p.id === listingId);
+                if (!listing) return;
+                document.getElementById('detailTitle').textContent = listing.title;
+                document.getElementById('detailFarm').textContent = 
+                    `${listing.profiles.first_name} ${listing.profiles.last_name} — ${listing.profiles.state}`;
+                document.getElementById('detailDesc').textContent = listing.description || 'No description available.';
+                document.getElementById('detailPrice').textContent = `$${listing.price} / ${listing.unit}`;
+                const imgEl = document.getElementById('detailImage');
+                if (listing.image_url) {
+                    imgEl.src = listing.image_url;
+                    imgEl.style.display = 'block';
+                } else {
+                    imgEl.style.display = 'none';
+                }
+                document.getElementById('detailOrderBtn').onclick = () => {
+                    placeOrder(listing.id, listing.title, listing.price);
+                    closeDetailModal();
+                };
+                document.getElementById('detailModal').classList.add('active');
+            };
+
+            window.closeDetailModal = function() {
+                document.getElementById('detailModal').classList.remove('active');
+            };
+
+            window.placeOrderFromDetail = function() {
+                document.getElementById('detailOrderBtn').click();
+            };
 
             function escapeHtml(t) {
                 const d = document.createElement('div');
