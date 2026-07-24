@@ -8,39 +8,39 @@
     <style>
         :root {
             --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
-            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --smoke: #4a5e52; --white: #ffffff;
-            --radius: 12px; --nav-height: 68px;
+            --mist: #d8f3dc; --cream: #f8faf4; --smoke: #4a5e52; --white: #ffffff;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--cream); color: var(--ink); padding-top: var(--nav-height);
+            background: var(--cream); padding-top: 60px;
         }
         nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; height: var(--nav-height);
-            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(64,145,108,0.12);
+            position: fixed; top: 0; left: 0; right: 0; height: 60px;
+            background: white; display: flex; align-items: center; padding: 0 5%;
+            border-bottom: 1px solid #e0e0e0; z-index: 100;
         }
-        .nav-logo { font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem; color: var(--forest); text-decoration: none; }
-        .nav-logo .cart { background: var(--grove); color: white; padding: 2px 8px; border-radius: 6px; margin-left: 4px; font-weight: 800; }
+        .nav-logo { font-family: 'Lora', serif; font-weight: 600; font-size: 1.2rem; color: var(--forest); text-decoration: none; }
         .container { max-width: 1200px; margin: 40px auto; padding: 0 5%; }
-        .filters { display: flex; gap: 8px; margin: 24px 0; flex-wrap: wrap; }
+        .filters { display: flex; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
         .filter-btn {
             padding: 8px 18px; border-radius: 100px; border: 1.5px solid #ddeee4;
             background: white; font-weight: 600; cursor: pointer; transition: 0.2s;
         }
         .filter-btn.active { background: var(--grove); color: white; border-color: var(--grove); }
         .products-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;
         }
         .product-card {
-            background: white; border-radius: var(--radius); overflow: hidden; border: 1.5px solid #e8f0eb;
+            background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e8f0eb;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
-        .product-img { height: 180px; background: var(--mist); display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+        .product-img {
+            height: 160px; background: var(--mist); display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .product-img img { width: 100%; height: 100%; object-fit: cover; }
         .product-body { padding: 16px; }
         .product-name { font-weight: 700; color: var(--forest); }
         .product-farm { font-size: 0.85rem; color: var(--smoke); margin-bottom: 8px; }
@@ -50,18 +50,19 @@
             padding: 6px 14px; border-radius: 6px; background: var(--grove);
             color: white; font-weight: 600; border: none; cursor: pointer;
         }
+        .btn-order:hover { background: var(--forest); }
+        .loading, .error { text-align: center; padding: 40px; color: var(--smoke); }
     </style>
 </head>
 <body>
-    <!-- NAV -->
     <nav>
         <a href="/" class="nav-logo">Agro<span style="color:var(--grove);">Chain</span><span class="cart">Cart</span></a>
-        <a href="/dashboard/">Dashboard</a>
+        <a href="/dashboard/" style="margin-left:auto;">Dashboard</a>
     </nav>
 
     <div class="container">
         <h1 style="color:var(--forest); margin-bottom:8px;">Live Marketplace</h1>
-        <p style="color:var(--smoke);">Browse fresh produce directly from verified farms.</p>
+        <p style="color:var(--smoke);">Fresh produce directly from verified farms.</p>
 
         <div class="filters" id="filters">
             <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
@@ -72,13 +73,12 @@
         </div>
 
         <div class="products-grid" id="productsGrid">
-            <p>Loading fresh produce...</p>
+            <div class="loading">Loading fresh produce...</div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Initialize Supabase client (public anon key – safe for client side)
         const supabase = window.supabase.createClient(
             'https://kuwoqzdgndnnayxrbzll.supabase.co',
             'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
@@ -87,22 +87,27 @@
 
         async function loadProducts() {
             const grid = document.getElementById('productsGrid');
-            grid.innerHTML = '<p>Loading fresh produce...</p>';
+            grid.innerHTML = '<div class="loading">Loading fresh produce...</div>';
 
-            // Fetch listings along with farmer profile (public RLS allows read if policies exist)
+            // Public read should work because we added the policy
             const { data, error } = await supabase
                 .from('listings')
                 .select('*, profiles!inner(first_name, last_name, state)')
-                .gt('quantity_available', 0)   // only show in-stock
+                .gt('quantity_available', 0)
                 .order('created_at', { ascending: false });
 
             if (error) {
-                console.error('Marketplace load error:', error);
-                grid.innerHTML = `<p>Couldn't load marketplace. Please try again later.</p>`;
+                console.error('Marketplace error:', error);
+                grid.innerHTML = `<div class="error">Couldn't load marketplace. ${error.message}. Please try again later.</div>`;
                 return;
             }
 
-            allProducts = data || [];
+            if (!data || data.length === 0) {
+                grid.innerHTML = '<div class="loading">No listings found. Be the first to add one!</div>';
+                return;
+            }
+
+            allProducts = data;
             renderProducts('all');
         }
 
@@ -111,21 +116,21 @@
             const grid = document.getElementById('productsGrid');
 
             if (!filtered.length) {
-                grid.innerHTML = '<p>No listings found in this category.</p>';
+                grid.innerHTML = '<div class="loading">No listings in this category.</div>';
                 return;
             }
 
             grid.innerHTML = filtered.map(p => {
                 const farmerName = p.profiles ? `${p.profiles.first_name} ${p.profiles.last_name}` : 'Unknown farm';
                 const farmerState = p.profiles ? p.profiles.state : '';
-                const imageUrl = p.image_url || null;
+                const imageUrl = p.image_url;
 
                 return `
                 <div class="product-card">
                     <div class="product-img">
                         ${imageUrl 
-                            ? `<img src="${imageUrl}" alt="${escapeHtml(p.title)}" style="width:100%;height:100%;object-fit:cover;" />`
-                            : `<span style="font-size:2rem;">🌱</span>`
+                            ? `<img src="${imageUrl}" alt="${escapeHtml(p.title)}" loading="lazy" />`
+                            : '<span style="font-size:2rem;">🌱</span>'
                         }
                     </div>
                     <div class="product-body">
@@ -154,7 +159,7 @@
                 window.location.href = '/sign-in/';
                 return;
             }
-            const quantity = prompt(`How many? ($${price}/${document.querySelector(`[data-id="${listingId}"]`)?.dataset?.unit || 'unit'})`, '1');
+            const quantity = prompt(`How many? ($${price}/unit)`, '1');
             if (!quantity) return;
             const { error } = await supabase.from('orders').insert([{
                 buyer_id: user.id,
@@ -163,7 +168,7 @@
                 total_price: parseFloat(quantity) * price
             }]);
             if (error) alert('Order error: ' + error.message);
-            else alert('Order placed successfully!');
+            else alert('Order placed!');
         }
 
         function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }

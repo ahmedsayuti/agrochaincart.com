@@ -132,12 +132,13 @@
         @media (max-width: 900px) {
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
         }
+
         .listing-card {
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
         .listing-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
     </style>
 </head>
@@ -354,15 +355,15 @@
                                         <h3>My Listings</h3>
                                         <button class="action-btn" onclick="openListingModal()">+ New Listing</button>
                                     </div>
-                                    <div class="listings-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px; margin-top:16px;">
+                                    <div class="listings-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px; margin-top:16px;">
                                         ${listings?.length ? listings.map(l => `
-                                            <div class="listing-card" style="border:1px solid #e8f0eb; border-radius:12px; overflow:hidden;">
-                                                <div class="listing-img" style="height:160px; background:var(--mist); display:flex; align-items:center; justify-content:center;">
-                                                    ${l.image_url ? `<img src="${l.image_url}" alt="${escapeHtml(l.title)}" style="width:100%;height:100%;object-fit:cover;" />` : '🌱'}
+                                            <div class="listing-card" style="border:1px solid #e8f0eb; border-radius:12px; overflow:hidden; background:white;">
+                                                <div class="listing-img" style="height:150px; background:var(--mist); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                                    ${l.image_url ? `<img src="${l.image_url}" alt="${escapeHtml(l.title)}" style="width:100%;height:100%;object-fit:cover;" />` : '<span style="font-size:2rem;">🌱</span>'}
                                                 </div>
                                                 <div style="padding:16px;">
-                                                    <strong>${escapeHtml(l.title)}</strong><br>
-                                                    <small>${formatCurrency(l.price)} / ${l.unit} — ${l.quantity_available} avail.</small>
+                                                    <strong style="color:var(--forest);">${escapeHtml(l.title)}</strong><br>
+                                                    <small style="color:var(--smoke);">${formatCurrency(l.price)} / ${l.unit} — ${l.quantity_available} avail.</small>
                                                     <div style="margin-top:8px; display:flex; gap:8px;">
                                                         <button class="action-btn outline small" onclick="openListingModal(${JSON.stringify(l).replace(/"/g, '&quot;')})">Edit</button>
                                                         <button class="action-btn small danger" onclick="deleteListing('${l.id}')">Delete</button>
