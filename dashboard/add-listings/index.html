@@ -10,35 +10,50 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #f8faf4;
             display: flex; align-items: center; justify-content: center;
-            min-height: 100vh;
+            min-height: 100vh; margin: 0;
+            padding: 20px;
         }
         .form-card {
-            background: white; padding: 40px; border-radius: 20px;
-            max-width: 520px; width: 90%;
+            background: white; padding: 32px; border-radius: 16px;
+            width: 100%; max-width: 520px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.05);
         }
         h2 { color: #1a3a2a; margin-bottom: 20px; }
-        label { display: block; margin: 12px 0 4px; font-weight: 600; color: #1a3a2a; }
+        label { font-weight: 600; color: #1a3a2a; display: block; margin-top: 16px; margin-bottom: 4px; }
         input, select, textarea {
             width: 100%; padding: 10px; border-radius: 8px;
-            border: 1.5px solid #ddeee4; font-family: inherit;
+            border: 1.5px solid #ddeee4; font-family: inherit; font-size: 0.95rem;
         }
-        .image-upload {
+        .image-method {
+            display: flex; gap: 10px; margin-bottom: 12px;
+        }
+        .image-method label {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            gap: 6px; padding: 10px; border: 2px solid #ddeee4;
+            border-radius: 10px; cursor: pointer; font-weight: 600;
+            color: #4a5e52; transition: 0.2s;
+        }
+        .image-method input[type="radio"] { display: none; }
+        .image-method input[type="radio"]:checked + label {
+            border-color: #2d6a4f; background: #f0f7f2; color: #1a3a2a;
+        }
+        .upload-area {
             border: 2px dashed #c0d5c8; border-radius: 12px;
-            padding: 20px; text-align: center; cursor: pointer;
-            margin-top: 8px; transition: background 0.2s;
+            padding: 24px; text-align: center; cursor: pointer;
+            background: #f9f9f9; transition: background 0.2s;
         }
-        .image-upload:hover { background: #f0f7f2; }
-        .image-upload p { margin: 0; font-size: 0.9rem; color: #4a5e52; }
+        .upload-area:hover { background: #eef6f0; }
         #fileInput { display: none; }
+        #urlInput { display: none; }
         .preview {
             max-width: 100%; max-height: 200px; margin-top: 12px;
-            border-radius: 8px; display: none;
+            border-radius: 8px; display: none; border: 1px solid #e0e0e0;
         }
         button {
             background: #2d6a4f; color: white; border: none;
-            padding: 12px 24px; border-radius: 10px; cursor: pointer;
-            font-weight: 700; width: 100%; margin-top: 20px;
+            padding: 14px; width: 100%; margin-top: 24px;
+            border-radius: 10px; font-weight: 700; cursor: pointer;
+            font-size: 1rem; transition: 0.2s;
         }
         button:hover { background: #1a3a2a; }
         .back-link { display: block; text-align: center; margin-top: 16px; }
@@ -46,7 +61,7 @@
 </head>
 <body>
     <div class="form-card">
-        <h2>Add New Listing</h2>
+        <h2>Add New Listing 🌱</h2>
         <form id="listingForm">
             <label>Title *</label>
             <input type="text" name="title" required placeholder="e.g., Heirloom Tomatoes">
@@ -59,12 +74,12 @@
                 <option value="grains">Grains</option>
             </select>
 
-            <div style="display:flex; gap:12px;">
-                <div style="flex:1;">
+            <div style="display: flex; gap: 12px;">
+                <div style="flex: 1;">
                     <label>Price ($) *</label>
                     <input type="number" step="0.01" name="price" required placeholder="0.00">
                 </div>
-                <div style="flex:1;">
+                <div style="flex: 1;">
                     <label>Unit *</label>
                     <input type="text" name="unit" required placeholder="lb, dozen...">
                 </div>
@@ -76,113 +91,185 @@
             <label>Description (optional)</label>
             <textarea name="description" rows="2" placeholder="Brief description..."></textarea>
 
-            <label>Product Image (optional)</label>
-            <div class="image-upload" id="dropArea" onclick="document.getElementById('fileInput').click()">
+            <label>Product Image</label>
+            <div class="image-method">
+                <input type="radio" id="methodUpload" name="imageMethod" value="upload" checked>
+                <label for="methodUpload">📁 Upload from computer</label>
+
+                <input type="radio" id="methodUrl" name="imageMethod" value="url">
+                <label for="methodUrl">🔗 Paste image URL</label>
+            </div>
+
+            <!-- Upload area (visible when "upload" is selected) -->
+            <div id="uploadArea" class="upload-area" onclick="document.getElementById('fileInput').click()">
                 <p>📸 Click or drag image here</p>
                 <p style="font-size:0.8rem; color:#8fac9e;">JPG, PNG – Max 5MB</p>
             </div>
-            <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
+            <input type="file" id="fileInput" accept="image/*">
+
+            <!-- URL input (visible when "url" is selected) -->
+            <input type="url" id="urlInput" placeholder="https://example.com/image.jpg" style="display:none;">
+
             <img id="previewImg" class="preview" alt="Preview">
 
-            <button type="submit">Create Listing 🌱</button>
+            <button type="submit">Create Listing</button>
         </form>
         <a href="/dashboard/" class="back-link">← Back to Dashboard</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const supabase = window.supabase.createClient(
-            'https://kuwoqzdgndnnayxrbzll.supabase.co',
-            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
-        );
+        // Wait for DOM to be fully ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const supabase = window.supabase.createClient(
+                'https://kuwoqzdgndnnayxrbzll.supabase.co',
+                'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+            );
 
-        let selectedFile = null;
+            // DOM elements
+            const methodUpload = document.getElementById('methodUpload');
+            const methodUrl = document.getElementById('methodUrl');
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const urlInput = document.getElementById('urlInput');
+            const preview = document.getElementById('previewImg');
+            let selectedFile = null;
 
-        window.handleFileSelect = function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            selectedFile = file;
-            // Preview
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const preview = document.getElementById('previewImg');
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        };
+            // Function to update UI based on selected radio button
+            function updateMethodUI() {
+                if (methodUpload.checked) {
+                    uploadArea.style.display = 'block';
+                    urlInput.style.display = 'none';
+                    urlInput.value = '';
+                    preview.style.display = 'none';
+                    selectedFile = null;
+                    fileInput.value = '';
+                } else {
+                    uploadArea.style.display = 'none';
+                    urlInput.style.display = 'block';
+                    // Show preview if URL already typed
+                    if (urlInput.value.trim()) {
+                        showUrlPreview(urlInput.value.trim());
+                    } else {
+                        preview.style.display = 'none';
+                    }
+                }
+            }
 
-        // Drag & drop support
-        const dropArea = document.getElementById('dropArea');
-        dropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropArea.style.background = '#edfbf2';
-        });
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.style.background = '';
-        });
-        dropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropArea.style.background = '';
-            const file = e.dataTransfer.files[0];
-            if (!file) return;
-            selectedFile = file;
-            document.getElementById('fileInput').files = e.dataTransfer.files; // sync input
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                document.getElementById('previewImg').src = ev.target.result;
-                document.getElementById('previewImg').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        });
+            // Set initial UI state (in case radio buttons aren't default checked properly)
+            updateMethodUI();
 
-        document.getElementById('listingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) { alert('Please sign in.'); return; }
+            // Listen for radio changes
+            methodUpload.addEventListener('change', updateMethodUI);
+            methodUrl.addEventListener('change', updateMethodUI);
 
-            const form = new FormData(e.target);
-            let imageUrl = null;
+            // File selection handler
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                selectedFile = file;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+                urlInput.value = ''; // clear URL if file chosen
+            });
 
-            if (selectedFile) {
-                const fileExt = selectedFile.name.split('.').pop();
-                const filePath = `${user.id}/${Date.now()}.${fileExt}`;
-                const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from('listing-images')
-                    .upload(filePath, selectedFile, {
-                        cacheControl: '3600',
-                        upsert: false
-                    });
+            // Drag & drop for upload area
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.background = '#eef6f0';
+            });
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.style.background = '';
+            });
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.background = '';
+                const file = e.dataTransfer.files[0];
+                if (!file) return;
+                selectedFile = file;
+                fileInput.files = e.dataTransfer.files;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            });
 
-                if (uploadError) {
-                    alert('Image upload failed: ' + uploadError.message);
-                    return;
+            // URL input live preview
+            urlInput.addEventListener('input', function() {
+                const url = urlInput.value.trim();
+                if (url) {
+                    showUrlPreview(url);
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+
+            function showUrlPreview(url) {
+                const img = new Image();
+                img.onload = function() {
+                    preview.src = url;
+                    preview.style.display = 'block';
+                };
+                img.onerror = function() {
+                    preview.style.display = 'none';
+                };
+                img.src = url;
+            }
+
+            // Form submission
+            document.getElementById('listingForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) { alert('Please sign in.'); return; }
+
+                const form = new FormData(e.target);
+                let imageUrl = null;
+
+                if (methodUpload.checked && selectedFile) {
+                    const fileExt = selectedFile.name.split('.').pop();
+                    const filePath = `${user.id}/${Date.now()}.${fileExt}`;
+                    const { error: uploadError } = await supabase.storage
+                        .from('listing-images')
+                        .upload(filePath, selectedFile, {
+                            cacheControl: '3600',
+                            upsert: false
+                        });
+                    if (uploadError) {
+                        alert('Image upload failed: ' + uploadError.message);
+                        return;
+                    }
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('listing-images')
+                        .getPublicUrl(filePath);
+                    imageUrl = publicUrl;
+                } else if (methodUrl.checked && urlInput.value.trim()) {
+                    imageUrl = urlInput.value.trim();
                 }
 
-                // Get public URL
-                const { data: { publicUrl } } = supabase.storage
-                    .from('listing-images')
-                    .getPublicUrl(filePath);
-                imageUrl = publicUrl;
-            }
+                const listingData = {
+                    farmer_id: user.id,
+                    title: form.get('title'),
+                    category: form.get('category'),
+                    price: parseFloat(form.get('price')),
+                    unit: form.get('unit'),
+                    quantity_available: parseInt(form.get('quantity')),
+                    description: form.get('description'),
+                    image_url: imageUrl
+                };
 
-            const listingData = {
-                farmer_id: user.id,
-                title: form.get('title'),
-                category: form.get('category'),
-                price: parseFloat(form.get('price')),
-                unit: form.get('unit'),
-                quantity_available: parseInt(form.get('quantity')),
-                description: form.get('description'),
-                image_url: imageUrl
-            };
-
-            const { error: insertError } = await supabase.from('listings').insert([listingData]);
-            if (insertError) alert('Error creating listing: ' + insertError.message);
-            else {
-                alert('Listing created successfully!');
-                window.location.href = '/dashboard/';
-            }
+                const { error: insertError } = await supabase.from('listings').insert([listingData]);
+                if (insertError) alert('Error creating listing: ' + insertError.message);
+                else {
+                    alert('Listing created successfully!');
+                    window.location.href = '/dashboard/';
+                }
+            });
         });
     </script>
 </body>
