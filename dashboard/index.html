@@ -120,8 +120,8 @@
         }
         .modal-overlay.active { display: flex; }
         .modal {
-            background: white; border-radius: var(--radius); padding: 32px; max-width: 500px; width: 90%;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            background: white; border-radius: var(--radius); padding: 32px; max-width: 520px; width: 90%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;
         }
         .toast {
             position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
@@ -129,16 +129,36 @@
             z-index: 500; transition: opacity 0.3s;
         }
 
-        @media (max-width: 900px) {
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        /* Image upload/URL radio buttons */
+        .image-method { display: flex; gap: 10px; margin-bottom: 8px; }
+        .image-method input[type="radio"] { display: none; }
+        .image-method label {
+            flex: 1; padding: 8px; border: 2px solid #ddeee4; border-radius: 10px;
+            text-align: center; cursor: pointer; font-weight: 600; color: #4a5e52; transition: 0.2s;
         }
+        .image-method input[type="radio"]:checked + label {
+            border-color: var(--grove); background: #f0f7f2; color: var(--forest);
+        }
+
+        .upload-area {
+            border: 2px dashed #c0d5c8; border-radius: 12px;
+            padding: 20px; text-align: center; cursor: pointer; background: #f9f9f9; margin-bottom: 8px;
+        }
+        .upload-area:hover { background: #eef6f0; }
 
         .listing-card {
             transition: transform 0.15s, box-shadow 0.15s;
+            border: 1px solid #e8f0eb; border-radius: 12px; overflow: hidden; background: white;
         }
         .listing-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .listing-img { height: 150px; background: var(--mist); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .listing-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        @media (max-width: 900px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -156,10 +176,10 @@
             <h1>Welcome back, <span id="greetingName">...</span> 🌾 <span id="roleBadge" class="role-badge"></span></h1>
             <p id="greetingSub">Loading your personalized dashboard...</p>
         </div>
-        <div id="dashboardContent" class="loading-text">Preparing your workspace...</div>
+        <div id="dashboardContent">Preparing your workspace...</div>
     </div>
 
-    <!-- Modal for adding/editing listing -->
+    <!-- ADD / EDIT LISTING MODAL -->
     <div class="modal-overlay" id="listingModal">
         <div class="modal">
             <h2 id="modalTitle">Add Listing</h2>
@@ -176,7 +196,7 @@
                 </select>
                 <div class="form-row">
                     <div>
-                        <label>Price</label>
+                        <label>Price ($)</label>
                         <input type="number" step="0.01" class="form-input" id="listingPrice" required>
                     </div>
                     <div>
@@ -188,6 +208,25 @@
                 <input type="number" class="form-input" id="listingQty" required>
                 <label>Description</label>
                 <textarea class="form-input" id="listingDesc" rows="2"></textarea>
+
+                <!-- Image section -->
+                <label style="margin-top:12px;">Product Image</label>
+                <div class="image-method">
+                    <input type="radio" id="methodUploadModal" name="imageMethod" value="upload" checked>
+                    <label for="methodUploadModal">📁 Upload file</label>
+                    <input type="radio" id="methodUrlModal" name="imageMethod" value="url">
+                    <label for="methodUrlModal">🔗 Paste URL</label>
+                </div>
+
+                <div id="modalUploadArea" class="upload-area" onclick="document.getElementById('modalFileInput').click()">
+                    <p>📸 Click or drag image here</p>
+                </div>
+                <input type="file" id="modalFileInput" accept="image/*" style="display:none;">
+
+                <input type="url" id="modalUrlInput" class="form-input" placeholder="https://example.com/image.jpg" style="display:none;">
+
+                <img id="modalPreview" style="max-width:100%; max-height:150px; margin-top:8px; border-radius:8px; display:none; border:1px solid #e0e0e0;" alt="Preview">
+
                 <div style="display:flex; gap:12px; margin-top:16px;">
                     <button type="submit" class="action-btn" id="saveListingBtn">Save</button>
                     <button type="button" class="action-btn outline" onclick="closeListingModal()">Cancel</button>
@@ -204,7 +243,7 @@
             function waitForSupabase(cb, tries=0) {
                 if (window.supabase) return cb();
                 if (tries < 50) setTimeout(() => waitForSupabase(cb, tries+1), 200);
-                else document.getElementById('dashboardContent').innerHTML = '<p class="error-text">Failed to load auth.</p>';
+                else document.getElementById('dashboardContent').innerHTML = '<p style="color:red;">Failed to load auth library.</p>';
             }
             waitForSupabase(() => {
                 const supabase = window.supabase.createClient(
@@ -213,7 +252,6 @@
                     { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
                 );
 
-                // ── DOM Refs ──
                 const logoutBtn = document.getElementById('logoutBtn');
                 const displayNameEl = document.getElementById('displayName');
                 const greetingNameEl = document.getElementById('greetingName');
@@ -234,39 +272,148 @@
                 function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
 
                 // ── Logout ──
-                async function handleLogout() {
+                logoutBtn.addEventListener('click', async () => {
                     logoutBtn.disabled = true;
                     await supabase.auth.signOut();
                     window.location.href = '/';
-                }
-                logoutBtn.addEventListener('click', handleLogout);
+                });
 
-                // ── Modal helpers ──
-                window.openListingModal = function(listing = null) {
-                    document.getElementById('listingModal').classList.add('active');
-                    if (listing) {
-                        document.getElementById('modalTitle').textContent = 'Edit Listing';
-                        document.getElementById('listingId').value = listing.id;
-                        document.getElementById('listingTitle').value = listing.title;
-                        document.getElementById('listingCategory').value = listing.category || 'vegetables';
-                        document.getElementById('listingPrice').value = listing.price;
-                        document.getElementById('listingUnit').value = listing.unit;
-                        document.getElementById('listingQty').value = listing.quantity_available;
-                        document.getElementById('listingDesc').value = listing.description || '';
-                    } else {
-                        document.getElementById('modalTitle').textContent = 'Add Listing';
-                        document.getElementById('listingId').value = '';
-                        document.getElementById('listingForm').reset();
+                // ── Image modal logic ──
+                let selectedModalFile = null;
+                let editingListing = null;
+
+                // Toggle upload vs URL method
+                function updateModalMethodUI() {
+                    const isUpload = document.getElementById('methodUploadModal').checked;
+                    document.getElementById('modalUploadArea').style.display = isUpload ? 'block' : 'none';
+                    document.getElementById('modalUrlInput').style.display = isUpload ? 'none' : 'block';
+                    if (!isUpload) {
+                        selectedModalFile = null;
+                        document.getElementById('modalFileInput').value = '';
                     }
+                }
+
+                document.getElementById('methodUploadModal').addEventListener('change', updateModalMethodUI);
+                document.getElementById('methodUrlModal').addEventListener('change', updateModalMethodUI);
+
+                // File input
+                document.getElementById('modalFileInput').addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    selectedModalFile = file;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        document.getElementById('modalPreview').src = ev.target.result;
+                        document.getElementById('modalPreview').style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                    document.getElementById('modalUrlInput').value = '';
+                });
+
+                // Drag & drop for upload area
+                const modalUploadArea = document.getElementById('modalUploadArea');
+                modalUploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    modalUploadArea.style.background = '#eef6f0';
+                });
+                modalUploadArea.addEventListener('dragleave', () => {
+                    modalUploadArea.style.background = '';
+                });
+                modalUploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    modalUploadArea.style.background = '';
+                    const file = e.dataTransfer.files[0];
+                    if (!file) return;
+                    selectedModalFile = file;
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    document.getElementById('modalFileInput').files = dt.files;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        document.getElementById('modalPreview').src = ev.target.result;
+                        document.getElementById('modalPreview').style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                    document.getElementById('modalUrlInput').value = '';
+                });
+
+                // URL input preview
+                document.getElementById('modalUrlInput').addEventListener('input', function() {
+                    const url = this.value.trim();
+                    if (url) {
+                        const img = new Image();
+                        img.onload = () => {
+                            document.getElementById('modalPreview').src = url;
+                            document.getElementById('modalPreview').style.display = 'block';
+                        };
+                        img.onerror = () => {
+                            document.getElementById('modalPreview').style.display = 'none';
+                        };
+                        img.src = url;
+                    } else {
+                        document.getElementById('modalPreview').style.display = 'none';
+                    }
+                });
+
+                // Open modal (add or edit)
+                window.openListingModal = function(listing = null) {
+                    editingListing = listing;
+                    document.getElementById('listingModal').classList.add('active');
+                    document.getElementById('modalTitle').textContent = listing ? 'Edit Listing' : 'Add Listing';
+                    document.getElementById('listingId').value = listing ? listing.id : '';
+                    document.getElementById('listingTitle').value = listing ? listing.title : '';
+                    document.getElementById('listingCategory').value = listing?.category || 'vegetables';
+                    document.getElementById('listingPrice').value = listing ? listing.price : '';
+                    document.getElementById('listingUnit').value = listing ? listing.unit : '';
+                    document.getElementById('listingQty').value = listing ? listing.quantity_available : '';
+                    document.getElementById('listingDesc').value = listing?.description || '';
+
+                    // Reset image fields
+                    selectedModalFile = null;
+                    document.getElementById('modalFileInput').value = '';
+                    document.getElementById('modalUrlInput').value = listing?.image_url || '';
+                    document.getElementById('modalPreview').style.display = 'none';
+                    document.getElementById('modalPreview').src = '';
+                    if (listing?.image_url) {
+                        document.getElementById('modalPreview').src = listing.image_url;
+                        document.getElementById('modalPreview').style.display = 'block';
+                    }
+
+                    // Default to upload method
+                    document.getElementById('methodUploadModal').checked = true;
+                    updateModalMethodUI();
                 };
+
                 window.closeListingModal = function() {
                     document.getElementById('listingModal').classList.remove('active');
                 };
 
-                // Listing form submit
+                // Listing form submit (modal)
                 document.getElementById('listingForm').addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const id = document.getElementById('listingId').value;
+                    let imageUrl = null;
+
+                    if (document.getElementById('methodUploadModal').checked && selectedModalFile) {
+                        const filePath = `${currentUser.id}/${Date.now()}_${selectedModalFile.name}`;
+                        const { error: uploadError } = await supabase.storage
+                            .from('listing-images')
+                            .upload(filePath, selectedModalFile, { cacheControl: '3600', upsert: false });
+                        if (uploadError) {
+                            showToast('Image upload failed: ' + uploadError.message);
+                            return;
+                        }
+                        const { data: { publicUrl } } = supabase.storage
+                            .from('listing-images')
+                            .getPublicUrl(filePath);
+                        imageUrl = publicUrl;
+                    } else if (document.getElementById('methodUrlModal').checked && document.getElementById('modalUrlInput').value.trim()) {
+                        imageUrl = document.getElementById('modalUrlInput').value.trim();
+                    } else if (editingListing) {
+                        // Keep existing image if no new selection
+                        imageUrl = editingListing.image_url || null;
+                    }
+
                     const payload = {
                         farmer_id: currentUser.id,
                         title: document.getElementById('listingTitle').value,
@@ -274,14 +421,17 @@
                         price: parseFloat(document.getElementById('listingPrice').value),
                         unit: document.getElementById('listingUnit').value,
                         quantity_available: parseInt(document.getElementById('listingQty').value),
-                        description: document.getElementById('listingDesc').value
+                        description: document.getElementById('listingDesc').value,
+                        image_url: imageUrl
                     };
+
                     let error;
                     if (id) {
                         ({ error } = await supabase.from('listings').update(payload).eq('id', id));
                     } else {
                         ({ error } = await supabase.from('listings').insert([payload]));
                     }
+
                     if (error) showToast('Error: '+error.message);
                     else {
                         showToast('Listing saved!');
@@ -290,7 +440,7 @@
                     }
                 });
 
-                // ── Global delete listing ──
+                // ── Delete listing ──
                 window.deleteListing = async function(id) {
                     if (!confirm('Delete this listing?')) return;
                     const { error } = await supabase.from('listings').delete().eq('id', id);
@@ -333,7 +483,7 @@
                     document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
 
                     switch(tab) {
-                        case 'overview':
+                        case 'overview': {
                             const { count: listingCount } = await supabase.from('listings').select('*', { count: 'exact' }).eq('farmer_id', currentUser.id);
                             const { data: orders } = await supabase.from('orders').select('total_price, status').eq('listings.farmer_id', currentUser.id);
                             const totalRevenue = orders?.filter(o => o.status === 'delivered').reduce((s,o) => s+o.total_price,0) || 0;
@@ -347,7 +497,8 @@
                                 </div>
                             `;
                             break;
-                        case 'listings':
+                        }
+                        case 'listings': {
                             const { data: listings } = await supabase.from('listings').select('*').eq('farmer_id', currentUser.id);
                             tabContent.innerHTML = `
                                 <div class="card">
@@ -355,11 +506,11 @@
                                         <h3>My Listings</h3>
                                         <button class="action-btn" onclick="openListingModal()">+ New Listing</button>
                                     </div>
-                                    <div class="listings-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px; margin-top:16px;">
+                                    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px; margin-top:16px;">
                                         ${listings?.length ? listings.map(l => `
-                                            <div class="listing-card" style="border:1px solid #e8f0eb; border-radius:12px; overflow:hidden; background:white;">
-                                                <div class="listing-img" style="height:150px; background:var(--mist); display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                                                    ${l.image_url ? `<img src="${l.image_url}" alt="${escapeHtml(l.title)}" style="width:100%;height:100%;object-fit:cover;" />` : '<span style="font-size:2rem;">🌱</span>'}
+                                            <div class="listing-card">
+                                                <div class="listing-img">
+                                                    ${l.image_url ? `<img src="${l.image_url}" alt="${escapeHtml(l.title)}" loading="lazy" />` : '<span style="font-size:2rem;">🌱</span>'}
                                                 </div>
                                                 <div style="padding:16px;">
                                                     <strong style="color:var(--forest);">${escapeHtml(l.title)}</strong><br>
@@ -374,7 +525,8 @@
                                     </div>
                                 </div>`;
                             break;
-                        case 'orders':
+                        }
+                        case 'orders': {
                             const { data: farmerOrders } = await supabase
                                 .from('orders')
                                 .select('id, quantity, total_price, status, created_at, listings!inner(title, unit)')
@@ -397,7 +549,8 @@
                                         </div>`).join('') : '<p>No orders yet.</p>'}
                                 </div>`;
                             break;
-                        case 'profile':
+                        }
+                        case 'profile': {
                             const { data: farmerProfile } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
                             tabContent.innerHTML = `
                                 <div class="card">
@@ -415,6 +568,7 @@
                                 </div>`;
                             document.getElementById('profileForm').addEventListener('submit', (e) => { e.preventDefault(); saveProfile(e.target); });
                             break;
+                        }
                     }
                 };
 
@@ -442,7 +596,7 @@
                             </div>
                         </div>
                         <div class="grid grid-3" style="margin-top:24px;">
-                            <div class="card"><h3>Weekly Box</h3><p style="margin:12px 0;">Subscribe to a harvest box.</p><a href="/dashboard/marketplace/" class="action-btn">Browse Boxes</a></div>
+                            <div class="card"><h3>Weekly Box</h3><p style="margin:12px 0;">Subscribe to a harvest box.</p><a href="/marketplace/" class="action-btn">Browse Boxes</a></div>
                             <div class="card"><h3>Account</h3><p style="margin:12px 0;">Update delivery address.</p><a href="/dashboard/profile/" class="action-btn outline">Settings</a></div>
                             <div class="card"><h3>Favorites</h3><p style="margin:12px 0;">Manage your saved farms.</p><a href="/dashboard/favorites/" class="action-btn outline">View All</a></div>
                         </div>`;
@@ -475,7 +629,7 @@
                                     <div class="list-item">
                                         <div><strong>${escapeHtml(so.listings.title)}</strong><br><small>${so.quantity} ${so.listings.unit} — ${so.frequency}</small></div>
                                         <span>Next: ${so.next_delivery ? formatDate(so.next_delivery) : '—'}</span>
-                                    </div>`).join('') : '<p>No standing orders. <a href="/dashboard/marketplace/">Set one up</a>.</p>'}
+                                    </div>`).join('') : '<p>No standing orders. <a href="/marketplace/">Set one up</a>.</p>'}
                             </div>
                         </div>
                         <div class="grid grid-3" style="margin-top:24px;">
@@ -560,7 +714,6 @@
                                 contentEl.innerHTML = '<p class="card">Unknown role. Contact support.</p>';
                         }
 
-                        // Real-time subscription for farmer orders (only if farmer)
                         if (currentProfile.role === 'farmer') {
                             supabase.channel('farmer-orders').on('postgres_changes',
                                 { event: 'INSERT', schema: 'public', table: 'orders', filter: `listings.farmer_id=eq.${user.id}` },
@@ -569,7 +722,7 @@
                         }
                     } catch (err) {
                         console.error(err);
-                        contentEl.innerHTML = '<p class="card error-text">Dashboard load error. Please refresh.</p>';
+                        contentEl.innerHTML = '<p class="card" style="color:red;">Dashboard load error. Please refresh.</p>';
                     }
                 }
 
