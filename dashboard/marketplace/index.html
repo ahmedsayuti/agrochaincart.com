@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marketplace — AgroChain Cart</title>
-    <meta name="description" content="Browse fresh, local produce directly from verified farms." />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
     <style>
         :root {
             --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
@@ -54,6 +53,7 @@
     </style>
 </head>
 <body>
+    <!-- NAV -->
     <nav>
         <a href="/" class="nav-logo">Agro<span style="color:var(--grove);">Chain</span><span class="cart">Cart</span></a>
         <a href="/dashboard/">Dashboard</a>
@@ -71,11 +71,14 @@
             <button class="filter-btn" onclick="filterProducts('grains', this)">Grains</button>
         </div>
 
-        <div class="products-grid" id="productsGrid">Loading...</div>
+        <div class="products-grid" id="productsGrid">
+            <p>Loading fresh produce...</p>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Initialize Supabase client (public anon key – safe for client side)
         const supabase = window.supabase.createClient(
             'https://kuwoqzdgndnnayxrbzll.supabase.co',
             'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
@@ -83,7 +86,22 @@
         let allProducts = [];
 
         async function loadProducts() {
-            const { data } = await supabase.from('listings').select('*, profiles!inner(first_name, last_name, state)');
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '<p>Loading fresh produce...</p>';
+
+            // Fetch listings along with farmer profile (public RLS allows read if policies exist)
+            const { data, error } = await supabase
+                .from('listings')
+                .select('*, profiles!inner(first_name, last_name, state)')
+                .gt('quantity_available', 0)   // only show in-stock
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Marketplace load error:', error);
+                grid.innerHTML = `<p>Couldn't load marketplace. Please try again later.</p>`;
+                return;
+            }
+
             allProducts = data || [];
             renderProducts('all');
         }
@@ -91,23 +109,36 @@
         function renderProducts(category) {
             const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
             const grid = document.getElementById('productsGrid');
+
             if (!filtered.length) {
-                grid.innerHTML = '<p>No listings found.</p>';
+                grid.innerHTML = '<p>No listings found in this category.</p>';
                 return;
             }
-            grid.innerHTML = filtered.map(p => `
+
+            grid.innerHTML = filtered.map(p => {
+                const farmerName = p.profiles ? `${p.profiles.first_name} ${p.profiles.last_name}` : 'Unknown farm';
+                const farmerState = p.profiles ? p.profiles.state : '';
+                const imageUrl = p.image_url || null;
+
+                return `
                 <div class="product-card">
-                    <div class="product-img">🌱</div>
+                    <div class="product-img">
+                        ${imageUrl 
+                            ? `<img src="${imageUrl}" alt="${escapeHtml(p.title)}" style="width:100%;height:100%;object-fit:cover;" />`
+                            : `<span style="font-size:2rem;">🌱</span>`
+                        }
+                    </div>
                     <div class="product-body">
                         <div class="product-name">${escapeHtml(p.title)}</div>
-                        <div class="product-farm">${escapeHtml(p.profiles.first_name+' '+p.profiles.last_name)} — ${escapeHtml(p.profiles.state)}</div>
+                        <div class="product-farm">${escapeHtml(farmerName)}${farmerState ? ' — ' + escapeHtml(farmerState) : ''}</div>
                         <div class="product-footer">
                             <div class="product-price">$${p.price}/${p.unit}</div>
-                            <button class="btn-order" onclick="placeOrder('${p.id}', '${p.title}', ${p.price})">Order</button>
+                            <button class="btn-order" onclick="placeOrder('${p.id}', '${escapeHtml(p.title)}', ${p.price})">Order</button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         window.filterProducts = function(cat, btn) {
@@ -118,8 +149,12 @@
 
         async function placeOrder(listingId, title, price) {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) { alert('Please sign in.'); return; }
-            const quantity = prompt(`How many? (${price}/unit)`, '1');
+            if (!user) {
+                alert('Please sign in to order.');
+                window.location.href = '/sign-in/';
+                return;
+            }
+            const quantity = prompt(`How many? ($${price}/${document.querySelector(`[data-id="${listingId}"]`)?.dataset?.unit || 'unit'})`, '1');
             if (!quantity) return;
             const { error } = await supabase.from('orders').insert([{
                 buyer_id: user.id,
@@ -128,10 +163,10 @@
                 total_price: parseFloat(quantity) * price
             }]);
             if (error) alert('Order error: ' + error.message);
-            else alert('Order placed!');
+            else alert('Order placed successfully!');
         }
 
-        function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t||''; return d.innerHTML; }
+        function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
 
         loadProducts();
     </script>

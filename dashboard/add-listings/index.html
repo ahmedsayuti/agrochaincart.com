@@ -10,32 +10,36 @@
         label { display: block; margin: 8px 0 4px; font-weight: 600; }
         input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1.5px solid #ddeee4; }
         button { background: #2d6a4f; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; }
+        .preview { max-width: 200px; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
     <div class="form-card">
         <h2>Add New Listing</h2>
         <form id="listingForm">
-            <label>Title</label>
+            <label>Title *</label>
             <input type="text" name="title" required>
-            <label>Category</label>
+            <label>Category *</label>
             <select name="category">
                 <option value="vegetables">Vegetables</option>
                 <option value="fruits">Fruits</option>
                 <option value="dairy">Dairy</option>
                 <option value="grains">Grains</option>
             </select>
-            <label>Price</label>
+            <label>Price ($) *</label>
             <input type="number" step="0.01" name="price" required>
-            <label>Unit</label>
+            <label>Unit *</label>
             <input type="text" name="unit" placeholder="lb, dozen..." required>
-            <label>Quantity Available</label>
+            <label>Quantity Available *</label>
             <input type="number" name="quantity" required>
             <label>Description</label>
             <textarea name="description" rows="3"></textarea>
+            <label>Image (optional)</label>
+            <input type="file" id="imageFile" accept="image/*" onchange="previewImage(event)">
+            <img id="previewImg" class="preview" alt="Preview" />
             <button type="submit">Create Listing</button>
         </form>
-        <p style="text-align:center;"><a href="/dashboard/">← Back</a></p>
+        <p style="text-align:center;"><a href="/dashboard/">← Back to Dashboard</a></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -45,23 +49,69 @@
             'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
         );
 
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('previewImg').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         document.getElementById('listingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) { alert('Please sign in.'); return; }
+
             const form = new FormData(e.target);
+            const title = form.get('title');
+            const category = form.get('category');
+            const price = parseFloat(form.get('price'));
+            const unit = form.get('unit');
+            const quantity = parseInt(form.get('quantity'));
+            const description = form.get('description');
+            const imageFile = document.getElementById('imageFile').files[0];
+
+            let imageUrl = null;
+
+            if (imageFile) {
+                const filePath = `${user.id}/${Date.now()}_${imageFile.name}`;
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from('listing-images')
+                    .upload(filePath, imageFile, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                if (uploadError) {
+                    alert('Image upload failed: ' + uploadError.message);
+                    return;
+                }
+
+                // Get public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('listing-images')
+                    .getPublicUrl(filePath);
+                imageUrl = publicUrl;
+            }
+
             const { error } = await supabase.from('listings').insert([{
                 farmer_id: user.id,
-                title: form.get('title'),
-                category: form.get('category'),
-                price: parseFloat(form.get('price')),
-                unit: form.get('unit'),
-                quantity_available: parseInt(form.get('quantity')),
-                description: form.get('description')
+                title,
+                category,
+                price,
+                unit,
+                quantity_available: quantity,
+                description,
+                image_url: imageUrl
             }]);
-            if (error) alert(error.message);
+
+            if (error) alert('Error creating listing: ' + error.message);
             else {
-                alert('Listing created!');
+                alert('Listing created successfully!');
                 window.location.href = '/dashboard/';
             }
         });
