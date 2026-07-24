@@ -497,6 +497,7 @@
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
         .toast.success-toast { background: var(--grove); }
+        .toast.error-toast { background: #c0392b; }
 
         /* Security row */
         .security-row {
@@ -818,7 +819,7 @@
                             <div class="step-label">Your Info</div>
                         </div>
                         <div class="step-line" id="line-1-2"></div>
-                        <div class="step active" id="step-dot-2">
+                        <div class="step" id="step-dot-2">
                             <div class="step-circle">2</div>
                             <div class="step-label">Account</div>
                         </div>
@@ -877,7 +878,7 @@
                             <div class="error-msg" id="stateError"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select your state.</div>
                         </div>
 
-                        <!-- Farmer-specific field (shown conditionally) -->
+                        <!-- Business name (conditional) -->
                         <div class="form-group" id="farmNameGroup" style="display:none;">
                             <div class="form-label-row">Farm / Business Name</div>
                             <div class="form-input-wrap">
@@ -901,7 +902,7 @@
 
                         <!-- Social signup -->
                         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-                            <button type="button" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:10px;border-radius:10px;border:1.5px solid #e0e8e3;background:white;font-family:inherit;font-size:0.85rem;font-weight:600;color:var(--ink);cursor:pointer;transition:0.2s;" onmouseover="this.style.borderColor='#74c69d'" onmouseout="this.style.borderColor='#e0e8e3'" onclick="handleSocialLogin('Google')">
+                            <button type="button" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:10px;border-radius:10px;border:1.5px solid #e0e8e3;background:white;font-family:inherit;font-size:0.85rem;font-weight:600;color:var(--ink);cursor:pointer;transition:0.2s;" onmouseover="this.style.borderColor='#74c69d'" onmouseout="this.style.borderColor='#e0e8e3'" onclick="signInWithSocial('google')">
                                 <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
                                 Sign up with Google
                             </button>
@@ -927,7 +928,7 @@
                             <div class="form-input-wrap">
                                 <span class="form-input-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                                 <input type="password" class="form-input" id="signupPassword" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkPasswordStrength(this.value)"/>
-                                <button type="button" class="input-toggle" id="togglePw" onclick="togglePwVisibility()">
+                                <button type="button" class="input-toggle" onclick="togglePwVisibility()">
                                     <svg id="eyeIcon2" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                 </button>
                             </div>
@@ -959,7 +960,7 @@
                                 <div class="btn-spinner"></div>
                             </button>
                         </div>
-                        <div class="form-footer-link">Already have an account? <a href="signin.html">Sign in →</a></div>
+                        <div class="form-footer-link">Already have an account? <a href="../sign-in/">Sign in →</a></div>
                     </div>
 
                     <!-- STEP 3: Plan selection & Terms -->
@@ -1023,7 +1024,7 @@
                                 <div class="btn-spinner"></div>
                             </button>
                         </div>
-                        <div class="form-footer-link">Already have an account? <a href="signin.html">Sign in →</a></div>
+                        <div class="form-footer-link">Already have an account? <a href="../sign-in/">Sign in →</a></div>
                     </div>
 
                     <!-- SUCCESS STATE -->
@@ -1050,7 +1051,7 @@
                                 Browse 247 live listings — or create your first one
                             </div>
                         </div>
-                        <button class="go-btn" onclick="alert('Redirecting to dashboard…')">
+                        <button class="go-btn" onclick="window.location.href='../dashboard/'">
                             Go to Dashboard
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </button>
@@ -1176,212 +1177,317 @@
 
     <div class="toast" id="toast"></div>
 
+    <!-- SUPABASE + SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // ── PARTICLES ──
-        const pc = document.getElementById('heroParticles');
-        if (pc) {
-            for (let i = 0; i < 22; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                const s = Math.random()*14+4;
-                p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*12}s;opacity:${Math.random()*0.5+0.1};`;
-                pc.appendChild(p);
+        (function() {
+            // ── SUPABASE INIT ──
+            const supabase = window.supabase.createClient(
+                'https://kuwoqzdgndnnayxrbzll.supabase.co',
+                'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE',
+                {
+                    auth: {
+                        persistSession: true,
+                        autoRefreshToken: true,
+                        detectSessionInUrl: true, // for OAuth redirects
+                    }
+                }
+            );
+
+            // ── DOM elements (many already exist) ──
+            const toastEl = document.getElementById('toast');
+
+            // ── PARTICLES ──
+            const pc = document.getElementById('heroParticles');
+            if (pc) {
+                for (let i = 0; i < 22; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'particle';
+                    const s = Math.random()*14+4;
+                    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*12}s;opacity:${Math.random()*0.5+0.1};`;
+                    pc.appendChild(p);
+                }
             }
-        }
 
-        // ── SCROLL ──
-        window.addEventListener('scroll', () => {
-            const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-            document.getElementById('scrollProgress').style.width = pct + '%';
-            document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 10);
-        });
+            // ── SCROLL ──
+            window.addEventListener('scroll', () => {
+                const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                document.getElementById('scrollProgress').style.width = pct + '%';
+                document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 10);
+            });
 
-        // ── CURSOR GLOW ──
-        document.addEventListener('mousemove', e => {
-            const g = document.getElementById('cursorGlow');
-            g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px';
-        });
+            // ── CURSOR GLOW ──
+            document.addEventListener('mousemove', e => {
+                const g = document.getElementById('cursorGlow');
+                g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px';
+            });
 
-        // ── MOBILE NAV ──
-        const navHamburger = document.getElementById('navHamburger');
-        const navLinks = document.getElementById('navLinks');
-        const overlayEl = document.getElementById('mobileMenuOverlay');
-        const mobileCtaGroup = document.getElementById('mobileCtaGroup');
-        const desktopCta = document.getElementById('desktopCta');
-        function openMenu() { navLinks.classList.add('mobile-open'); navHamburger.classList.add('open'); overlayEl.classList.add('active'); document.body.style.overflow='hidden'; }
-        function closeMenu() { navLinks.classList.remove('mobile-open'); navHamburger.classList.remove('open'); overlayEl.classList.remove('active'); document.body.style.overflow=''; }
-        navHamburger.addEventListener('click', () => navLinks.classList.contains('mobile-open') ? closeMenu() : openMenu());
-        overlayEl.addEventListener('click', closeMenu);
-        document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
-        function updateCta() {
-            const small = window.innerWidth <= 900;
-            mobileCtaGroup.style.display = small ? 'flex' : 'none';
-            desktopCta.style.display = small ? 'none' : 'flex';
-            if (!small && navLinks.classList.contains('mobile-open')) closeMenu();
-        }
-        updateCta(); window.addEventListener('resize', updateCta);
-
-        // ── ROLE SELECTION ──
-        let selectedRole = '';
-        function selectRole(card, role) {
-            document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            selectedRole = role;
-            // Show farm name field for farmer role
-            document.getElementById('farmNameGroup').style.display = role === 'farmer' || role === 'restaurant' || role === 'institution' ? 'block' : 'none';
-            document.getElementById('farmNameGroup').querySelector('input').placeholder =
-                role === 'farmer' ? 'e.g. Green Valley Farm' :
-                role === 'restaurant' ? 'e.g. The Rustic Table' :
-                'e.g. Springfield School District';
-            // Scroll to form section
-            setTimeout(() => {
-                document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 200);
-        }
-
-        // ── STEP INDICATOR ──
-        let currentStep = 1;
-        function updateStepUI() {
-            for (let i = 1; i <= 3; i++) {
-                const dot = document.getElementById(`step-dot-${i}`);
-                dot.classList.remove('active', 'done');
-                if (i < currentStep) dot.classList.add('done');
-                else if (i === currentStep) dot.classList.add('active');
+            // ── MOBILE NAV ──
+            const navHamburger = document.getElementById('navHamburger');
+            const navLinks = document.getElementById('navLinks');
+            const overlayEl = document.getElementById('mobileMenuOverlay');
+            const mobileCtaGroup = document.getElementById('mobileCtaGroup');
+            const desktopCta = document.getElementById('desktopCta');
+            function openMenu() { navLinks.classList.add('mobile-open'); navHamburger.classList.add('open'); overlayEl.classList.add('active'); document.body.style.overflow='hidden'; }
+            function closeMenu() { navLinks.classList.remove('mobile-open'); navHamburger.classList.remove('open'); overlayEl.classList.remove('active'); document.body.style.overflow=''; }
+            navHamburger.addEventListener('click', () => navLinks.classList.contains('mobile-open') ? closeMenu() : openMenu());
+            overlayEl.addEventListener('click', closeMenu);
+            document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
+            function updateCta() {
+                const small = window.innerWidth <= 900;
+                mobileCtaGroup.style.display = small ? 'flex' : 'none';
+                desktopCta.style.display = small ? 'none' : 'flex';
+                if (!small && navLinks.classList.contains('mobile-open')) closeMenu();
             }
-            for (let i = 1; i <= 2; i++) {
-                document.getElementById(`line-${i}-${i+1}`).classList.toggle('done', i < currentStep);
+            updateCta(); window.addEventListener('resize', updateCta);
+
+            // ── ROLE SELECTION ──
+            window.selectedRole = '';
+            window.selectRole = function(card, role) {
+                document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                window.selectedRole = role;
+                const farmGroup = document.getElementById('farmNameGroup');
+                farmGroup.style.display = (role === 'farmer' || role === 'restaurant' || role === 'institution') ? 'block' : 'none';
+                const farmInput = farmGroup.querySelector('input');
+                farmInput.placeholder =
+                    role === 'farmer' ? 'e.g. Green Valley Farm' :
+                    role === 'restaurant' ? 'e.g. The Rustic Table' :
+                    'e.g. Springfield School District';
+                setTimeout(() => {
+                    document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            };
+
+            // ── STEP INDICATOR ──
+            window.currentStep = 1;
+            function updateStepUI() {
+                for (let i = 1; i <= 3; i++) {
+                    const dot = document.getElementById(`step-dot-${i}`);
+                    dot.classList.remove('active', 'done');
+                    if (i < window.currentStep) dot.classList.add('done');
+                    else if (i === window.currentStep) dot.classList.add('active');
+                }
+                for (let i = 1; i <= 2; i++) {
+                    document.getElementById(`line-${i}-${i+1}`).classList.toggle('done', i < window.currentStep);
+                }
             }
-        }
 
-        function showStep(n) {
-            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
-            document.getElementById(`formStep${n}`).classList.add('active');
-            currentStep = n; updateStepUI();
-        }
+            window.showStep = function(n) {
+                document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+                document.getElementById(`formStep${n}`).classList.add('active');
+                window.currentStep = n;
+                updateStepUI();
+            };
 
-        // ── VALIDATION ──
-        function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+            // ── VALIDATION ──
+            function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
-        function nextStep(from) {
-            if (from === 1) {
-                const fn = document.getElementById('firstName').value.trim();
-                const ln = document.getElementById('lastName').value.trim();
-                const st = document.getElementById('state').value;
-                let ok = true;
-                document.getElementById('firstNameError').classList.toggle('show', !fn);
-                document.getElementById('firstName').classList.toggle('error', !fn);
-                document.getElementById('lastNameError').classList.toggle('show', !ln);
-                document.getElementById('lastName').classList.toggle('error', !ln);
-                document.getElementById('stateError').classList.toggle('show', !st);
-                document.getElementById('state').classList.toggle('error', !st);
-                if (!fn || !ln || !st) return;
-                showStep(2);
-                return;
-            }
-            if (from === 2) {
+            window.nextStep = function(from) {
+                if (from === 1) {
+                    const fn = document.getElementById('firstName').value.trim();
+                    const ln = document.getElementById('lastName').value.trim();
+                    const st = document.getElementById('state').value;
+                    let ok = true;
+                    document.getElementById('firstNameError').classList.toggle('show', !fn);
+                    document.getElementById('firstName').classList.toggle('error', !fn);
+                    document.getElementById('lastNameError').classList.toggle('show', !ln);
+                    document.getElementById('lastName').classList.toggle('error', !ln);
+                    document.getElementById('stateError').classList.toggle('show', !st);
+                    document.getElementById('state').classList.toggle('error', !st);
+                    if (!fn || !ln || !st) return;
+                    window.showStep(2);
+                    return;
+                }
+                if (from === 2) {
+                    const email = document.getElementById('signupEmail').value.trim();
+                    const pw = document.getElementById('signupPassword').value;
+                    const cpw = document.getElementById('signupPasswordConfirm').value;
+                    let ok = true;
+                    const emailOk = validateEmail(email);
+                    document.getElementById('signupEmailError').classList.toggle('show', !emailOk);
+                    document.getElementById('signupEmail').classList.toggle('error', !emailOk);
+                    if (!emailOk) ok = false;
+                    if (pw.length < 8) {
+                        document.getElementById('signupPwError').classList.add('show');
+                        document.getElementById('signupPassword').classList.add('error');
+                        ok = false;
+                    } else {
+                        document.getElementById('signupPwError').classList.remove('show');
+                        document.getElementById('signupPassword').classList.remove('error');
+                    }
+                    if (pw !== cpw) {
+                        document.getElementById('confirmPwError').classList.add('show');
+                        document.getElementById('signupPasswordConfirm').classList.add('error');
+                        ok = false;
+                    } else {
+                        document.getElementById('confirmPwError').classList.remove('show');
+                        document.getElementById('signupPasswordConfirm').classList.remove('error');
+                    }
+                    if (!ok) return;
+                    window.showStep(3);
+                }
+            };
+
+            window.goBack = function(from) {
+                window.showStep(from - 1);
+            };
+
+            // ── PASSWORD STRENGTH ──
+            window.checkPasswordStrength = function(val) {
+                const bars = [document.getElementById('pwBar1'), document.getElementById('pwBar2'), document.getElementById('pwBar3'), document.getElementById('pwBar4')];
+                const label = document.getElementById('pwLabel');
+                let score = 0;
+                if (val.length >= 8) score++;
+                if (val.length >= 12) score++;
+                if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+                if (/[^A-Za-z0-9]/.test(val)) score++;
+                const colors = ['#e05c5c', '#f4a261', '#e9c46a', '#40916c'];
+                const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+                bars.forEach((b, i) => { b.style.background = i < score ? colors[score - 1] : '#e8f0eb'; });
+                label.textContent = val.length === 0 ? 'Enter a strong password' : labels[score - 1] || 'Weak';
+                label.style.color = score > 0 ? colors[score - 1] : '#9ab5a5';
+            };
+
+            // ── PW TOGGLE ──
+            window.togglePwVisibility = function() {
+                const pw = document.getElementById('signupPassword');
+                pw.type = pw.type === 'password' ? 'text' : 'password';
+            };
+
+            // ── TOAST ──
+            window.showToast = function(msg, cls='') {
+                toastEl.textContent = msg;
+                toastEl.className = 'toast ' + cls;
+                setTimeout(() => toastEl.classList.add('show'), 50);
+                setTimeout(() => toastEl.classList.remove('show'), 3500);
+            };
+
+            // ── SOCIAL LOGIN (Google) ──
+            window.signInWithSocial = async function(provider) {
+                const { error } = await supabase.auth.signInWithOAuth({
+                    provider: provider,
+                    options: {
+                        redirectTo: window.location.origin + window.location.pathname, // back to this sign-up page
+                    }
+                });
+                if (error) {
+                    window.showToast(error.message, 'error-toast');
+                }
+            };
+
+            // ── CREATE ACCOUNT (Supabase sign up) ──
+            window.createAccount = async function() {
+                const terms = document.getElementById('agreeTerms').checked;
+                if (!terms) {
+                    document.getElementById('termsError').classList.add('show');
+                    return;
+                }
+                document.getElementById('termsError').classList.remove('show');
+
+                if (!window.selectedRole) {
+                    window.showToast('Please select your role above (Step 1).', 'error-toast');
+                    document.querySelector('.role-section').scrollIntoView({ behavior: 'smooth' });
+                    return;
+                }
+
+                const btn = document.getElementById('createAccountBtn');
+                btn.classList.add('loading');
+
+                // Gather all user data
+                const firstName = document.getElementById('firstName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const state = document.getElementById('state').value;
+                const farmName = document.getElementById('farmName').value.trim();
                 const email = document.getElementById('signupEmail').value.trim();
-                const pw = document.getElementById('signupPassword').value;
-                const cpw = document.getElementById('signupPasswordConfirm').value;
-                let ok = true;
-                const emailOk = validateEmail(email);
-                document.getElementById('signupEmailError').classList.toggle('show', !emailOk);
-                document.getElementById('signupEmail').classList.toggle('error', !emailOk);
-                if (!emailOk) ok = false;
-                if (pw.length < 8) {
-                    document.getElementById('signupPwError').classList.add('show');
-                    document.getElementById('signupPassword').classList.add('error');
-                    ok = false;
-                } else { document.getElementById('signupPwError').classList.remove('show'); document.getElementById('signupPassword').classList.remove('error'); }
-                if (pw !== cpw) {
-                    document.getElementById('confirmPwError').classList.add('show');
-                    document.getElementById('signupPasswordConfirm').classList.add('error');
-                    ok = false;
-                } else { document.getElementById('confirmPwError').classList.remove('show'); document.getElementById('signupPasswordConfirm').classList.remove('error'); }
-                if (!ok) return;
-                showStep(3);
+                const password = document.getElementById('signupPassword').value;
+                const plan = document.querySelector('input[name="plan"]:checked')?.value || 'free';
+                const marketing = document.getElementById('agreeMarketing').checked;
+
+                // Metadata to store alongside the user
+                const metadata = {
+                    first_name: firstName,
+                    last_name: lastName,
+                    phone: phone,
+                    state: state,
+                    role: window.selectedRole,
+                    business_name: farmName,
+                    plan: plan,
+                    marketing_opt_in: marketing,
+                };
+
+                try {
+                    const { data, error } = await supabase.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            data: metadata, // saved in user_metadata
+                            emailRedirectTo: window.location.origin + '/dashboard/', // after email confirmation
+                        }
+                    });
+
+                    if (error) {
+                        btn.classList.remove('loading');
+                        let msg = error.message;
+                        if (error.message.includes('already registered')) {
+                            msg = 'An account with this email already exists. Please sign in.';
+                        }
+                        window.showToast(msg, 'error-toast');
+                        return;
+                    }
+
+                    // Success: user is created (might need email confirmation)
+                    btn.classList.remove('loading');
+                    document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+                    document.getElementById('stepIndicator').style.display = 'none';
+                    document.getElementById('successScreen').style.display = 'block';
+
+                    // Confetti
+                    spawnConfetti();
+
+                    if (data.user && data.user.identities && data.user.identities.length === 0) {
+                        // Email confirmation is probably enabled and the user must confirm
+                        window.showToast('Account created! Please check your email to verify your address.', 'success-toast');
+                    } else {
+                        // Immediately signed in (email confirmation disabled)
+                        window.showToast('Welcome to AgroChain Cart! Redirecting…', 'success-toast');
+                        setTimeout(() => {
+                            window.location.href = '../dashboard/';
+                        }, 2500);
+                    }
+
+                } catch (err) {
+                    btn.classList.remove('loading');
+                    window.showToast('An unexpected error occurred. Please try again.', 'error-toast');
+                    console.error(err);
+                }
+            };
+
+            function spawnConfetti() {
+                const container = document.getElementById('confetti');
+                const colors = ['#74c69d', '#e9c46a', '#f4a261', '#40916c', '#d8f3dc'];
+                for (let i = 0; i < 12; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'confetti-dot';
+                    dot.style.cssText = `
+                        left:50%; top:50%;
+                        background:${colors[i % colors.length]};
+                        --tx:${(Math.random()-0.5)*80}px;
+                        --ty:${-(Math.random()*60+20)}px;
+                        animation-delay:${i*0.06}s;
+                        animation-duration:0.8s;
+                    `;
+                    container.appendChild(dot);
+                }
             }
-        }
 
-        function goBack(from) {
-            showStep(from - 1);
-        }
-
-        // ── PASSWORD STRENGTH ──
-        function checkPasswordStrength(val) {
-            const bars = [document.getElementById('pwBar1'), document.getElementById('pwBar2'), document.getElementById('pwBar3'), document.getElementById('pwBar4')];
-            const label = document.getElementById('pwLabel');
-            let score = 0;
-            if (val.length >= 8) score++;
-            if (val.length >= 12) score++;
-            if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
-            if (/[^A-Za-z0-9]/.test(val)) score++;
-            const colors = ['#e05c5c', '#f4a261', '#e9c46a', '#40916c'];
-            const labels = ['Weak', 'Fair', 'Good', 'Strong'];
-            bars.forEach((b, i) => { b.style.background = i < score ? colors[score - 1] : '#e8f0eb'; });
-            label.textContent = val.length === 0 ? 'Enter a strong password' : labels[score - 1] || 'Weak';
-            label.style.color = score > 0 ? colors[score - 1] : '#9ab5a5';
-        }
-
-        // ── PW TOGGLE ──
-        function togglePwVisibility() {
-            const pw = document.getElementById('signupPassword');
-            pw.type = pw.type === 'password' ? 'text' : 'password';
-        }
-
-        // ── CREATE ACCOUNT ──
-        async function createAccount() {
-            const terms = document.getElementById('agreeTerms').checked;
-            if (!terms) { document.getElementById('termsError').classList.add('show'); return; }
-            document.getElementById('termsError').classList.remove('show');
-
-            const btn = document.getElementById('createAccountBtn');
-            btn.classList.add('loading');
-            await new Promise(r => setTimeout(r, 2000));
-            btn.classList.remove('loading');
-
-            // Hide all steps, show success
-            document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-            document.getElementById('stepIndicator').style.display = 'none';
-            document.getElementById('successScreen').style.display = 'block';
-
-            // Confetti
-            spawnConfetti();
-            showToast('Account created! Welcome to AgroChain Cart 🌱', 'success-toast');
-        }
-
-        function spawnConfetti() {
-            const container = document.getElementById('confetti');
-            const colors = ['#74c69d', '#e9c46a', '#f4a261', '#40916c', '#d8f3dc'];
-            for (let i = 0; i < 12; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'confetti-dot';
-                dot.style.cssText = `
-                    left:50%; top:50%;
-                    background:${colors[i % colors.length]};
-                    --tx:${(Math.random()-0.5)*80}px;
-                    --ty:${-(Math.random()*60+20)}px;
-                    animation-delay:${i*0.06}s;
-                    animation-duration:0.8s;
-                `;
-                container.appendChild(dot);
-            }
-        }
-
-        // ── TOAST ──
-        function showToast(msg, cls='') {
-            const t = document.getElementById('toast');
-            t.textContent = msg; t.className = 'toast ' + cls;
-            setTimeout(() => t.classList.add('show'), 50);
-            setTimeout(() => t.classList.remove('show'), 3500);
-        }
-
-        function handleSocialLogin(p) { showToast(`Connecting to ${p}…`); }
-
-        // ── REVEAL OBSERVER ──
-        const revealObs = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
-        }, { threshold: 0.15 });
-        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+            // ── REVEAL OBSERVER ──
+            const revealObs = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+        })();
     </script>
 </body>
 </html>
