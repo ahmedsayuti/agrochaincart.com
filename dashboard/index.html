@@ -426,9 +426,9 @@
                             </div>
                         </div>
                         <div class="grid grid-3" style="margin-top:24px;">
-                            <div class="card"><h3>Weekly Box</h3><p style="margin:12px 0;">Subscribe to a harvest box.</p><a href="/marketplace/" class="action-btn">Browse Boxes</a></div>
-                            <div class="card"><h3>Account</h3><p style="margin:12px 0;">Update delivery address.</p><a href="/profile/" class="action-btn outline">Settings</a></div>
-                            <div class="card"><h3>Favorites</h3><p style="margin:12px 0;">Manage your saved farms.</p><a href="/favorites/" class="action-btn outline">View All</a></div>
+                            <div class="card"><h3>Weekly Box</h3><p style="margin:12px 0;">Subscribe to a harvest box.</p><a href="/dashboard/marketplace/" class="action-btn">Browse Boxes</a></div>
+                            <div class="card"><h3>Account</h3><p style="margin:12px 0;">Update delivery address.</p><a href="/dashboard/profile/" class="action-btn outline">Settings</a></div>
+                            <div class="card"><h3>Favorites</h3><p style="margin:12px 0;">Manage your saved farms.</p><a href="/dashboard/favorites/" class="action-btn outline">View All</a></div>
                         </div>`;
                 }
 
@@ -459,7 +459,7 @@
                                     <div class="list-item">
                                         <div><strong>${escapeHtml(so.listings.title)}</strong><br><small>${so.quantity} ${so.listings.unit} — ${so.frequency}</small></div>
                                         <span>Next: ${so.next_delivery ? formatDate(so.next_delivery) : '—'}</span>
-                                    </div>`).join('') : '<p>No standing orders. <a href="/marketplace/">Set one up</a>.</p>'}
+                                    </div>`).join('') : '<p>No standing orders. <a href="/dashboard/marketplace/">Set one up</a>.</p>'}
                             </div>
                         </div>
                         <div class="grid grid-3" style="margin-top:24px;">
@@ -470,8 +470,8 @@
                                         <span>${formatCurrency(b.price)}/${b.unit}</span>
                                     </div>`).join('') : '<p>No bulk deals right now.</p>'}
                             </div>
-                            <div class="card"><h3>Invoices</h3><p style="margin:12px 0;">Download past invoices.</p><a href="/invoices/" class="action-btn outline">History</a></div>
-                            <div class="card"><h3>Compliance</h3><p style="margin:12px 0;">Food safety documents.</p><a href="/compliance/" class="action-btn outline">View Docs</a></div>
+                            <div class="card"><h3>Invoices</h3><p style="margin:12px 0;">Download past invoices.</p><a href="/dashboard/invoices/" class="action-btn outline">History</a></div>
+                            <div class="card"><h3>Compliance</h3><p style="margin:12px 0;">Food safety documents.</p><a href="/dashboard/compliance/" class="action-btn outline">View Docs</a></div>
                         </div>`;
                 }
 
