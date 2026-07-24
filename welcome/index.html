@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to AgroChain Cart</title>
+    <meta name="description" content="Your account is confirmed. Welcome to AgroChain Cart." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <style>
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --smoke: #4a5e52;
+            --white: #ffffff; --ink: #0f1f17;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(160deg, var(--forest) 0%, #224436 40%, #1e4d38 70%, #163323 100%);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            color: white; text-align: center;
+        }
+        .container {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px; padding: 48px 32px; max-width: 480px; width: 90%;
+            backdrop-filter: blur(12px);
+        }
+        .logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.8rem;
+            margin-bottom: 24px; color: white;
+        }
+        .logo span { color: var(--sage); }
+        .logo .cart {
+            background: var(--sage); color: var(--forest);
+            padding: 2px 8px; border-radius: 6px; margin-left: 4px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.4rem;
+        }
+        h1 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+        h1 em { font-style: normal; color: var(--gold); }
+        p { font-size: 1rem; line-height: 1.6; opacity: 0.8; margin-bottom: 28px; }
+        .btn {
+            display: inline-block; padding: 14px 32px;
+            background: var(--gold); color: var(--forest);
+            border-radius: 10px; font-weight: 700; font-size: 1rem;
+            text-decoration: none; transition: 0.2s;
+        }
+        .btn:hover { background: #f0c84a; transform: translateY(-2px); }
+        .loading { opacity: 0.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Agro<span>Chain</span><span class="cart">Cart</span></div>
+        <h1>Welcome, <em id="userName">...</em>! 🌱</h1>
+        <p>Your email is confirmed and your account is now active.<br>Start exploring the freshest marketplace in America.</p>
+        <a href="/dashboard/" class="btn" id="dashboardBtn">Go to Dashboard →</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = window.supabase.createClient(
+            'https://kuwoqzdgndnnayxrbzll.supabase.co',
+            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+        );
+
+        async function init() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error || !session) {
+                // No session – redirect to sign in
+                window.location.href = '/sign-in/';
+                return;
+            }
+
+            // Get user details
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const firstName = user.user_metadata?.first_name || user.email?.split('@')[0] || 'there';
+                document.getElementById('userName').textContent = firstName;
+            }
+        }
+        init();
+    </script>
+</body>
+</html>

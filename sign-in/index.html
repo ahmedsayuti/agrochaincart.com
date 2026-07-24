@@ -780,10 +780,19 @@
                     auth: {
                         persistSession: true,
                         autoRefreshToken: true,
-                        detectSessionInUrl: true, // needed for OAuth redirects
+                        detectSessionInUrl: true,
                     }
                 }
             );
+
+            // ── AUTO-REDIRECT IF ALREADY SIGNED IN ──
+            async function redirectIfLoggedIn() {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    window.location.href = '/dashboard/';
+                }
+            }
+            redirectIfLoggedIn();
 
             // ── DOM ELEMENTS ──
             const form = document.getElementById('signinForm');
@@ -831,12 +840,12 @@
                     : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
             });
 
-            // Social login handler
+            // ── SOCIAL LOGIN (now redirects directly to dashboard) ──
             window.signInWithSocial = async function(provider) {
                 const { error } = await supabase.auth.signInWithOAuth({
                     provider: provider,
                     options: {
-                        redirectTo: window.location.origin + window.location.pathname, // returns to this page after OAuth
+                        redirectTo: window.location.origin + '/dashboard/'
                     }
                 });
                 if (error) {
@@ -844,7 +853,7 @@
                 }
             };
 
-            // ── FORM SUBMISSION ──
+            // ── EMAIL/PASSWORD SUBMISSION ──
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
@@ -852,7 +861,6 @@
                 const pwd = passwordInput.value;
                 let valid = true;
 
-                // Validate fields
                 if (!validateEmail(email)) {
                     emailInput.classList.add('error');
                     emailError.classList.add('show');
@@ -865,7 +873,6 @@
                 }
                 if (!valid) return;
 
-                // Loading state
                 submitBtn.classList.add('loading');
 
                 try {
@@ -875,7 +882,6 @@
                     });
 
                     if (error) {
-                        // Handle specific error messages
                         let message = error.message;
                         if (error.message.includes('Invalid login credentials')) {
                             message = 'Invalid email or password. Please try again.';
@@ -901,9 +907,8 @@
                     }, 100);
                     showToast('Signed in successfully! Redirecting…', 'success');
 
-                    // Redirect to dashboard (adjust the URL as needed)
                     setTimeout(() => {
-                        window.location.href = '../dashboard/';  // <-- change to your actual dashboard path
+                        window.location.href = '/dashboard/';
                     }, 2000);
                 } catch (err) {
                     submitBtn.classList.remove('loading');
@@ -912,8 +917,7 @@
                 }
             });
 
-            // ── GENERAL UI (particles, nav, scroll, glow) ──
-            // Particles
+            // ── PARTICLES, NAV, SCROLL, GLOW (unchanged) ──
             const particlesContainer = document.getElementById('heroParticles');
             if (particlesContainer) {
                 for (let i = 0; i < 18; i++) {
@@ -931,21 +935,19 @@
                 }
             }
 
-            // Scroll progress & nav shadow
             window.addEventListener('scroll', () => {
                 const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
                 document.getElementById('scrollProgress').style.width = pct + '%';
                 document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 10);
             });
 
-            // Cursor glow
             document.addEventListener('mousemove', e => {
                 const g = document.getElementById('cursorGlow');
                 g.style.left = e.clientX + 'px';
                 g.style.top = e.clientY + 'px';
             });
 
-            // ── MOBILE NAV ──
+            // Mobile nav (identical to previous)
             const navHamburger = document.getElementById('navHamburger');
             const navLinks = document.getElementById('navLinks');
             const overlay = document.getElementById('mobileMenuOverlay');

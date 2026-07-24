@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — AgroChain Cart</title>
+    <meta name="description" content="Your AgroChain Cart dashboard. Manage listings, orders, and account." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --amber: #f4a261;
+            --ink: #0f1f17; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --nav-height: 68px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--cream); color: var(--ink); line-height: 1.6;
+            padding-top: var(--nav-height); min-height: 100vh;
+        }
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+        }
+        .nav-logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem;
+            color: var(--forest); text-decoration: none; display: flex; align-items: center;
+        }
+        .nav-logo .cart {
+            background: var(--grove); color: white; padding: 2px 8px; border-radius: 6px;
+            margin-left: 4px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .user-menu {
+            display: flex; align-items: center; gap: 16px;
+        }
+        .user-name { font-weight: 600; color: var(--forest); }
+        .btn-logout {
+            padding: 8px 20px; background: transparent; border: 1.5px solid var(--leaf);
+            color: var(--grove); border-radius: 8px; font-weight: 600; cursor: pointer;
+            font-family: inherit; transition: 0.2s;
+        }
+        .btn-logout:hover { background: var(--mist); }
+        /* DASHBOARD CONTENT */
+        .dashboard {
+            max-width: 1100px; margin: 40px auto; padding: 0 5%;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+        }
+        .card {
+            background: white; border-radius: var(--radius); padding: 24px;
+            border: 1.5px solid #e8f0eb; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .greeting h2 { font-size: 1.6rem; font-weight: 800; color: var(--forest); }
+        .greeting p { color: var(--smoke); margin-top: 8px; }
+        .profile-card {
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .profile-row {
+            display: flex; justify-content: space-between; border-bottom: 1px solid #f0f5f1;
+            padding: 8px 0; font-size: 0.9rem;
+        }
+        .profile-row span:first-child { color: var(--smoke); }
+        .profile-row span:last-child { font-weight: 600; color: var(--forest); }
+        .role-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 100px;
+            background: var(--mist); color: var(--grove); font-weight: 600; font-size: 0.8rem;
+            text-transform: capitalize;
+        }
+        .quick-actions {
+            display: flex; gap: 12px; margin-top: 16px;
+        }
+        .action-btn {
+            flex: 1; padding: 12px; border-radius: var(--radius); background: var(--grove);
+            color: white; text-align: center; text-decoration: none; font-weight: 600;
+            transition: 0.2s;
+        }
+        .action-btn:hover { background: var(--forest); transform: translateY(-2px); }
+        .action-btn.outline {
+            background: transparent; border: 1.5px solid var(--leaf); color: var(--grove);
+        }
+        .action-btn.outline:hover { background: var(--mist); }
+        @media (max-width: 700px) {
+            .dashboard { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-logo">
+            Agro<span style="color:var(--grove);">Chain</span><span class="cart">Cart</span>
+        </a>
+        <div class="user-menu">
+            <span class="user-name" id="displayName">User</span>
+            <button class="btn-logout" onclick="handleLogout()">Log out</button>
+        </div>
+    </nav>
+
+    <div class="dashboard">
+        <!-- Greeting -->
+        <div class="card greeting" style="grid-column: 1/-1;">
+            <h2>Welcome back, <span id="greetingName">...</span> 🌾</h2>
+            <p>Here’s your account overview and quick access to key features.</p>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="card profile-card" id="profileCard">
+            <h3 style="color:var(--forest); margin-bottom:8px;">Your Profile</h3>
+            <!-- Filled dynamically -->
+        </div>
+
+        <!-- Quick Actions Card -->
+        <div class="card">
+            <h3 style="color:var(--forest); margin-bottom:16px;">Quick Actions</h3>
+            <div class="quick-actions">
+                <a href="/marketplace/" class="action-btn">Browse Marketplace</a>
+                <a href="#" class="action-btn outline">My Orders</a>
+            </div>
+            <div class="quick-actions" style="margin-top:12px;">
+                <a href="#" class="action-btn outline">My Listings</a>
+                <a href="#" class="action-btn">Account Settings</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = window.supabase.createClient(
+            'https://kuwoqzdgndnnayxrbzll.supabase.co',
+            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+        );
+
+        async function loadDashboard() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error || !session) {
+                window.location.href = '/sign-in/';
+                return;
+            }
+
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                window.location.href = '/sign-in/';
+                return;
+            }
+
+            const meta = user.user_metadata;
+            const firstName = meta?.first_name || user.email?.split('@')[0] || 'User';
+            const lastName = meta?.last_name || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            document.getElementById('greetingName').textContent = firstName;
+            document.getElementById('displayName').textContent = fullName;
+
+            // Build profile card
+            const profileCard = document.getElementById('profileCard');
+            const role = meta?.role || 'Not set';
+            const state = meta?.state || 'Not set';
+            const plan = meta?.plan || 'free';
+            const business = meta?.business_name || '—';
+
+            profileCard.innerHTML += `
+                <div class="profile-row"><span>Name</span><span>${fullName}</span></div>
+                <div class="profile-row"><span>Email</span><span>${user.email}</span></div>
+                <div class="profile-row"><span>Role</span><span><span class="role-badge">${role}</span></span></div>
+                <div class="profile-row"><span>Location</span><span>${state}</span></div>
+                <div class="profile-row"><span>Plan</span><span style="text-transform:capitalize;">${plan}</span></div>
+                <div class="profile-row"><span>Business / Farm</span><span>${business}</span></div>
+            `;
+        }
+
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            window.location.href = '/';
+        }
+
+        loadDashboard();
+    </script>
+</body>
+</html>
