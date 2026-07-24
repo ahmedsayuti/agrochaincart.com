@@ -79,101 +79,109 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const supabase = window.supabase.createClient(
-            'https://kuwoqzdgndnnayxrbzll.supabase.co',
-            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
-        );
-        let allProducts = [];
+        (function() {
+            const supabase = window.supabase.createClient(
+                'https://kuwoqzdgndnnayxrbzll.supabase.co',
+                'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+            );
+            let allProducts = [];
 
-        async function loadProducts() {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = '<div class="loading">Loading fresh produce...</div>';
+            async function loadProducts() {
+                const grid = document.getElementById('productsGrid');
+                grid.innerHTML = '<div class="loading">Loading fresh produce...</div>';
 
-            // Public read should work because we added the policy
-            const { data, error } = await supabase
-                .from('listings')
-                .select('*, profiles!inner(first_name, last_name, state)')
-                .gt('quantity_available', 0)
-                .order('created_at', { ascending: false });
+                const { data, error } = await supabase
+                    .from('listings')
+                    .select('*, profiles!inner(first_name, last_name, state)')
+                    .gt('quantity_available', 0)
+                    .order('created_at', { ascending: false });
 
-            if (error) {
-                console.error('Marketplace error:', error);
-                grid.innerHTML = `<div class="error">Couldn't load marketplace. ${error.message}. Please try again later.</div>`;
-                return;
+                if (error) {
+                    console.error('Marketplace error:', error);
+                    grid.innerHTML = `<div class="error">Couldn't load marketplace. ${error.message}. Please try again later.</div>`;
+                    return;
+                }
+
+                if (!data || data.length === 0) {
+                    grid.innerHTML = '<div class="loading">No listings found. Be the first to add one!</div>';
+                    return;
+                }
+
+                allProducts = data;
+                renderProducts('all');
             }
 
-            if (!data || data.length === 0) {
-                grid.innerHTML = '<div class="loading">No listings found. Be the first to add one!</div>';
-                return;
-            }
+            function renderProducts(category) {
+                const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+                const grid = document.getElementById('productsGrid');
 
-            allProducts = data;
-            renderProducts('all');
-        }
+                if (!filtered.length) {
+                    grid.innerHTML = '<div class="loading">No listings in this category.</div>';
+                    return;
+                }
 
-        function renderProducts(category) {
-            const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
-            const grid = document.getElementById('productsGrid');
+                grid.innerHTML = filtered.map(p => {
+                    const farmerName = p.profiles ? `${p.profiles.first_name} ${p.profiles.last_name}` : 'Unknown farm';
+                    const farmerState = p.profiles ? p.profiles.state : '';
+                    const imageUrl = p.image_url;
 
-            if (!filtered.length) {
-                grid.innerHTML = '<div class="loading">No listings in this category.</div>';
-                return;
-            }
-
-            grid.innerHTML = filtered.map(p => {
-                const farmerName = p.profiles ? `${p.profiles.first_name} ${p.profiles.last_name}` : 'Unknown farm';
-                const farmerState = p.profiles ? p.profiles.state : '';
-                const imageUrl = p.image_url;
-
-                return `
-                <div class="product-card">
-                    <div class="product-img">
-                        ${imageUrl 
-                            ? `<img src="${imageUrl}" alt="${escapeHtml(p.title)}" loading="lazy" />`
-                            : '<span style="font-size:2rem;">🌱</span>'
-                        }
-                    </div>
-                    <div class="product-body">
-                        <div class="product-name">${escapeHtml(p.title)}</div>
-                        <div class="product-farm">${escapeHtml(farmerName)}${farmerState ? ' — ' + escapeHtml(farmerState) : ''}</div>
-                        <div class="product-footer">
-                            <div class="product-price">$${p.price}/${p.unit}</div>
-                            <button class="btn-order" onclick="placeOrder('${p.id}', '${escapeHtml(p.title)}', ${p.price})">Order</button>
+                    return `
+                    <div class="product-card">
+                        <div class="product-img">
+                            ${imageUrl 
+                                ? `<img src="${imageUrl}" alt="${escapeHtml(p.title)}" loading="lazy" />`
+                                : '<span style="font-size:2rem;">🌱</span>'
+                            }
+                        </div>
+                        <div class="product-body">
+                            <div class="product-name">${escapeHtml(p.title)}</div>
+                            <div class="product-farm">${escapeHtml(farmerName)}${farmerState ? ' — ' + escapeHtml(farmerState) : ''}</div>
+                            <div class="product-footer">
+                                <div class="product-price">$${p.price}/${p.unit}</div>
+                                <button class="btn-order" onclick="placeOrder('${p.id}', '${escapeHtml(p.title)}', ${p.price})">Order</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                `;
-            }).join('');
-        }
-
-        window.filterProducts = function(cat, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderProducts(cat);
-        };
-
-        async function placeOrder(listingId, title, price) {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) {
-                alert('Please sign in to order.');
-                window.location.href = '/sign-in/';
-                return;
+                    `;
+                }).join('');
             }
-            const quantity = prompt(`How many? ($${price}/unit)`, '1');
-            if (!quantity) return;
-            const { error } = await supabase.from('orders').insert([{
-                buyer_id: user.id,
-                listing_id: listingId,
-                quantity: parseFloat(quantity),
-                total_price: parseFloat(quantity) * price
-            }]);
-            if (error) alert('Order error: ' + error.message);
-            else alert('Order placed!');
-        }
 
-        function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
+            window.filterProducts = function(cat, btn) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProducts(cat);
+            };
 
-        loadProducts();
+            async function placeOrder(listingId, title, price) {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
+                    alert('Please sign in to order.');
+                    window.location.href = '/sign-in/';
+                    return;
+                }
+                const quantity = prompt(`How many? ($${price}/unit)`, '1');
+                if (!quantity) return;
+                const { error } = await supabase.from('orders').insert([{
+                    buyer_id: user.id,
+                    listing_id: listingId,
+                    quantity: parseFloat(quantity),
+                    total_price: parseFloat(quantity) * price
+                }]);
+                if (error) alert('Order error: ' + error.message);
+                else alert('Order placed!');
+            }
+
+            // Expose placeOrder to global scope (needed by onclick)
+            window.placeOrder = placeOrder;
+
+            function escapeHtml(t) {
+                const d = document.createElement('div');
+                d.textContent = t || '';
+                return d.innerHTML;
+            }
+
+            loadProducts();
+        })();
     </script>
 </body>
 </html>
