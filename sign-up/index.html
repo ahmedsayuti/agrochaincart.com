@@ -1423,7 +1423,7 @@
                         password: password,
                         options: {
                             data: metadata, // saved in user_metadata
-                            emailRedirectTo: window.location.origin + '/dashboard/', // after email confirmation
+                            emailRedirectTo: 'https://www.agrochaincart.com/welcome', // after email confirmation
                         }
                     });
 
@@ -1453,7 +1453,7 @@
                         // Immediately signed in (email confirmation disabled)
                         window.showToast('Welcome to AgroChain Cart! Redirecting…', 'success-toast');
                         setTimeout(() => {
-                            window.location.href = '../dashboard/';
+                            window.location.href = 'https://www.agrochaincart.com/dashboard/';
                         }, 2500);
                     }
 
