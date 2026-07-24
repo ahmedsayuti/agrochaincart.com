@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marketplace — AgroChain Cart</title>
+    <meta name="description" content="Browse fresh, local produce directly from verified farms." />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --nav-height: 68px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--cream); color: var(--ink); padding-top: var(--nav-height);
+        }
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+        }
+        .nav-logo { font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem; color: var(--forest); text-decoration: none; }
+        .nav-logo .cart { background: var(--grove); color: white; padding: 2px 8px; border-radius: 6px; margin-left: 4px; font-weight: 800; }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 5%; }
+        .filters { display: flex; gap: 8px; margin: 24px 0; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 8px 18px; border-radius: 100px; border: 1.5px solid #ddeee4;
+            background: white; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .filter-btn.active { background: var(--grove); color: white; border-color: var(--grove); }
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;
+        }
+        .product-card {
+            background: white; border-radius: var(--radius); overflow: hidden; border: 1.5px solid #e8f0eb;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+        .product-img { height: 180px; background: var(--mist); display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+        .product-body { padding: 16px; }
+        .product-name { font-weight: 700; color: var(--forest); }
+        .product-farm { font-size: 0.85rem; color: var(--smoke); margin-bottom: 8px; }
+        .product-footer { display: flex; justify-content: space-between; align-items: center; }
+        .product-price { font-weight: 800; color: var(--grove); }
+        .btn-order {
+            padding: 6px 14px; border-radius: 6px; background: var(--grove);
+            color: white; font-weight: 600; border: none; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-logo">Agro<span style="color:var(--grove);">Chain</span><span class="cart">Cart</span></a>
+        <a href="/dashboard/">Dashboard</a>
+    </nav>
+
+    <div class="container">
+        <h1 style="color:var(--forest); margin-bottom:8px;">Live Marketplace</h1>
+        <p style="color:var(--smoke);">Browse fresh produce directly from verified farms.</p>
+
+        <div class="filters" id="filters">
+            <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+            <button class="filter-btn" onclick="filterProducts('vegetables', this)">Vegetables</button>
+            <button class="filter-btn" onclick="filterProducts('fruits', this)">Fruits</button>
+            <button class="filter-btn" onclick="filterProducts('dairy', this)">Dairy</button>
+            <button class="filter-btn" onclick="filterProducts('grains', this)">Grains</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid">Loading...</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = window.supabase.createClient(
+            'https://kuwoqzdgndnnayxrbzll.supabase.co',
+            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+        );
+        let allProducts = [];
+
+        async function loadProducts() {
+            const { data } = await supabase.from('listings').select('*, profiles!inner(first_name, last_name, state)');
+            allProducts = data || [];
+            renderProducts('all');
+        }
+
+        function renderProducts(category) {
+            const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+            const grid = document.getElementById('productsGrid');
+            if (!filtered.length) {
+                grid.innerHTML = '<p>No listings found.</p>';
+                return;
+            }
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    <div class="product-img">🌱</div>
+                    <div class="product-body">
+                        <div class="product-name">${escapeHtml(p.title)}</div>
+                        <div class="product-farm">${escapeHtml(p.profiles.first_name+' '+p.profiles.last_name)} — ${escapeHtml(p.profiles.state)}</div>
+                        <div class="product-footer">
+                            <div class="product-price">$${p.price}/${p.unit}</div>
+                            <button class="btn-order" onclick="placeOrder('${p.id}', '${p.title}', ${p.price})">Order</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.filterProducts = function(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts(cat);
+        };
+
+        async function placeOrder(listingId, title, price) {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) { alert('Please sign in.'); return; }
+            const quantity = prompt(`How many? (${price}/unit)`, '1');
+            if (!quantity) return;
+            const { error } = await supabase.from('orders').insert([{
+                buyer_id: user.id,
+                listing_id: listingId,
+                quantity: parseFloat(quantity),
+                total_price: parseFloat(quantity) * price
+            }]);
+            if (error) alert('Order error: ' + error.message);
+            else alert('Order placed!');
+        }
+
+        function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t||''; return d.innerHTML; }
+
+        loadProducts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Profile — AgroChain Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&display=swap" rel="stylesheet" />
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8faf4; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .form-card { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; }
+        label { display: block; margin: 8px 0 4px; font-weight: 600; }
+        input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1.5px solid #ddeee4; }
+        button { background: #2d6a4f; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <h2>Edit Profile</h2>
+        <form id="profileForm">
+            <label>First Name</label>
+            <input type="text" name="first_name" id="first_name">
+            <label>Last Name</label>
+            <input type="text" name="last_name" id="last_name">
+            <label>Phone</label>
+            <input type="text" name="phone" id="phone">
+            <label>State</label>
+            <input type="text" name="state" id="state">
+            <label>Business Name</label>
+            <input type="text" name="business_name" id="business_name">
+            <button type="submit">Save Changes</button>
+        </form>
+        <p><a href="/dashboard/">← Back</a></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = window.supabase.createClient(
+            'https://kuwoqzdgndnnayxrbzll.supabase.co',
+            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+        );
+
+        async function init() {
+            const { data: { user } } = await supabase.auth.getUser();
+            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+            if (profile) {
+                document.getElementById('first_name').value = profile.first_name || '';
+                document.getElementById('last_name').value = profile.last_name || '';
+                document.getElementById('phone').value = profile.phone || '';
+                document.getElementById('state').value = profile.state || '';
+                document.getElementById('business_name').value = profile.business_name || '';
+            }
+            document.getElementById('profileForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const { error } = await supabase.from('profiles').upsert({
+                    id: user.id,
+                    first_name: formData.get('first_name'),
+                    last_name: formData.get('last_name'),
+                    phone: formData.get('phone'),
+                    state: formData.get('state'),
+                    business_name: formData.get('business_name')
+                });
+                if (error) alert(error.message);
+                else alert('Profile updated!');
+            });
+        }
+        init();
+    </script>
+</body>
+</html>

@@ -22,14 +22,11 @@
             background: var(--cream); color: var(--ink); line-height: 1.6;
             padding-top: var(--nav-height); min-height: 100vh;
         }
-
-        /* ── NAV ── */
         nav {
             position: fixed; top: 0; left: 0; right: 0; z-index: 100;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 5%; height: var(--nav-height);
             background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(64,145,108,0.12);
         }
         .nav-logo {
@@ -40,9 +37,7 @@
             background: var(--grove); color: white; padding: 2px 8px; border-radius: 6px;
             margin-left: 4px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
         }
-        .user-menu {
-            display: flex; align-items: center; gap: 16px;
-        }
+        .user-menu { display: flex; align-items: center; gap: 16px; }
         .user-name { font-weight: 600; color: var(--forest); }
         .btn-logout {
             padding: 8px 20px; background: transparent; border: 1.5px solid var(--leaf);
@@ -52,238 +47,516 @@
         .btn-logout:hover { background: var(--mist); }
         .btn-logout:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* ── DASHBOARD ── */
-        .dashboard {
-            max-width: 1100px; margin: 40px auto; padding: 0 5%;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+        .dashboard { max-width: 1300px; margin: 40px auto; padding: 0 5%; }
+        .greeting { margin-bottom: 32px; }
+        .greeting h1 { font-size: 2rem; font-weight: 800; color: var(--forest); }
+        .greeting p { color: var(--smoke); margin-top: 8px; }
+
+        .role-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 100px;
+            background: var(--mist); color: var(--grove); font-weight: 600; font-size: 0.8rem;
+            text-transform: capitalize; margin-left: 12px; vertical-align: middle;
         }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 8px 18px; border-radius: 100px; border: 1px solid #ddeee4;
+            background: white; color: var(--smoke); font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .tab-btn.active { background: var(--grove); color: white; border-color: var(--grove); }
+
+        .grid { display: grid; gap: 24px; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
         .card {
             background: white; border-radius: var(--radius); padding: 24px;
             border: 1.5px solid #e8f0eb; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
         }
-        .greeting h2 { font-size: 1.6rem; font-weight: 800; color: var(--forest); }
-        .greeting p { color: var(--smoke); margin-top: 8px; }
-        .profile-card {
-            display: flex; flex-direction: column; gap: 12px;
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .card-header h3 { color: var(--forest); font-weight: 700; font-size: 1.1rem; }
+        .metric-value { font-size: 2rem; font-weight: 800; color: var(--grove); font-family: 'Lora', serif; }
+        .metric-label { color: var(--smoke); font-size: 0.9rem; }
+        .list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid #f0f5f1; font-size: 0.9rem;
         }
-        .profile-row {
-            display: flex; justify-content: space-between; border-bottom: 1px solid #f0f5f1;
-            padding: 8px 0; font-size: 0.9rem;
+        .list-item:last-child { border-bottom: none; }
+        .status {
+            font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: 100px;
+            text-transform: uppercase;
         }
-        .profile-row span:first-child { color: var(--smoke); }
-        .profile-row span:last-child { font-weight: 600; color: var(--forest); }
-        .role-badge {
-            display: inline-block; padding: 4px 12px; border-radius: 100px;
-            background: var(--mist); color: var(--grove); font-weight: 600; font-size: 0.8rem;
-            text-transform: capitalize;
-        }
-        .quick-actions {
-            display: flex; gap: 12px; margin-top: 16px;
-        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d4edda; color: #155724; }
+        .status-shipped { background: #cce5ff; color: #004085; }
+        .status-delivered { background: #d1ecf1; color: #0c5460; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+
         .action-btn {
-            flex: 1; padding: 12px; border-radius: var(--radius); background: var(--grove);
-            color: white; text-align: center; text-decoration: none; font-weight: 600;
-            transition: 0.2s;
+            padding: 8px 16px; border-radius: 8px; background: var(--grove);
+            color: white; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: 0.2s; border: none; font-family: inherit; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 6px;
         }
-        .action-btn:hover { background: var(--forest); transform: translateY(-2px); }
+        .action-btn:hover { background: var(--forest); transform: translateY(-1px); }
         .action-btn.outline {
             background: transparent; border: 1.5px solid var(--leaf); color: var(--grove);
         }
         .action-btn.outline:hover { background: var(--mist); }
-        .loading-text { color: var(--smoke); font-style: italic; }
-        .error-text { color: #c0392b; font-weight: 600; }
+        .action-btn.small { padding: 4px 12px; font-size: 0.8rem; }
+        .danger { background: #c0392b; }
+        .danger:hover { background: #a93226; }
 
-        @media (max-width: 700px) {
-            .dashboard { grid-template-columns: 1fr; }
+        .form-input, .form-select {
+            width: 100%; padding: 10px; border: 1.5px solid #ddeee4; border-radius: 8px;
+            font-family: inherit; font-size: 0.9rem; background: var(--cream); margin-bottom: 12px;
+        }
+        .form-row { display: flex; gap: 12px; }
+        .form-row > * { flex: 1; }
+        label { font-weight: 600; color: var(--forest); font-size: 0.85rem; display: block; margin-bottom: 4px; }
+
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white; border-radius: var(--radius); padding: 32px; max-width: 500px; width: 90%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .toast {
+            position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+            background: var(--ink); color: white; padding: 12px 24px; border-radius: var(--radius);
+            z-index: 500; transition: opacity 0.3s;
+        }
+
+        @media (max-width: 900px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- ── NAV ── -->
     <nav>
-        <a href="/" class="nav-logo">
-            Agro<span style="color:var(--grove);">Chain</span><span class="cart">Cart</span>
-        </a>
+        <a href="/" class="nav-logo">Agro<span style="color:var(--grove);">Chain</span><span class="cart">Cart</span></a>
         <div class="user-menu">
             <span class="user-name" id="displayName">---</span>
             <button class="btn-logout" id="logoutBtn" disabled>Log out</button>
         </div>
     </nav>
 
-    <!-- ── DASHBOARD CONTENT ── -->
     <div class="dashboard">
-        <div class="card greeting" style="grid-column: 1/-1;">
-            <h2>Welcome back, <span id="greetingName">...</span> 🌾</h2>
-            <p>Here's your account overview and quick access to key features.</p>
+        <div class="greeting">
+            <h1>Welcome back, <span id="greetingName">...</span> 🌾 <span id="roleBadge" class="role-badge"></span></h1>
+            <p id="greetingSub">Loading your personalized dashboard...</p>
         </div>
+        <div id="dashboardContent" class="loading-text">Preparing your workspace...</div>
+    </div>
 
-        <div class="card profile-card">
-            <h3 style="color:var(--forest); margin-bottom:8px;">Your Profile</h3>
-            <div id="profileContent">
-                <p class="loading-text">Loading your profile...</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3 style="color:var(--forest); margin-bottom:16px;">Quick Actions</h3>
-            <div class="quick-actions">
-                <a href="/marketplace/" class="action-btn">Browse Marketplace</a>
-                <a href="#" class="action-btn outline">My Orders</a>
-            </div>
-            <div class="quick-actions" style="margin-top:12px;">
-                <a href="#" class="action-btn outline">My Listings</a>
-                <a href="#" class="action-btn">Account Settings</a>
-            </div>
+    <!-- Modal for adding/editing listing -->
+    <div class="modal-overlay" id="listingModal">
+        <div class="modal">
+            <h2 id="modalTitle">Add Listing</h2>
+            <form id="listingForm">
+                <input type="hidden" id="listingId">
+                <label>Title</label>
+                <input type="text" class="form-input" id="listingTitle" required>
+                <label>Category</label>
+                <select class="form-select" id="listingCategory">
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="dairy">Dairy</option>
+                    <option value="grains">Grains</option>
+                </select>
+                <div class="form-row">
+                    <div>
+                        <label>Price</label>
+                        <input type="number" step="0.01" class="form-input" id="listingPrice" required>
+                    </div>
+                    <div>
+                        <label>Unit</label>
+                        <input type="text" class="form-input" id="listingUnit" placeholder="lb, dozen..." required>
+                    </div>
+                </div>
+                <label>Quantity Available</label>
+                <input type="number" class="form-input" id="listingQty" required>
+                <label>Description</label>
+                <textarea class="form-input" id="listingDesc" rows="2"></textarea>
+                <div style="display:flex; gap:12px; margin-top:16px;">
+                    <button type="submit" class="action-btn" id="saveListingBtn">Save</button>
+                    <button type="button" class="action-btn outline" onclick="closeListingModal()">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- ── SUPABASE CDN ── -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <div class="toast" id="toast" style="opacity:0;"></div>
 
-    <!-- ── DASHBOARD LOGIC ── -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         (function() {
-            // ── Wait for Supabase to be available ──
-            function waitForSupabase(callback, attempts) {
-                attempts = attempts || 0;
-                if (window.supabase) {
-                    callback();
-                } else if (attempts < 50) {
-                    setTimeout(() => waitForSupabase(callback, attempts + 1), 200);
-                } else {
-                    document.getElementById('profileContent').innerHTML =
-                        '<p class="error-text">Failed to load authentication library. Please refresh the page.</p>';
-                    console.error('Supabase CDN did not load after 10 seconds.');
-                }
+            function waitForSupabase(cb, tries=0) {
+                if (window.supabase) return cb();
+                if (tries < 50) setTimeout(() => waitForSupabase(cb, tries+1), 200);
+                else document.getElementById('dashboardContent').innerHTML = '<p class="error-text">Failed to load auth.</p>';
             }
-
-            waitForSupabase(function() {
-                // ── INITIALIZE CLIENT ──
+            waitForSupabase(() => {
                 const supabase = window.supabase.createClient(
                     'https://kuwoqzdgndnnayxrbzll.supabase.co',
                     'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE',
-                    {
-                        auth: {
-                            persistSession: true,
-                            autoRefreshToken: true,
-                            detectSessionInUrl: true
-                        }
-                    }
+                    { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
                 );
 
-                // ── DOM REFERENCES ──
-                const greetingNameEl = document.getElementById('greetingName');
-                const displayNameEl = document.getElementById('displayName');
-                const profileContentEl = document.getElementById('profileContent');
+                // ── DOM Refs ──
                 const logoutBtn = document.getElementById('logoutBtn');
+                const displayNameEl = document.getElementById('displayName');
+                const greetingNameEl = document.getElementById('greetingName');
+                const roleBadgeEl = document.getElementById('roleBadge');
+                const greetingSubEl = document.getElementById('greetingSub');
+                const contentEl = document.getElementById('dashboardContent');
+                const toastEl = document.getElementById('toast');
+                let currentUser = null;
+                let currentProfile = null;
 
-                // ── HELPER: escape HTML ──
-                function escapeHtml(text) {
-                    const div = document.createElement('div');
-                    div.textContent = text || '';
-                    return div.innerHTML;
+                function showToast(msg) {
+                    toastEl.textContent = msg; toastEl.style.opacity = '1';
+                    setTimeout(() => toastEl.style.opacity = '0', 3000);
                 }
 
-                // ── BUILD PROFILE HTML ──
-                function buildProfileHTML(profile, email) {
-                    const fullName = (profile.first_name + ' ' + profile.last_name).trim() || '—';
-                    return `
-                        <div class="profile-row"><span>Name</span><span>${escapeHtml(fullName)}</span></div>
-                        <div class="profile-row"><span>Email</span><span>${escapeHtml(email)}</span></div>
-                        <div class="profile-row"><span>Role</span><span><span class="role-badge">${escapeHtml(profile.role || 'Not set')}</span></span></div>
-                        <div class="profile-row"><span>Location</span><span>${escapeHtml(profile.state || 'Not set')}</span></div>
-                        <div class="profile-row"><span>Plan</span><span style="text-transform:capitalize;">${escapeHtml(profile.plan || 'free')}</span></div>
-                        <div class="profile-row"><span>Business / Farm</span><span>${escapeHtml(profile.business_name || '—')}</span></div>
-                        <div class="profile-row"><span>Phone</span><span>${escapeHtml(profile.phone || '—')}</span></div>
-                    `;
-                }
+                function escapeHtml(str) { const d = document.createElement('div'); d.textContent = str||''; return d.innerHTML; }
+                function formatCurrency(v) { return '$'+parseFloat(v).toFixed(2); }
+                function formatDate(d) { return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
 
-                // ── LOGOUT HANDLER (attached via JS, not inline) ──
+                // ── Logout ──
                 async function handleLogout() {
                     logoutBtn.disabled = true;
-                    logoutBtn.textContent = 'Logging out...';
-                    try {
-                        const { error } = await supabase.auth.signOut();
-                        if (error) {
-                            alert('Logout failed: ' + error.message);
-                            logoutBtn.disabled = false;
-                            logoutBtn.textContent = 'Log out';
-                        } else {
-                            window.location.href = '/';
-                        }
-                    } catch (err) {
-                        alert('Unexpected error during logout. Please try again.');
-                        logoutBtn.disabled = false;
-                        logoutBtn.textContent = 'Log out';
-                    }
+                    await supabase.auth.signOut();
+                    window.location.href = '/';
                 }
-
-                // Attach logout listener (removes dependency on inline onclick)
                 logoutBtn.addEventListener('click', handleLogout);
 
-                // ── LOAD DASHBOARD ──
+                // ── Modal helpers ──
+                window.openListingModal = function(listing = null) {
+                    document.getElementById('listingModal').classList.add('active');
+                    if (listing) {
+                        document.getElementById('modalTitle').textContent = 'Edit Listing';
+                        document.getElementById('listingId').value = listing.id;
+                        document.getElementById('listingTitle').value = listing.title;
+                        document.getElementById('listingCategory').value = listing.category || 'vegetables';
+                        document.getElementById('listingPrice').value = listing.price;
+                        document.getElementById('listingUnit').value = listing.unit;
+                        document.getElementById('listingQty').value = listing.quantity_available;
+                        document.getElementById('listingDesc').value = listing.description || '';
+                    } else {
+                        document.getElementById('modalTitle').textContent = 'Add Listing';
+                        document.getElementById('listingId').value = '';
+                        document.getElementById('listingForm').reset();
+                    }
+                };
+                window.closeListingModal = function() {
+                    document.getElementById('listingModal').classList.remove('active');
+                };
+
+                // Listing form submit
+                document.getElementById('listingForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const id = document.getElementById('listingId').value;
+                    const payload = {
+                        farmer_id: currentUser.id,
+                        title: document.getElementById('listingTitle').value,
+                        category: document.getElementById('listingCategory').value,
+                        price: parseFloat(document.getElementById('listingPrice').value),
+                        unit: document.getElementById('listingUnit').value,
+                        quantity_available: parseInt(document.getElementById('listingQty').value),
+                        description: document.getElementById('listingDesc').value
+                    };
+                    let error;
+                    if (id) {
+                        ({ error } = await supabase.from('listings').update(payload).eq('id', id));
+                    } else {
+                        ({ error } = await supabase.from('listings').insert([payload]));
+                    }
+                    if (error) showToast('Error: '+error.message);
+                    else {
+                        showToast('Listing saved!');
+                        closeListingModal();
+                        if (currentProfile.role === 'farmer') switchFarmerTab('listings');
+                    }
+                });
+
+                // ── Global delete listing ──
+                window.deleteListing = async function(id) {
+                    if (!confirm('Delete this listing?')) return;
+                    const { error } = await supabase.from('listings').delete().eq('id', id);
+                    if (error) showToast('Error: '+error.message);
+                    else {
+                        showToast('Listing deleted.');
+                        switchFarmerTab('listings');
+                    }
+                };
+
+                // ── Update order status ──
+                window.updateOrderStatus = async function(orderId, newStatus) {
+                    const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', orderId);
+                    if (error) showToast('Error: '+error.message);
+                    else {
+                        showToast('Order status updated.');
+                        switchFarmerTab('orders');
+                    }
+                };
+
+                // ── Profile update ──
+                async function saveProfile(form) {
+                    const formData = new FormData(form);
+                    const { error } = await supabase.from('profiles').upsert({
+                        id: currentUser.id,
+                        first_name: formData.get('first_name'),
+                        last_name: formData.get('last_name'),
+                        phone: formData.get('phone'),
+                        state: formData.get('state'),
+                        business_name: formData.get('business_name')
+                    });
+                    if (error) showToast('Error: '+error.message);
+                    else showToast('Profile updated!');
+                }
+
+                // ── Farmer tabs ──
+                window.switchFarmerTab = async function(tab) {
+                    const tabContent = document.getElementById('farmerTabContent');
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
+
+                    switch(tab) {
+                        case 'overview':
+                            const { count: listingCount } = await supabase.from('listings').select('*', { count: 'exact' }).eq('farmer_id', currentUser.id);
+                            const { data: orders } = await supabase.from('orders').select('total_price, status').eq('listings.farmer_id', currentUser.id);
+                            const totalRevenue = orders?.filter(o => o.status === 'delivered').reduce((s,o) => s+o.total_price,0) || 0;
+                            const pendingCount = orders?.filter(o => o.status === 'pending').length || 0;
+                            tabContent.innerHTML = `
+                                <div class="grid grid-2">
+                                    <div class="card"><div class="metric-value">${listingCount||0}</div><div class="metric-label">Active Listings</div></div>
+                                    <div class="card"><div class="metric-value">${formatCurrency(totalRevenue)}</div><div class="metric-label">Total Revenue</div></div>
+                                    <div class="card"><div class="metric-value">${pendingCount}</div><div class="metric-label">Pending Orders</div></div>
+                                    <div class="card"><div class="metric-value">—</div><div class="metric-label">Buyer Rating</div></div>
+                                </div>
+                            `;
+                            break;
+                        case 'listings':
+                            const { data: listings } = await supabase.from('listings').select('*').eq('farmer_id', currentUser.id);
+                            tabContent.innerHTML = `
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>My Listings</h3>
+                                        <button class="action-btn" onclick="openListingModal()">+ New Listing</button>
+                                    </div>
+                                    ${listings?.length ? listings.map(l => `
+                                        <div class="list-item">
+                                            <div><strong>${escapeHtml(l.title)}</strong><br>
+                                            <small>${formatCurrency(l.price)} / ${l.unit} — ${l.quantity_available} avail.</small></div>
+                                            <div style="display:flex; gap:8px;">
+                                                <button class="action-btn outline small" onclick="openListingModal(${JSON.stringify(l).replace(/"/g, '&quot;')})">Edit</button>
+                                                <button class="action-btn small danger" onclick="deleteListing('${l.id}')">Del</button>
+                                            </div>
+                                        </div>`).join('') : '<p>No listings yet.</p>'}
+                                </div>`;
+                            break;
+                        case 'orders':
+                            const { data: farmerOrders } = await supabase
+                                .from('orders')
+                                .select('id, quantity, total_price, status, created_at, listings!inner(title, unit)')
+                                .eq('listings.farmer_id', currentUser.id)
+                                .order('created_at', { ascending: false });
+                            tabContent.innerHTML = `
+                                <div class="card">
+                                    <h3>Orders</h3>
+                                    ${farmerOrders?.length ? farmerOrders.map(o => `
+                                        <div class="list-item">
+                                            <div><strong>${escapeHtml(o.listings.title)}</strong> – ${o.quantity} ${o.listings.unit}<br>
+                                            <small>${formatDate(o.created_at)} — ${formatCurrency(o.total_price)}</small></div>
+                                            <select class="form-select" style="width:auto;" onchange="updateOrderStatus('${o.id}', this.value)">
+                                                <option ${o.status==='pending'?'selected':''}>pending</option>
+                                                <option ${o.status==='confirmed'?'selected':''}>confirmed</option>
+                                                <option ${o.status==='shipped'?'selected':''}>shipped</option>
+                                                <option ${o.status==='delivered'?'selected':''}>delivered</option>
+                                                <option ${o.status==='cancelled'?'selected':''}>cancelled</option>
+                                            </select>
+                                        </div>`).join('') : '<p>No orders yet.</p>'}
+                                </div>`;
+                            break;
+                        case 'profile':
+                            const { data: farmerProfile } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+                            tabContent.innerHTML = `
+                                <div class="card">
+                                    <h3>Your Profile</h3>
+                                    <form id="profileForm">
+                                        <div class="form-row">
+                                            <div><label>First Name</label><input class="form-input" name="first_name" value="${escapeHtml(farmerProfile?.first_name||'')}"></div>
+                                            <div><label>Last Name</label><input class="form-input" name="last_name" value="${escapeHtml(farmerProfile?.last_name||'')}"></div>
+                                        </div>
+                                        <label>Phone</label><input class="form-input" name="phone" value="${escapeHtml(farmerProfile?.phone||'')}">
+                                        <label>State</label><input class="form-input" name="state" value="${escapeHtml(farmerProfile?.state||'')}">
+                                        <label>Business Name</label><input class="form-input" name="business_name" value="${escapeHtml(farmerProfile?.business_name||'')}">
+                                        <button type="submit" class="action-btn" style="margin-top:12px;">Update Profile</button>
+                                    </form>
+                                </div>`;
+                            document.getElementById('profileForm').addEventListener('submit', (e) => { e.preventDefault(); saveProfile(e.target); });
+                            break;
+                    }
+                };
+
+                // ── Consumer Dashboard ──
+                async function renderConsumerDashboard() {
+                    const { data: orders } = await supabase.from('orders').select('id, quantity, total_price, status, created_at, listings(title, unit)').eq('buyer_id', currentUser.id).order('created_at', { ascending: false }).limit(5);
+                    const { data: favs } = await supabase.from('favorites').select('farmer_id, profiles!inner(first_name, last_name, state)').eq('buyer_id', currentUser.id);
+                    contentEl.innerHTML = `
+                        <div class="grid grid-2">
+                            <div class="card">
+                                <h3>Recent Orders</h3>
+                                ${orders?.length ? orders.map(o => `
+                                    <div class="list-item">
+                                        <div><strong>${escapeHtml(o.listings.title)}</strong><br><small>${o.quantity} ${o.listings.unit} — ${formatCurrency(o.total_price)}</small></div>
+                                        <span class="status status-${o.status}">${o.status}</span>
+                                    </div>`).join('') : '<p>No orders yet.</p>'}
+                            </div>
+                            <div class="card">
+                                <h3>My Farmers</h3>
+                                ${favs?.length ? favs.map(f => `
+                                    <div class="list-item">
+                                        <div><strong>${escapeHtml(f.profiles.first_name+' '+f.profiles.last_name)}</strong><br><small>${escapeHtml(f.profiles.state)}</small></div>
+                                        <button class="action-btn outline small" onclick="removeFavorite('${f.farmer_id}')">Remove</button>
+                                    </div>`).join('') : '<p>No favorites yet. Browse the marketplace!</p>'}
+                            </div>
+                        </div>
+                        <div class="grid grid-3" style="margin-top:24px;">
+                            <div class="card"><h3>Weekly Box</h3><p style="margin:12px 0;">Subscribe to a harvest box.</p><a href="/marketplace/" class="action-btn">Browse Boxes</a></div>
+                            <div class="card"><h3>Account</h3><p style="margin:12px 0;">Update delivery address.</p><a href="/profile/" class="action-btn outline">Settings</a></div>
+                            <div class="card"><h3>Favorites</h3><p style="margin:12px 0;">Manage your saved farms.</p><a href="/favorites/" class="action-btn outline">View All</a></div>
+                        </div>`;
+                }
+
+                window.removeFavorite = async function(farmerId) {
+                    const { error } = await supabase.from('favorites').delete().eq('buyer_id', currentUser.id).eq('farmer_id', farmerId);
+                    if (error) showToast('Error: '+error.message);
+                    else { showToast('Removed from favorites.'); renderConsumerDashboard(); }
+                };
+
+                // ── Restaurant Dashboard ──
+                async function renderRestaurantDashboard() {
+                    const { data: recentOrders } = await supabase.from('orders').select('id, quantity, total_price, status, created_at, listings(title, unit)').eq('buyer_id', currentUser.id).order('created_at', { ascending: false }).limit(5);
+                    const { data: standingOrders } = await supabase.from('standing_orders').select('id, quantity, frequency, next_delivery, listings(title, unit)').eq('buyer_id', currentUser.id);
+                    const { data: bulkDeals } = await supabase.from('listings').select('*').gt('quantity_available', 50).limit(4);
+                    contentEl.innerHTML = `
+                        <div class="grid grid-2">
+                            <div class="card">
+                                <h3>Recent Orders</h3>
+                                ${recentOrders?.length ? recentOrders.map(o => `
+                                    <div class="list-item">
+                                        <div><strong>${escapeHtml(o.listings.title)}</strong><br><small>${o.quantity} ${o.listings.unit} — ${formatCurrency(o.total_price)}</small></div>
+                                        <span class="status status-${o.status}">${o.status}</span>
+                                    </div>`).join('') : '<p>No recent orders.</p>'}
+                            </div>
+                            <div class="card">
+                                <h3>Standing Orders</h3>
+                                ${standingOrders?.length ? standingOrders.map(so => `
+                                    <div class="list-item">
+                                        <div><strong>${escapeHtml(so.listings.title)}</strong><br><small>${so.quantity} ${so.listings.unit} — ${so.frequency}</small></div>
+                                        <span>Next: ${so.next_delivery ? formatDate(so.next_delivery) : '—'}</span>
+                                    </div>`).join('') : '<p>No standing orders. <a href="/marketplace/">Set one up</a>.</p>'}
+                            </div>
+                        </div>
+                        <div class="grid grid-3" style="margin-top:24px;">
+                            <div class="card"><h3>Bulk Deals</h3>
+                                ${bulkDeals?.length ? bulkDeals.map(b => `
+                                    <div class="list-item">
+                                        <div><strong>${escapeHtml(b.title)}</strong><br><small>${b.quantity_available} ${b.unit}</small></div>
+                                        <span>${formatCurrency(b.price)}/${b.unit}</span>
+                                    </div>`).join('') : '<p>No bulk deals right now.</p>'}
+                            </div>
+                            <div class="card"><h3>Invoices</h3><p style="margin:12px 0;">Download past invoices.</p><a href="/invoices/" class="action-btn outline">History</a></div>
+                            <div class="card"><h3>Compliance</h3><p style="margin:12px 0;">Food safety documents.</p><a href="/compliance/" class="action-btn outline">View Docs</a></div>
+                        </div>`;
+                }
+
+                // ── Institution Dashboard ──
+                async function renderInstitutionDashboard() {
+                    const { data: contracts } = await supabase.from('contracts').select('*').eq('institution_id', currentUser.id);
+                    contentEl.innerHTML = `
+                        <div class="grid grid-2">
+                            <div class="card">
+                                <h3>Contracts</h3>
+                                ${contracts?.length ? contracts.map(c => `
+                                    <div class="list-item">
+                                        <div><strong>${escapeHtml(c.title)}</strong><br><small>${formatDate(c.start_date)} – ${formatDate(c.end_date)}</small></div>
+                                        <span class="status status-${c.status}">${c.status}</span>
+                                    </div>`).join('') : '<p>No active contracts.</p>'}
+                            </div>
+                            <div class="card">
+                                <h3>Compliance Hub</h3>
+                                <p>Upload USDA documents and track certifications.</p>
+                                <a href="/compliance/" class="action-btn" style="margin-top:12px;">Go to Hub</a>
+                            </div>
+                        </div>
+                        <div class="grid grid-3" style="margin-top:24px;">
+                            <div class="card"><h3>Budget Tracker</h3><p>Monitor spending across programs.</p><a href="/budget/" class="action-btn">View Budget</a></div>
+                            <div class="card"><h3>Account Manager</h3><p>Contact your representative.</p><a href="mailto:hello@agrochaincart.com" class="action-btn outline">Email Now</a></div>
+                            <div class="card"><h3>Reports</h3><p>Generate procurement reports.</p><a href="/reports/" class="action-btn outline">Generate</a></div>
+                        </div>`;
+                }
+
+                // ── Main loader ──
                 async function loadDashboard() {
                     try {
-                        // 1. Check session
-                        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-                        if (sessionError || !session) {
-                            console.warn('No valid session – redirecting to sign in.');
-                            window.location.href = '/sign-in/';
-                            return;
-                        }
-
-                        // 2. Get user
-                        const { data: { user }, error: userError } = await supabase.auth.getUser();
-                        if (userError || !user) {
-                            console.warn('Could not get user – redirecting.');
-                            window.location.href = '/sign-in/';
-                            return;
-                        }
-
-                        // 3. Enable logout button
+                        const { data: { session } } = await supabase.auth.getSession();
+                        if (!session) { window.location.href = '/sign-in/'; return; }
+                        const { data: { user } } = await supabase.auth.getUser();
+                        if (!user) { window.location.href = '/sign-in/'; return; }
+                        currentUser = user;
                         logoutBtn.disabled = false;
 
-                        // 4. Basic name from metadata (immediate fallback)
-                        const meta = user.user_metadata || {};
-                        const firstName = meta.first_name || user.email.split('@')[0] || 'User';
+                        const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+                        currentProfile = profile || { role: 'consumer', first_name: '', last_name: '' };
+                        const firstName = currentProfile.first_name || user.email.split('@')[0];
                         greetingNameEl.textContent = firstName;
-                        displayNameEl.textContent = firstName + (meta.last_name ? ' ' + meta.last_name : '');
+                        displayNameEl.textContent = firstName + (currentProfile.last_name ? ' '+currentProfile.last_name : '');
+                        roleBadgeEl.textContent = currentProfile.role;
+                        greetingSubEl.textContent = `Your ${currentProfile.role} dashboard is ready.`;
 
-                        // 5. Fetch profile from database
-                        const { data: profile, error: profileError } = await supabase
-                            .from('profiles')
-                            .select('*')
-                            .eq('id', user.id)
-                            .single();
-
-                        if (profileError || !profile) {
-                            console.warn('Profile row not found – using metadata fallback.', profileError);
-                            profileContentEl.innerHTML = buildProfileHTML({
-                                first_name: meta.first_name || '',
-                                last_name: meta.last_name || '',
-                                phone: meta.phone || '',
-                                state: meta.state || '',
-                                role: meta.role || '',
-                                business_name: meta.business_name || '',
-                                plan: meta.plan || 'free',
-                                marketing_opt_in: meta.marketing_opt_in
-                            }, user.email);
-                            return;
+                        switch (currentProfile.role) {
+                            case 'farmer':
+                                contentEl.innerHTML = `
+                                    <div class="tabs">
+                                        <button class="tab-btn active" data-tab="overview" onclick="switchFarmerTab('overview')">Overview</button>
+                                        <button class="tab-btn" data-tab="listings" onclick="switchFarmerTab('listings')">My Listings</button>
+                                        <button class="tab-btn" data-tab="orders" onclick="switchFarmerTab('orders')">Orders</button>
+                                        <button class="tab-btn" data-tab="profile" onclick="switchFarmerTab('profile')">Profile</button>
+                                    </div>
+                                    <div id="farmerTabContent"></div>`;
+                                switchFarmerTab('overview');
+                                break;
+                            case 'consumer':
+                                await renderConsumerDashboard();
+                                break;
+                            case 'restaurant':
+                                await renderRestaurantDashboard();
+                                break;
+                            case 'institution':
+                                await renderInstitutionDashboard();
+                                break;
+                            default:
+                                contentEl.innerHTML = '<p class="card">Unknown role. Contact support.</p>';
                         }
 
-                        // 6. Render database profile
-                        profileContentEl.innerHTML = buildProfileHTML(profile, user.email);
-                        console.log('Dashboard loaded successfully for', user.email);
-
+                        // Real-time subscription for farmer orders (only if farmer)
+                        if (currentProfile.role === 'farmer') {
+                            supabase.channel('farmer-orders').on('postgres_changes',
+                                { event: 'INSERT', schema: 'public', table: 'orders', filter: `listings.farmer_id=eq.${user.id}` },
+                                () => showToast('🔔 New order received!')
+                            ).subscribe();
+                        }
                     } catch (err) {
-                        console.error('Dashboard load error:', err);
-                        profileContentEl.innerHTML =
-                            '<p class="error-text">Something went wrong loading your profile. Please try refreshing the page.</p>';
-                        logoutBtn.disabled = false; // still allow logout even on error
+                        console.error(err);
+                        contentEl.innerHTML = '<p class="card error-text">Dashboard load error. Please refresh.</p>';
                     }
                 }
 
-                // ── START ──
                 loadDashboard();
             });
         })();

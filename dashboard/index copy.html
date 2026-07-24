@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — AgroChain Cart</title>
+    <meta name="description" content="Your AgroChain Cart dashboard. Manage listings, orders, and account." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
+            --mist: #d8f3dc; --cream: #f8faf4; --gold: #e9c46a; --amber: #f4a261;
+            --ink: #0f1f17; --smoke: #4a5e52; --white: #ffffff;
+            --radius: 12px; --nav-height: 68px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--cream); color: var(--ink); line-height: 1.6;
+            padding-top: var(--nav-height); min-height: 100vh;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: var(--nav-height);
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(64,145,108,0.12);
+        }
+        .nav-logo {
+            font-family: 'Lora', serif; font-weight: 600; font-size: 1.25rem;
+            color: var(--forest); text-decoration: none; display: flex; align-items: center;
+        }
+        .nav-logo .cart {
+            background: var(--grove); color: white; padding: 2px 8px; border-radius: 6px;
+            margin-left: 4px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+        }
+        .user-menu {
+            display: flex; align-items: center; gap: 16px;
+        }
+        .user-name { font-weight: 600; color: var(--forest); }
+        .btn-logout {
+            padding: 8px 20px; background: transparent; border: 1.5px solid var(--leaf);
+            color: var(--grove); border-radius: 8px; font-weight: 600; cursor: pointer;
+            font-family: inherit; transition: 0.2s;
+        }
+        .btn-logout:hover { background: var(--mist); }
+        .btn-logout:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* ── DASHBOARD ── */
+        .dashboard {
+            max-width: 1100px; margin: 40px auto; padding: 0 5%;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+        }
+        .card {
+            background: white; border-radius: var(--radius); padding: 24px;
+            border: 1.5px solid #e8f0eb; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .greeting h2 { font-size: 1.6rem; font-weight: 800; color: var(--forest); }
+        .greeting p { color: var(--smoke); margin-top: 8px; }
+        .profile-card {
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .profile-row {
+            display: flex; justify-content: space-between; border-bottom: 1px solid #f0f5f1;
+            padding: 8px 0; font-size: 0.9rem;
+        }
+        .profile-row span:first-child { color: var(--smoke); }
+        .profile-row span:last-child { font-weight: 600; color: var(--forest); }
+        .role-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 100px;
+            background: var(--mist); color: var(--grove); font-weight: 600; font-size: 0.8rem;
+            text-transform: capitalize;
+        }
+        .quick-actions {
+            display: flex; gap: 12px; margin-top: 16px;
+        }
+        .action-btn {
+            flex: 1; padding: 12px; border-radius: var(--radius); background: var(--grove);
+            color: white; text-align: center; text-decoration: none; font-weight: 600;
+            transition: 0.2s;
+        }
+        .action-btn:hover { background: var(--forest); transform: translateY(-2px); }
+        .action-btn.outline {
+            background: transparent; border: 1.5px solid var(--leaf); color: var(--grove);
+        }
+        .action-btn.outline:hover { background: var(--mist); }
+        .loading-text { color: var(--smoke); font-style: italic; }
+        .error-text { color: #c0392b; font-weight: 600; }
+
+        @media (max-width: 700px) {
+            .dashboard { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ── NAV ── -->
+    <nav>
+        <a href="/" class="nav-logo">
+            Agro<span style="color:var(--grove);">Chain</span><span class="cart">Cart</span>
+        </a>
+        <div class="user-menu">
+            <span class="user-name" id="displayName">---</span>
+            <button class="btn-logout" id="logoutBtn" disabled>Log out</button>
+        </div>
+    </nav>
+
+    <!-- ── DASHBOARD CONTENT ── -->
+    <div class="dashboard">
+        <div class="card greeting" style="grid-column: 1/-1;">
+            <h2>Welcome back, <span id="greetingName">...</span> 🌾</h2>
+            <p>Here's your account overview and quick access to key features.</p>
+        </div>
+
+        <div class="card profile-card">
+            <h3 style="color:var(--forest); margin-bottom:8px;">Your Profile</h3>
+            <div id="profileContent">
+                <p class="loading-text">Loading your profile...</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color:var(--forest); margin-bottom:16px;">Quick Actions</h3>
+            <div class="quick-actions">
+                <a href="/marketplace/" class="action-btn">Browse Marketplace</a>
+                <a href="#" class="action-btn outline">My Orders</a>
+            </div>
+            <div class="quick-actions" style="margin-top:12px;">
+                <a href="#" class="action-btn outline">My Listings</a>
+                <a href="#" class="action-btn">Account Settings</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SUPABASE CDN ── -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- ── DASHBOARD LOGIC ── -->
+    <script>
+        (function() {
+            // ── Wait for Supabase to be available ──
+            function waitForSupabase(callback, attempts) {
+                attempts = attempts || 0;
+                if (window.supabase) {
+                    callback();
+                } else if (attempts < 50) {
+                    setTimeout(() => waitForSupabase(callback, attempts + 1), 200);
+                } else {
+                    document.getElementById('profileContent').innerHTML =
+                        '<p class="error-text">Failed to load authentication library. Please refresh the page.</p>';
+                    console.error('Supabase CDN did not load after 10 seconds.');
+                }
+            }
+
+            waitForSupabase(function() {
+                // ── INITIALIZE CLIENT ──
+                const supabase = window.supabase.createClient(
+                    'https://kuwoqzdgndnnayxrbzll.supabase.co',
+                    'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE',
+                    {
+                        auth: {
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            detectSessionInUrl: true
+                        }
+                    }
+                );
+
+                // ── DOM REFERENCES ──
+                const greetingNameEl = document.getElementById('greetingName');
+                const displayNameEl = document.getElementById('displayName');
+                const profileContentEl = document.getElementById('profileContent');
+                const logoutBtn = document.getElementById('logoutBtn');
+
+                // ── HELPER: escape HTML ──
+                function escapeHtml(text) {
+                    const div = document.createElement('div');
+                    div.textContent = text || '';
+                    return div.innerHTML;
+                }
+
+                // ── BUILD PROFILE HTML ──
+                function buildProfileHTML(profile, email) {
+                    const fullName = (profile.first_name + ' ' + profile.last_name).trim() || '—';
+                    return `
+                        <div class="profile-row"><span>Name</span><span>${escapeHtml(fullName)}</span></div>
+                        <div class="profile-row"><span>Email</span><span>${escapeHtml(email)}</span></div>
+                        <div class="profile-row"><span>Role</span><span><span class="role-badge">${escapeHtml(profile.role || 'Not set')}</span></span></div>
+                        <div class="profile-row"><span>Location</span><span>${escapeHtml(profile.state || 'Not set')}</span></div>
+                        <div class="profile-row"><span>Plan</span><span style="text-transform:capitalize;">${escapeHtml(profile.plan || 'free')}</span></div>
+                        <div class="profile-row"><span>Business / Farm</span><span>${escapeHtml(profile.business_name || '—')}</span></div>
+                        <div class="profile-row"><span>Phone</span><span>${escapeHtml(profile.phone || '—')}</span></div>
+                    `;
+                }
+
+                // ── LOGOUT HANDLER (attached via JS, not inline) ──
+                async function handleLogout() {
+                    logoutBtn.disabled = true;
+                    logoutBtn.textContent = 'Logging out...';
+                    try {
+                        const { error } = await supabase.auth.signOut();
+                        if (error) {
+                            alert('Logout failed: ' + error.message);
+                            logoutBtn.disabled = false;
+                            logoutBtn.textContent = 'Log out';
+                        } else {
+                            window.location.href = '/';
+                        }
+                    } catch (err) {
+                        alert('Unexpected error during logout. Please try again.');
+                        logoutBtn.disabled = false;
+                        logoutBtn.textContent = 'Log out';
+                    }
+                }
+
+                // Attach logout listener (removes dependency on inline onclick)
+                logoutBtn.addEventListener('click', handleLogout);
+
+                // ── LOAD DASHBOARD ──
+                async function loadDashboard() {
+                    try {
+                        // 1. Check session
+                        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                        if (sessionError || !session) {
+                            console.warn('No valid session – redirecting to sign in.');
+                            window.location.href = '/sign-in/';
+                            return;
+                        }
+
+                        // 2. Get user
+                        const { data: { user }, error: userError } = await supabase.auth.getUser();
+                        if (userError || !user) {
+                            console.warn('Could not get user – redirecting.');
+                            window.location.href = '/sign-in/';
+                            return;
+                        }
+
+                        // 3. Enable logout button
+                        logoutBtn.disabled = false;
+
+                        // 4. Basic name from metadata (immediate fallback)
+                        const meta = user.user_metadata || {};
+                        const firstName = meta.first_name || user.email.split('@')[0] || 'User';
+                        greetingNameEl.textContent = firstName;
+                        displayNameEl.textContent = firstName + (meta.last_name ? ' ' + meta.last_name : '');
+
+                        // 5. Fetch profile from database
+                        const { data: profile, error: profileError } = await supabase
+                            .from('profiles')
+                            .select('*')
+                            .eq('id', user.id)
+                            .single();
+
+                        if (profileError || !profile) {
+                            console.warn('Profile row not found – using metadata fallback.', profileError);
+                            profileContentEl.innerHTML = buildProfileHTML({
+                                first_name: meta.first_name || '',
+                                last_name: meta.last_name || '',
+                                phone: meta.phone || '',
+                                state: meta.state || '',
+                                role: meta.role || '',
+                                business_name: meta.business_name || '',
+                                plan: meta.plan || 'free',
+                                marketing_opt_in: meta.marketing_opt_in
+                            }, user.email);
+                            return;
+                        }
+
+                        // 6. Render database profile
+                        profileContentEl.innerHTML = buildProfileHTML(profile, user.email);
+                        console.log('Dashboard loaded successfully for', user.email);
+
+                    } catch (err) {
+                        console.error('Dashboard load error:', err);
+                        profileContentEl.innerHTML =
+                            '<p class="error-text">Something went wrong loading your profile. Please try refreshing the page.</p>';
+                        logoutBtn.disabled = false; // still allow logout even on error
+                    }
+                }
+
+                // ── START ──
+                loadDashboard();
+            });
+        })();
+    </script>
+</body>
+</html>

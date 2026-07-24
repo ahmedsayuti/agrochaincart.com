@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Standing Orders — AgroChain Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&display=swap" rel="stylesheet" />
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8faf4; padding: 40px 5%; }
+        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width:800px;margin:0 auto;">
+        <h2>Standing Orders</h2>
+        <div id="standingList">Loading...</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = window.supabase.createClient(
+            'https://kuwoqzdgndnnayxrbzll.supabase.co',
+            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+        );
+        async function loadStanding() {
+            const { data: { user } } = await supabase.auth.getUser();
+            const { data } = await supabase.from('standing_orders')
+                .select('id, quantity, frequency, next_delivery, listings(title, unit)')
+                .eq('buyer_id', user.id);
+            document.getElementById('standingList').innerHTML = data?.length
+                ? data.map(so => `
+                    <div class="card">
+                        <strong>${so.listings.title}</strong> — ${so.quantity} ${so.listings.unit}<br>
+                        Frequency: ${so.frequency} — Next delivery: ${so.next_delivery || 'Not set'}
+                    </div>`).join('')
+                : '<p>No standing orders.</p>';
+        }
+        loadStanding();
+    </script>
+</body>
+</html>
