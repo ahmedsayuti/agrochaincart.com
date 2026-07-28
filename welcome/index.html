@@ -6,6 +6,9 @@
     <title>Welcome to AgroChain Cart</title>
     <meta name="description" content="Your account is confirmed. Welcome to AgroChain Cart." />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d6a4f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-weight='700' font-size='28' fill='%2374c69d'%3EAC%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
     <style>
         :root {
             --forest: #1a3a2a; --grove: #2d6a4f; --leaf: #40916c; --sage: #74c69d;
@@ -47,6 +50,7 @@
         }
         .btn:hover { background: #f0c84a; transform: translateY(-2px); }
         .loading { opacity: 0.6; }
+        .error-msg { color: #ffb3b3; margin-top: 1rem; }
     </style>
 </head>
 <body>
@@ -55,31 +59,76 @@
         <h1>Welcome, <em id="userName">...</em>! 🌱</h1>
         <p>Your email is confirmed and your account is now active.<br>Start exploring the freshest marketplace in America.</p>
         <a href="/dashboard/" class="btn" id="dashboardBtn">Go to Dashboard →</a>
+        <p id="errorMsg" class="error-msg" style="display:none;"></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const supabase = window.supabase.createClient(
-            'https://kuwoqzdgndnnayxrbzll.supabase.co',
-            'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
-        );
-
-        async function init() {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            if (error || !session) {
-                // No session – redirect to sign in
-                window.location.href = '/sign-in/';
-                return;
+        (function() {
+            // Wait for Supabase to be available
+            function waitForSupabase(callback, tries = 0) {
+                if (window.supabase) return callback();
+                if (tries < 50) setTimeout(() => waitForSupabase(callback, tries + 1), 200);
+                else {
+                    document.getElementById('userName').textContent = 'friend';
+                    document.getElementById('errorMsg').style.display = 'block';
+                    document.getElementById('errorMsg').textContent = 'Could not load authentication service. Please try again later.';
+                }
             }
 
-            // Get user details
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const firstName = user.user_metadata?.first_name || user.email?.split('@')[0] || 'there';
-                document.getElementById('userName').textContent = firstName;
-            }
-        }
-        init();
+            waitForSupabase(async function() {
+                const supabase = window.supabase.createClient(
+                    'https://kuwoqzdgndnnayxrbzll.supabase.co',
+                    'sb_publishable_jA1Bj9q3UEQbNOrDqn-0Wg_VxcviUCE'
+                );
+
+                try {
+                    // Check session
+                    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                    if (sessionError || !session) {
+                        console.warn('No active session – redirecting to sign in.');
+                        window.location.href = '/sign-in/';
+                        return;
+                    }
+
+                    // Get user
+                    const { data: { user }, error: userError } = await supabase.auth.getUser();
+                    if (userError || !user) {
+                        console.warn('Could not retrieve user – redirecting.');
+                        window.location.href = '/sign-in/';
+                        return;
+                    }
+
+                    // Try to get the profile from the public.profiles table
+                    let firstName = null;
+                    const { data: profile, error: profileError } = await supabase
+                        .from('profiles')
+                        .select('first_name')
+                        .eq('id', user.id)
+                        .single();
+
+                    if (!profileError && profile && profile.first_name) {
+                        firstName = profile.first_name;
+                    } else {
+                        // Fallback to user metadata
+                        firstName = user.user_metadata?.first_name;
+                        if (!firstName) {
+                            // Final fallback to email prefix
+                            firstName = user.email?.split('@')[0] || 'friend';
+                        }
+                    }
+
+                    // Display the name
+                    document.getElementById('userName').textContent = firstName;
+
+                } catch (err) {
+                    console.error('Welcome page error:', err);
+                    document.getElementById('userName').textContent = 'friend';
+                    document.getElementById('errorMsg').style.display = 'block';
+                    document.getElementById('errorMsg').textContent = 'Something went wrong. You can still proceed to your dashboard.';
+                }
+            });
+        })();
     </script>
 </body>
 </html>
