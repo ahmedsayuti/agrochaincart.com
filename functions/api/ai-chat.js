@@ -1,4 +1,7 @@
 // functions/api/ai-chat.js
+// Cloudflare Pages Function — handles POST /api/ai-chat
+// Keeps the DeepSeek API key server-side (set via Cloudflare dashboard
+// or `wrangler pages secret put DEEPSEEK_API_KEY`).
 
 const SYSTEM_PROMPT = `You are AgroBot, the assistant embedded in the AgroCart platform
 (a USDA-aligned farm-to-table marketplace connecting farmers, buyers, institutions,
@@ -130,4 +133,5 @@ export async function onRequestPost(context) {
  */
 export async function onRequestGet() {
   return jsonResponse({ error: 'Use POST' }, 405);
+}
 }
