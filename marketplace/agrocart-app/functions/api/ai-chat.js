@@ -1,24 +1,56 @@
 // functions/api/ai-chat.js
+// Cloudflare Pages Function — handles POST /api/ai-chat
+// Keeps the DeepSeek API key server-side (set via Cloudflare dashboard
+// or `wrangler pages secret put DEEPSEEK_API_KEY`).
 
-const SYSTEM_PROMPT = `You are AgroCart's assistant. You help farmers, institutions,
-and carriers with questions about FMPP/LFPP grants, organic certification,
-regional pricing, cold-chain logistics, and freight bookings on the AgroCart platform.
-Keep answers concise and specific to AgroCart's features.
+const SYSTEM_PROMPT = `You are AgroBot, the assistant embedded in the AgroCart platform
+(a USDA-aligned farm-to-table marketplace connecting farmers, buyers, institutions,
+and freight carriers). Answer questions about FMPP/LFPP grants, organic certification,
+regional pricing, cold-chain logistics, and freight bookings on AgroCart. Keep answers
+concise (2-4 sentences), specific, and grounded in the facts below. If a question falls
+outside AgroCart's scope, say so briefly and redirect to what you can help with.
 
 Reference facts:
-- FMPP/LFPP grants offer up to $500k for food hubs, distributors, and aggregators.
-- Institutional contracts on AgroCart qualify for automatic 15% offset.
-- Organic certification: 3-year transition, USDA Cost Share reimburses up to $500/year.
-- AgroCart's freight network averages 98.2% on-time delivery.
-- Reefer trucks earn a 12% cold-chain premium automatically.`;
+- FMPP offers grants up to $500k for direct marketing; LFPP offers up to $500k for food
+  hubs, distributors, and aggregators. Apply at grants.usda.gov, deadline March 15.
+  AgroCart platform activity counts toward eligibility documentation.
+- Organic certification requires a 3-year transition. USDA Cost Share reimburses up to
+  $500/year. AgroCart partners with 12 USDA-accredited certifiers. Timeline is typically
+  6-9 months from application to certificate.
+- Current price averages: tomatoes $4.80/lb, blueberries $7.10/pint, honey $15.20/jar,
+  leafy greens up 8% due to winter demand. AgroCart pricing runs 12-18% above wholesale
+  average, with that margin going directly to farmers.
+- Cold-chain best practice: maintain 2-4°C, use ethylene-absorbing packaging for mixed
+  loads, minimize stops. AgroCart's network averages 98.2% on-time delivery with
+  GPS-monitored refrigerated transport.
+- Institutional contracts on AgroCart qualify for an automatic 15% offset; contracts of
+  6+ months get priority grant review. 452 institutions are currently enrolled.
+- The Freight & Logistics hub lets any trucking company list truck availability for free,
+  zero commission. Reefer trucks earn a 12% cold-chain premium automatically. Carriers
+  track bookings from the My Fleet tab.`;
 
 export async function onRequestPost(context) {
   try {
     const { request, env } = context;
-    const { message } = await request.json();
 
-    if (!message || typeof message !== 'string') {
-      return new Response(JSON.stringify({ error: 'Invalid message' }), { status: 400 });
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return json({ error: 'Invalid JSON body' }, 400);
+    }
+
+    const message = (body?.message || '').toString().trim();
+    if (!message) {
+      return json({ error: 'Message is required' }, 400);
+    }
+    if (message.length > 2000) {
+      return json({ error: 'Message too long' }, 400);
+    }
+
+    if (!env.DEEPSEEK_API_KEY) {
+      // Fails safe: frontend falls back to its local knowledge base if this errors.
+      return json({ error: 'AI service not configured' }, 500);
     }
 
     const dsResponse = await fetch('https://api.deepseek.com/chat/completions', {
@@ -33,30 +65,39 @@ export async function onRequestPost(context) {
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: message }
         ],
-        max_tokens: 500
+        max_tokens: 400,
+        temperature: 0.4
       })
     });
 
     if (!dsResponse.ok) {
       const errText = await dsResponse.text();
-      console.error('DeepSeek error:', errText);
-      return new Response(JSON.stringify({ error: 'AI service error' }), { status: 502 });
+      console.error('DeepSeek API error:', dsResponse.status, errText);
+      return json({ error: 'AI service error' }, 502);
     }
 
     const data = await dsResponse.json();
-    const reply = data.choices?.[0]?.message?.content || "Sorry, I couldn't process that.";
+    const reply = data?.choices?.[0]?.message?.content?.trim();
 
-    return new Response(JSON.stringify({ reply }), {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    if (!reply) {
+      return json({ error: 'Empty response from AI service' }, 502);
+    }
+
+    return json({ reply });
 
   } catch (err) {
-    console.error('Function error:', err);
-    return new Response(JSON.stringify({ error: 'Server error' }), { status: 500 });
+    console.error('ai-chat function error:', err);
+    return json({ error: 'Server error' }, 500);
   }
 }
 
-// Optional: handle unsupported methods cleanly
 export async function onRequestGet() {
-  return new Response('Method not allowed', { status: 405 });
+  return json({ error: 'Method not allowed' }, 405);
+}
+
+function json(obj, status = 200) {
+  return new Response(JSON.stringify(obj), {
+    status,
+    headers: { 'Content-Type': 'application/json' }
+  });
 }
