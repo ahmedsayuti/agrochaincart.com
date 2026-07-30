@@ -1,7 +1,4 @@
 // functions/api/ai-chat.js
-// Cloudflare Pages Function — handles POST /api/ai-chat
-// Keeps the DeepSeek API key server-side (set via Cloudflare dashboard
-// or `wrangler pages secret put DEEPSEEK_API_KEY`).
 
 const SYSTEM_PROMPT = `You are AgroBot, the assistant embedded in the AgroCart platform
 (a USDA-aligned farm-to-table marketplace connecting farmers, buyers, institutions,
@@ -29,30 +26,66 @@ Reference facts:
   zero commission. Reefer trucks earn a 12% cold-chain premium automatically. Carriers
   track bookings from the My Fleet tab.`;
 
+/**
+ * Helper to build a JSON Response with CORS headers
+ */
+function jsonResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',      // allow frontend from any origin
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
+  });
+}
+
+/**
+ * Handle preflight OPTIONS requests (browsers send these for POST with JSON body)
+ */
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400'
+    }
+  });
+}
+
+/**
+ * Main POST handler – called when the user sends a message
+ */
 export async function onRequestPost(context) {
   try {
     const { request, env } = context;
 
+    // 1. Parse the incoming JSON body safely
     let body;
     try {
       body = await request.json();
     } catch {
-      return json({ error: 'Invalid JSON body' }, 400);
+      return jsonResponse({ error: 'Invalid JSON' }, 400);
     }
 
     const message = (body?.message || '').toString().trim();
     if (!message) {
-      return json({ error: 'Message is required' }, 400);
+      return jsonResponse({ error: 'Message is required' }, 400);
     }
     if (message.length > 2000) {
-      return json({ error: 'Message too long' }, 400);
+      return jsonResponse({ error: 'Message too long' }, 400);
     }
 
+    // 2. Verify the API key is available (server-side secret)
     if (!env.DEEPSEEK_API_KEY) {
-      // Fails safe: frontend falls back to its local knowledge base if this errors.
-      return json({ error: 'AI service not configured' }, 500);
+      console.error('Missing DEEPSEEK_API_KEY secret');
+      return jsonResponse({ error: 'AI service not configured' }, 500);
     }
 
+    // 3. Call DeepSeek API
     const dsResponse = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
       headers: {
@@ -73,31 +106,28 @@ export async function onRequestPost(context) {
     if (!dsResponse.ok) {
       const errText = await dsResponse.text();
       console.error('DeepSeek API error:', dsResponse.status, errText);
-      return json({ error: 'AI service error' }, 502);
+      return jsonResponse({ error: 'AI service error' }, 502);
     }
 
     const data = await dsResponse.json();
     const reply = data?.choices?.[0]?.message?.content?.trim();
 
     if (!reply) {
-      return json({ error: 'Empty response from AI service' }, 502);
+      return jsonResponse({ error: 'Empty response from AI' }, 502);
     }
 
-    return json({ reply });
+    // 4. Send successful reply
+    return jsonResponse({ reply });
 
   } catch (err) {
-    console.error('ai-chat function error:', err);
-    return json({ error: 'Server error' }, 500);
+    console.error('Function error:', err);
+    return jsonResponse({ error: 'Server error' }, 500);
   }
 }
 
+/**
+ * GET handler – returns an error because this endpoint only accepts POST
+ */
 export async function onRequestGet() {
-  return json({ error: 'Method not allowed' }, 405);
-}
-
-function json(obj, status = 200) {
-  return new Response(JSON.stringify(obj), {
-    status,
-    headers: { 'Content-Type': 'application/json' }
-  });
+  return jsonResponse({ error: 'Use POST' }, 405);
 }
