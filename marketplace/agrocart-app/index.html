@@ -1856,27 +1856,36 @@
       carrier:   "The Freight & Logistics hub lets any trucking company list their truck's availability for free — zero commission. Go to Freight & Logistics → List My Truck, add your capacity, rate per mile, and regions served, and shippers can book you directly. Reefer trucks earn a 12% cold-chain premium automatically. You can track incoming bookings from the My Fleet tab.",
       default:   "I can help with FMPP/LFPP grants, organic certification, regional pricing trends, cold-chain logistics, freight carrier bookings, and institutional procurement. What would you like to explore?"
     };
-    window.sendAI=function(){
-      const input=document.getElementById('aiInput');
-      const msg=input.value.trim(); if(!msg) return;
+
+    window.sendAI = async function(){
+      const input = document.getElementById('aiInput');
+      const msg = input.value.trim(); if(!msg) return;
       input.value='';
-      const msgs=document.getElementById('aiMessages');
-      msgs.innerHTML+=`<div class="ai-msg user"><div class="msg-av"><i class="fas fa-user"></i></div><div class="bubble">${msg}</div></div>`;
-      msgs.scrollTop=msgs.scrollHeight;
+      const msgs = document.getElementById('aiMessages');
+      msgs.innerHTML += `<div class="ai-msg user"><div class="msg-av"><i class="fas fa-user"></i></div><div class="bubble">${msg}</div></div>`;
+      msgs.scrollTop = msgs.scrollHeight;
       document.getElementById('aiSuggestions').style.display='none';
-      setTimeout(()=>{
-        const ml=msg.toLowerCase();
-        let reply=aiKB.default;
-        if(ml.includes('grant')||ml.includes('fmpp')) reply=aiKB.grant;
-        else if(ml.includes('organic')||ml.includes('certif')) reply=aiKB.organic;
-        else if(ml.includes('price')||ml.includes('cost')||ml.includes('pricing')) reply=aiKB.price;
-        else if(ml.includes('carrier')||ml.includes('truck')||ml.includes('freight')||ml.includes('haul')) reply=aiKB.carrier;
-        else if(ml.includes('logistic')||ml.includes('cold')||ml.includes('deliver')||ml.includes('ship')) reply=aiKB.logistics;
-        else if(ml.includes('lfpp')||ml.includes('institution')||ml.includes('school')||ml.includes('bulk')) reply=aiKB.lfpp;
-        msgs.innerHTML+=`<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">${reply}</div></div>`;
-        msgs.scrollTop=msgs.scrollHeight;
-      }, 550);
+
+      msgs.innerHTML += `<div class="ai-msg bot typing-indicator"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">···</div></div>`;
+      msgs.scrollTop = msgs.scrollHeight;
+
+      try {
+        const res = await fetch('/api/ai-chat', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ message: msg })
+        });
+        const data = await res.json();
+        document.querySelector('.typing-indicator')?.remove();
+        const reply = data.reply || aiKB.default; // fallback to your static KB if the call errors
+        msgs.innerHTML += `<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">${reply}</div></div>`;
+      } catch(e) {
+        document.querySelector('.typing-indicator')?.remove();
+        msgs.innerHTML += `<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">${aiKB.default}</div></div>`;
+      }
+      msgs.scrollTop = msgs.scrollHeight;
     };
+    
     window.sendAISuggestion=function(btn){
       document.getElementById('aiInput').value=btn.textContent.replace(/^.\s/,'');
       sendAI();
