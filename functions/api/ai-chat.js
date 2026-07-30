@@ -130,4 +130,8 @@ export async function onRequestPost(context) {
  */
 export async function onRequestGet() {
   return jsonResponse({ error: 'Use POST' }, 405);
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 555aa935860f56cdbd5afe45be08924d781b5b23
 }
