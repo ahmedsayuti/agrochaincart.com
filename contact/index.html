@@ -304,6 +304,15 @@
         .form-group.has-error .field-error { display: block; }
         .form-group.has-error .form-control { border-color: #e57373; box-shadow: 0 0 0 3px rgba(229,115,115,0.1); }
 
+        /* submit error banner */
+        .submit-error {
+            display: none; align-items: flex-start; gap: 10px; background: #fdecea;
+            border: 1px solid rgba(229,115,115,0.35); color: #b3453f; border-radius: var(--radius);
+            padding: 12px 14px; font-size: 0.85rem; line-height: 1.5; margin-bottom: 18px;
+        }
+        .submit-error.visible { display: flex; }
+        .submit-error svg { flex-shrink: 0; margin-top: 2px; width: 16px; height: 16px; }
+
         /* subject pill row */
         .subject-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
         .subject-pill {
@@ -855,6 +864,11 @@
                     <p>Your information is sent directly to <a href="mailto:info@agrochaincart.com">info@agrochaincart.com</a> and will never be shared with third parties. Read our <a href="/privacy/">Privacy Policy</a>.</p>
                 </div>
 
+                <div class="submit-error" id="submitError">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="8"/><path d="M10 6v5M10 14h.01"/></svg>
+                    <span id="submitErrorText">Something went wrong. Please try again.</span>
+                </div>
+
                 <button type="submit" class="submit-btn" id="submitBtn">
                     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 10l16-8-6 16-3-7-7-1z"/></svg>
                     <span id="submitLabel">Send Message</span>
@@ -1402,8 +1416,15 @@
     }
 
     /* ── FORM SUBMIT ── */
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
         e.preventDefault();
+        const form = this;
+
+        // hide any previous error banner on a fresh attempt
+        const errBanner = document.getElementById('submitError');
+        const errText = document.getElementById('submitErrorText');
+        errBanner.classList.remove('visible');
+
         // validate
         const v1 = validateField(document.getElementById('fname'),'fg-fname', v => v.trim().length > 0);
         const v2 = validateField(document.getElementById('lname'),'fg-lname', v => v.trim().length > 0);
@@ -1414,18 +1435,45 @@
             if (firstErr) firstErr.scrollIntoView({ behavior:'smooth', block:'center' });
             return;
         }
+
         // show spinner
         const btn = document.getElementById('submitBtn');
         const lbl = document.getElementById('submitLabel');
         const spn = document.getElementById('btnSpinner');
         btn.disabled = true; lbl.textContent = 'Sending…'; spn.style.display = 'block';
-        // simulate send (replace with real fetch to your backend)
-        setTimeout(() => {
-            this.style.display = 'none';
+
+        // build the multipart payload (fields + any attached files)
+        const fd = new FormData();
+        fd.append('fname', document.getElementById('fname').value.trim());
+        fd.append('lname', document.getElementById('lname').value.trim());
+        fd.append('email', document.getElementById('email').value.trim());
+        fd.append('org', document.getElementById('org').value.trim());
+        fd.append('role', document.getElementById('role').value);
+        fd.append('subject', document.getElementById('subjectVal').value);
+        fd.append('message', document.getElementById('message').value.trim());
+        attachedFiles.forEach(file => fd.append('attachments', file, file.name));
+
+        try {
+            const resp = await fetch('/api/contact', { method: 'POST', body: fd });
+            let data = null;
+            try { data = await resp.json(); } catch (parseErr) { /* non-JSON error response */ }
+
+            if (!resp.ok || !data || !data.ok) {
+                throw new Error((data && data.error) || `Request failed (${resp.status}). Please try again.`);
+            }
+
+            // success
+            form.style.display = 'none';
             document.getElementById('formHeading').style.display = 'none';
             document.getElementById('formSubheading').style.display = 'none';
             document.getElementById('formSuccess').style.display = 'block';
-        }, 1600);
+        } catch (err) {
+            errText.textContent = err.message || 'Something went wrong. Please try again.';
+            errBanner.classList.add('visible');
+            errBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } finally {
+            btn.disabled = false; lbl.textContent = 'Send Message'; spn.style.display = 'none';
+        }
     });
 
     /* ── FAQ ACCORDION ── */
