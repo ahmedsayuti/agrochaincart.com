@@ -96,7 +96,7 @@ export async function onRequestPost(context) {
     attachments.push({
       filename: file.name,
       content: arrayBufferToBase64(buf),
-      content_type: file.type || 'application/octet-stream',
+      type: file.type || 'application/octet-stream',
     });
   }
 
@@ -106,7 +106,7 @@ export async function onRequestPost(context) {
 
   const emailPayload = {
     to: DESTINATION_EMAIL,
-    from: { email: FROM_EMAIL, name: FROM_NAME },
+    from: { address: FROM_EMAIL, name: FROM_NAME },
     reply_to: email, // hit "reply" in your inbox to answer the sender directly
     subject: `[Contact] ${subject || 'New message'} — ${fname} ${lname}`,
     html,
