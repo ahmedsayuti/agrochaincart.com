@@ -40,7 +40,6 @@
       --shadow:0 8px 32px rgba(0,0,0,0.42);
       --radius-sm:12px; --radius-md:20px; --radius-lg:28px;
       --transition:0.25s cubic-bezier(0.4,0,0.2,1);
-      /* KEY: nav-section label colour reacts to theme */
       --nav-section-color:rgba(168,212,138,0.55);
     }
 
@@ -51,22 +50,18 @@
       --accent:#4a6a40; --accent-dim:rgba(90,122,82,0.1);
       --sage:#4a6743; --sage-light:#6b8f63; --sage-dark:#3a5235;
       --shadow:0 8px 32px rgba(0,0,0,0.1);
-      /* light mode: dark green readable on cream */
       --nav-section-color:rgba(50,80,40,0.72);
     }
 
     body { font-family:'DM Sans',sans-serif; background:var(--bg-base); color:var(--text-primary); overflow-x:hidden; transition:background .35s,color .35s; }
 
-    /* Backgrounds */
     .bg-hero { position:fixed;inset:0;z-index:0; background:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format') no-repeat center/cover fixed; filter:blur(12px) brightness(0.45); transform:scale(1.03); transition:filter .4s; }
     body.light-mode .bg-hero { filter:blur(15px) brightness(0.88) sepia(0.12); }
     .bg-grain { position:fixed;inset:0;z-index:1;opacity:.05;pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); }
     .particles { position:fixed;inset:0;z-index:2;pointer-events:none; }
 
-    /* Shell */
     .app-shell { position:relative;z-index:12;display:flex;min-height:100vh;width:100%; }
 
-    /* Sidebar */
     .sidebar { width:272px; background:rgba(10,16,10,0.8); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border-right:1px solid var(--border); padding:1.5rem 0 1rem; position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0; transition:transform .2s,background .35s; display:flex;flex-direction:column; }
     body.light-mode .sidebar { background:rgba(245,240,232,0.84); }
     .sidebar::-webkit-scrollbar { width:3px; }
@@ -75,7 +70,6 @@
     .logo { font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:800; padding:0 1.4rem 1.1rem; letter-spacing:-0.5px;display:flex;align-items:center;gap:0.5rem;color:var(--accent); border-bottom:1px solid var(--border-light);margin-bottom:0.5rem; }
     .logo small { font-size:0.6rem;font-family:'DM Sans',sans-serif;font-weight:400;color:var(--text-secondary);letter-spacing:0.12em;text-transform:uppercase;margin-left:auto; }
 
-    /* ── THE KEY FIX: .nav-section uses CSS var, changes per theme ── */
     .nav-section { font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase; color:var(--nav-section-color); padding:1rem 1.4rem 0.3rem; display:flex;align-items:center;gap:0.6rem; }
     .nav-section::after { content:'';flex:1;height:1px;background:var(--border-light); }
 
@@ -98,13 +92,11 @@
     .btn-checkout { width:100%;padding:0.65rem;background:linear-gradient(120deg,var(--sage-dark),var(--sage-light));border:none;border-radius:30px;color:white;font-weight:600;cursor:pointer;font-size:0.82rem;transition:all .2s;letter-spacing:0.02em;font-family:'DM Sans',sans-serif; }
     .btn-checkout:hover { filter:brightness(1.12);transform:scale(1.02); }
 
-    /* Main */
     .main { flex:1;padding:1.5rem;overflow-y:auto;width:100%;max-width:100%; }
     .view { display:none;animation:fadeSlide .32s ease; }
     .view.active { display:block; }
     @keyframes fadeSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-    /* View header */
     .view-header { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem; }
     .view-header h2 { font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--text-primary); }
     .view-header p { font-size:0.8rem;color:var(--text-secondary); }
@@ -115,7 +107,6 @@
     .search-bar input::placeholder { color:var(--text-secondary); }
     .search-bar i { color:var(--accent); }
 
-    /* KPIs */
     .kpi-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.5rem; }
     @media(min-width:768px) { .kpi-grid { grid-template-columns:repeat(4,1fr); } }
     .kpi-card { background:var(--bg-card);backdrop-filter:blur(16px);border:1px solid var(--border-light); border-radius:var(--radius-md);padding:1.1rem;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden; }
@@ -125,7 +116,6 @@
     .kpi-label { font-size:0.65rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-secondary);margin-top:0.25rem; }
     .kpi-trend { font-size:0.62rem;margin-top:0.3rem;color:#4ade80; }
 
-    /* Carousel */
     .featured-swiper { margin-bottom:1.5rem;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow); }
     .swiper-slide { position:relative; }
     .swiper-slide img { width:100%;height:260px;object-fit:cover; }
@@ -134,13 +124,11 @@
     .slide-badge { display:inline-block;background:var(--sage-dark);padding:0.15rem 0.55rem;border-radius:20px;font-size:0.65rem;margin-left:0.5rem;vertical-align:middle; }
     .swiper-pagination-bullet-active { background:var(--accent); }
 
-    /* Filters */
     .filter-bar { display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;margin-bottom:1.2rem; }
     .filter-chip { background:var(--bg-glass);backdrop-filter:blur(10px); border:1px solid var(--border);border-radius:40px;padding:0.35rem 1rem; font-size:0.72rem;cursor:pointer;transition:all .2s;color:var(--text-secondary); }
     .filter-chip.active,.filter-chip:hover { background:rgba(90,122,82,0.3);border-color:var(--accent);color:var(--accent); }
     .sort-select { background:var(--bg-glass);backdrop-filter:blur(10px);border:1px solid var(--border); border-radius:40px;padding:0.35rem 0.9rem;color:var(--text-primary);font-size:0.72rem;margin-left:auto;outline:none;cursor:pointer; }
 
-    /* Product grid */
     .product-grid { display:grid;grid-template-columns:1fr;gap:1.2rem; }
     @media(min-width:500px) { .product-grid { grid-template-columns:repeat(2,1fr); } }
     @media(min-width:900px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
@@ -164,11 +152,9 @@
     .add-btn { flex:1;background:rgba(90,122,82,0.2);border:1px solid rgba(90,122,82,0.35); border-radius:40px;padding:0.5rem;font-weight:600;font-size:0.75rem; display:flex;align-items:center;justify-content:center;gap:0.4rem; cursor:pointer;transition:.2s;color:var(--text-primary);font-family:'DM Sans',sans-serif; }
     .add-btn:hover { background:var(--sage);color:white;border-color:var(--sage); }
 
-    /* Card */
     .card { background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border); border-radius:var(--radius-md);padding:1.4rem;margin-bottom:1rem;color:var(--text-primary); }
     .card h3 { font-size:1.05rem;font-weight:700;margin-bottom:1rem;color:var(--text-primary); }
 
-    /* Forms */
     .form-input { display:block;width:100%;background:rgba(0,0,0,0.28);border:1px solid var(--border); border-radius:var(--radius-sm);padding:0.65rem 1rem;color:var(--text-primary); font-size:0.85rem;font-family:'DM Sans',sans-serif;margin-bottom:0.7rem; transition:border-color .2s,box-shadow .2s;outline:none; }
     body.light-mode .form-input { background:rgba(255,255,255,0.55); }
     .form-input:focus { border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim); }
@@ -181,35 +167,29 @@
     .btn-secondary { display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1.2rem; background:var(--accent-dim);border:1px solid var(--border);border-radius:40px; color:var(--text-primary);font-size:0.8rem;font-weight:500;cursor:pointer;transition:.2s; font-family:'DM Sans',sans-serif; }
     .btn-secondary:hover { background:rgba(90,122,82,0.25);border-color:var(--accent); }
 
-    /* Pills */
     .status-pill { display:inline-flex;align-items:center;gap:0.3rem;background:rgba(90,122,82,0.2);border:1px solid rgba(90,122,82,0.4);color:var(--accent);padding:0.2rem 0.7rem;border-radius:20px;font-size:0.7rem;font-weight:600; }
     .status-pill.warning { background:rgba(245,216,120,0.15);border-color:rgba(245,216,120,0.4);color:var(--gold); }
     .status-pill.danger { background:rgba(248,113,113,0.15);border-color:rgba(248,113,113,0.4);color:var(--danger); }
 
-    /* Progress */
     .progress-bar { background:rgba(90,122,82,0.15);border-radius:40px;height:6px;overflow:hidden;margin:0.6rem 0; }
     .progress-fill { height:100%;background:linear-gradient(90deg,var(--sage-dark),var(--accent));border-radius:40px;transition:width .6s ease; }
 
-    /* Charts */
     .chart-card { background:var(--bg-card);backdrop-filter:blur(16px);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:1.2rem; }
     .chart-card h4 { font-size:0.78rem;font-weight:600;margin-bottom:1rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em; }
     .charts-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem; }
 
-    /* Modal */
     .modal { position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px); display:flex;align-items:center;justify-content:center;z-index:400; visibility:hidden;opacity:0;transition:.25s; }
     .modal.open { visibility:visible;opacity:1; }
     .modal-content { background:var(--bg-glass);backdrop-filter:blur(30px);border-radius:var(--radius-lg); padding:1.8rem;width:95%;max-width:520px;border:1px solid var(--border); max-height:88vh;overflow-y:auto; }
     .modal-content h3 { font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:1rem;color:var(--text-primary); }
     .detail-img { width:100%;height:200px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:0.8rem; }
 
-    /* Toast */
     .toast-container { position:fixed;bottom:100px;right:1rem;z-index:500;display:flex;flex-direction:column;gap:0.5rem; }
     .toast { background:rgba(10,16,10,0.97);backdrop-filter:blur(12px);border-radius:16px; padding:0.7rem 1.2rem;font-size:0.8rem;border-left:4px solid var(--accent); box-shadow:var(--shadow);animation:toastIn .3s ease;color:var(--text-primary);display:flex;align-items:center;gap:0.5rem; }
     .toast.error { border-left-color:var(--danger); }
     .toast.success { border-left-color:#4ade80; }
     @keyframes toastIn { from{opacity:0;transform:translateX(50px)} to{opacity:1;transform:translateX(0)} }
 
-    /* Mobile nav */
     .mobile-bottom-nav { display:none;position:fixed;bottom:0;left:0;right:0; background:rgba(10,16,10,0.97);backdrop-filter:blur(30px); border-top:1px solid var(--border);justify-content:space-around; padding:0.5rem 0.3rem 0.7rem;z-index:100; }
     body.light-mode .mobile-bottom-nav { background:rgba(245,240,232,0.97); }
     .mob-nav-item { display:flex;flex-direction:column;align-items:center;gap:0.2rem;background:none;border:none; color:var(--text-secondary);font-size:0.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0.2rem 0.5rem;border-radius:10px;transition:color .2s; }
@@ -217,13 +197,11 @@
     .mob-nav-item.active { color:var(--accent); }
     @media(max-width:767px) { .sidebar{display:none} .mobile-bottom-nav{display:flex} .main{padding-bottom:80px} .kpi-value{font-size:1.4rem} }
 
-    /* Compare bar */
     .compare-bar { position:fixed;bottom:70px;left:50%;transform:translateX(-50%); background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border); border-radius:40px;padding:0.5rem 1.2rem;display:none;gap:0.8rem;align-items:center; z-index:99;box-shadow:var(--shadow); }
     .compare-bar.active { display:flex; }
     .compare-item { display:flex;align-items:center;gap:0.4rem;background:rgba(90,122,82,0.2);padding:0.2rem 0.6rem;border-radius:20px;font-size:0.7rem;color:var(--text-primary); }
     .compare-btn { background:var(--sage);border:none;border-radius:30px;padding:0.35rem 0.9rem;color:white;font-size:0.72rem;cursor:pointer;font-family:'DM Sans',sans-serif; }
 
-    /* ═══ TAB SYSTEM ═══ */
     .tab-nav { display:flex;gap:0.4rem;background:rgba(0,0,0,0.22);padding:0.35rem;border-radius:var(--radius-md); margin-bottom:1.5rem;border:1px solid var(--border-light); }
     body.light-mode .tab-nav { background:rgba(255,255,255,0.3); }
     .tab-btn { flex:1;padding:0.6rem;border:none;border-radius:var(--radius-sm);cursor:pointer; font-size:0.8rem;font-weight:600;font-family:'DM Sans',sans-serif; color:var(--text-secondary);background:transparent;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:0.4rem; }
@@ -231,7 +209,6 @@
     .tab-panel { display:none; }
     .tab-panel.active { display:block; }
 
-    /* ═══ FARMER HUB ═══ */
     .hub-hero { background:linear-gradient(135deg,rgba(61,92,54,0.38),rgba(90,122,82,0.18)); border:1px solid rgba(90,122,82,0.35);border-radius:var(--radius-lg); padding:1.6rem;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem; }
     .hub-hero h2 { font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--text-primary); }
     .hub-hero p { font-size:0.82rem;color:var(--text-secondary);margin-top:0.3rem;max-width:420px; }
@@ -258,7 +235,6 @@
     .grant-card p { font-size:0.78rem;color:var(--text-secondary);line-height:1.55;margin-bottom:0.6rem; }
     .grant-amount { font-family:'DM Mono',monospace;font-size:1.1rem;color:var(--gold);font-weight:500; }
 
-    /* ═══ INSTITUTIONAL ═══ */
     .inst-hero { background:linear-gradient(135deg,rgba(20,40,60,0.45),rgba(30,60,90,0.18)); border:1px solid rgba(100,150,200,0.18);border-radius:var(--radius-lg);padding:1.6rem;margin-bottom:1.2rem; }
     .inst-hero h2 { font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text-primary); }
     .inst-hero p { font-size:0.82rem;color:var(--text-secondary);margin-top:0.3rem; }
@@ -274,7 +250,6 @@
     .info-banner { background:rgba(90,122,82,0.1);border:1px solid rgba(90,122,82,0.25);border-radius:var(--radius-sm); padding:0.8rem 1rem;font-size:0.78rem;color:var(--text-secondary);display:flex;gap:0.6rem;align-items:flex-start;margin-bottom:1rem; }
     .info-banner i { color:var(--accent);margin-top:0.1rem;flex-shrink:0; }
 
-    /* ═══ ANALYTICS ═══ */
     .analytics-hero { display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.8rem;margin-bottom:1.5rem; }
     .metric-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:1rem; display:flex;flex-direction:column;gap:0.25rem; }
     .metric-card .m-icon { font-size:1.3rem; }
@@ -282,7 +257,6 @@
     .metric-card .m-lbl { font-size:0.63rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary); }
     .metric-card .m-chg { font-size:0.7rem;color:#4ade80; }
 
-    /* ═══ LOGISTICS ═══ */
     .map-dot { width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim);animation:pulse 2s infinite; }
     @keyframes pulse { 0%,100%{box-shadow:0 0 0 4px var(--accent-dim)} 50%{box-shadow:0 0 0 12px rgba(168,212,138,0.04)} }
     .shipment-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md); padding:1rem;margin-bottom:0.7rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap; }
@@ -296,7 +270,6 @@
     .ship-track-btn { background:var(--accent-dim);border:1px solid var(--border);color:var(--text-primary);border-radius:20px;padding:.3rem .8rem;font-size:.68rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;flex-shrink:0; }
     .ship-track-btn:hover { background:rgba(90,122,82,0.3);border-color:var(--accent); }
 
-    /* ═══ FREIGHT MAP ═══ */
     .freight-map-wrap { border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.2rem;position:relative; }
     #freightMap { height:340px;width:100%;background:#0d140d; }
     #trackMap { height:220px;width:100%;background:#0d140d;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:.8rem; }
@@ -314,7 +287,6 @@
     .divIcon-carrier.busy { background:var(--gold); }
     .divIcon-shipment { background:var(--accent);border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px var(--accent-dim); }
 
-    /* ═══ FREIGHT MARKETPLACE ═══ */
     .carrier-grid { display:grid;grid-template-columns:1fr;gap:1rem; }
     @media(min-width:700px) { .carrier-grid { grid-template-columns:repeat(2,1fr); } }
     @media(min-width:1150px) { .carrier-grid { grid-template-columns:repeat(3,1fr); } }
@@ -338,7 +310,6 @@
     .book-carrier-btn:disabled { background:rgba(120,120,120,.3);cursor:not-allowed;transform:none;filter:none; }
     .stars i { font-size:.68rem; }
 
-    /* ═══ CARRIER PORTAL / FLEET ═══ */
     .checkbox-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:.5rem;margin-bottom:.9rem; }
     .region-check { display:flex;align-items:center;gap:.4rem;background:rgba(90,122,82,0.08);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:.45rem .6rem;font-size:.76rem;cursor:pointer;color:var(--text-secondary);transition:.2s; }
     .region-check.checked { background:rgba(96,165,250,0.15);border-color:rgba(96,165,250,0.4);color:#60a5fa; }
@@ -348,7 +319,6 @@
     .booking-row { display:flex;justify-content:space-between;align-items:center;padding:.7rem .9rem;border-bottom:1px solid rgba(90,122,82,0.1);font-size:.78rem;gap:.6rem;flex-wrap:wrap; }
     .booking-row:last-child { border-bottom:none; }
 
-    /* ═══ IMPACT ═══ */
     .impact-hero { background:linear-gradient(135deg,rgba(20,50,20,0.5),rgba(30,80,30,0.18)); border:1px solid rgba(74,222,128,0.2);border-radius:var(--radius-lg); padding:1.8rem;margin-bottom:1.5rem;text-align:center; }
     .impact-hero h2 { font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--text-primary); }
     .impact-hero p { font-size:0.85rem;color:var(--text-secondary);margin-top:0.4rem;max-width:500px;margin-left:auto;margin-right:auto; }
@@ -365,7 +335,7 @@
     .testimonial-card .tauthor { font-size:0.72rem;color:var(--text-secondary);margin-top:0.6rem;padding-left:0.5rem;font-style:normal; }
     .testimonial-card .tauthor strong { color:var(--accent); }
 
-    /* ═══ AI ASSISTANT ═══ */
+    /* ── AI Assistant ── */
     .ai-chat-wrap { display:flex;flex-direction:column;min-height:400px; }
     .ai-header { display:flex;align-items:center;gap:0.8rem;padding:1rem 1.2rem; background:linear-gradient(135deg,rgba(61,92,54,0.3),rgba(20,40,20,0.4));border:1px solid var(--border); border-radius:var(--radius-lg);margin-bottom:1rem; }
     .ai-avatar { width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--sage-dark),var(--sage-light));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0; }
@@ -386,14 +356,71 @@
     .ai-suggestions { display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.8rem; }
     .ai-suggestion { background:var(--accent-dim);border:1px solid var(--border);border-radius:20px;padding:0.4rem 0.9rem;font-size:0.75rem;cursor:pointer;color:var(--text-secondary);transition:.2s;font-family:'DM Sans',sans-serif; }
     .ai-suggestion:hover { background:rgba(90,122,82,0.25);color:var(--text-primary);border-color:var(--accent); }
-    .ai-input-row { display:flex;gap:0.5rem; }
+    .ai-input-row { display:flex;gap:0.5rem;margin-bottom:0.8rem; }
     .ai-input-row input { flex:1;background:var(--bg-glass);border:1px solid var(--border);border-radius:40px; padding:0.7rem 1.2rem;color:var(--text-primary);font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none; transition:border-color .2s,box-shadow .2s; }
     .ai-input-row input:focus { border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim); }
     .ai-input-row input::placeholder { color:var(--text-secondary); }
     .ai-send-btn { background:linear-gradient(135deg,var(--sage-dark),var(--sage-light));border:none;border-radius:50%;width:42px;height:42px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0; }
     .ai-send-btn:hover { filter:brightness(1.1);transform:scale(1.05); }
 
-    /* Orders */
+    /* ── FAQ section (new) ── */
+    .faq-section {
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--border-light);
+      padding-top: 0.8rem;
+    }
+    .faq-section h4 {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-bottom: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    @media (max-width: 700px) {
+      .faq-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 450px) {
+      .faq-grid { grid-template-columns: 1fr; }
+    }
+    .faq-item {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.75rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+    .faq-item:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+    .faq-item i {
+      color: var(--accent);
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+
     .order-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md); padding:1.1rem;margin-bottom:0.8rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap; }
     .order-icon { width:42px;height:42px;border-radius:12px;background:rgba(90,122,82,0.15);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0; }
     .order-id { font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--text-secondary); }
@@ -989,7 +1016,7 @@
         </div>
       </div>
 
-      <!-- AI ASSISTANT -->
+      <!-- AI ASSISTANT (with FAQ section at the bottom) -->
       <div id="view-assistant" class="view">
         <div class="view-header">
           <div><h2>AI Assistant</h2><p>Your agricultural intelligence advisor</p></div>
@@ -1015,6 +1042,12 @@
           <div class="ai-input-row">
             <input id="aiInput" placeholder="Ask about grants, pricing, certification, logistics..." onkeydown="if(event.key==='Enter')sendAI()">
             <button class="ai-send-btn" onclick="sendAI()"><i class="fas fa-paper-plane"></i></button>
+          </div>
+
+          <!-- NEW FAQ SECTION -->
+          <div class="faq-section" id="faqSection">
+            <h4><i class="fas fa-question-circle"></i> Frequently Asked Questions</h4>
+            <div class="faq-grid" id="faqGrid"></div>
           </div>
         </div>
       </div>
@@ -1100,6 +1133,7 @@
   </div>
 
   <div class="toast-container" id="toastContainer"></div>
+
   <script>
   (function() {
     const products = [
@@ -1149,13 +1183,12 @@
       if(cityGeo[k]) return cityGeo[k];
       const partial=Object.keys(cityGeo).find(c=>c.includes(k.split(',')[0].trim())||k.includes(c.split(',')[0]));
       if(partial) return cityGeo[partial];
-      // fallback: rough region centroid based on state code mentioned
       if(/\bca\b/i.test(name)) return [36.77,-119.4];
       if(/\bny\b/i.test(name)) return [42.9,-75.5];
       if(/\btx\b/i.test(name)) return [31.9,-99.9];
       if(/\bfl\b/i.test(name)) return [27.9,-81.7];
       if(/\bwa\b/i.test(name)) return [47.4,-120.7];
-      return [39.5,-98.35]; // center of US
+      return [39.5,-98.35];
     }
     function haversineMiles(a,b){
       const R=3958.8, toRad=d=>d*Math.PI/180;
@@ -1163,7 +1196,6 @@
       const x=Math.sin(dLat/2)**2 + Math.cos(toRad(a[0]))*Math.cos(toRad(b[0]))*Math.sin(dLng/2)**2;
       return Math.round(R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x)));
     }
-    /* Rolling availability windows: always computed relative to today, so listings never look stale/expired */
     function fmtDate(d){ return d.toISOString().slice(0,10); }
     function addDays(base,days){ const d=new Date(base); d.setDate(d.getDate()+days); return d; }
     function randomAvailability(minStart=0,maxStart=6,minDuration=18,maxDuration=55){
@@ -1200,7 +1232,37 @@
       if(cf&&ct){ const today=new Date(); cf.value=fmtDate(today); ct.value=fmtDate(addDays(today,30)); cf.min=fmtDate(today); ct.min=fmtDate(today); }
       document.getElementById('aiMessages').innerHTML =
         `<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">🌾 Hi! I'm AgroBot. Ask me about FMPP/LFPP grants, organic certification, pricing trends, cold-chain logistics, freight carriers, or anything farm-to-table related.</div></div>`;
+      // Render FAQ items
+      renderFAQs();
     }
+
+    // ── FAQ data and render ──
+    const faqList = [
+      { icon: 'fa-hand-holding-dollar', q: 'How do I apply for FMPP grants?' },
+      { icon: 'fa-building', q: 'What is the LFPP program and how does it work?' },
+      { icon: 'fa-plus-circle', q: 'How can I list my products on AgroCart?' },
+      { icon: 'fa-snowflake', q: 'What are the cold-chain logistics requirements?' },
+      { icon: 'fa-leaf', q: 'How do I become an organic certified producer?' },
+      { icon: 'fa-school', q: 'How can institutions procure through AgroCart?' },
+      { icon: 'fa-truck-fast', q: 'How does the freight booking work?' },
+      { icon: 'fa-coins', q: 'What are the fees for using AgroCart?' }
+    ];
+
+    function renderFAQs() {
+      const grid = document.getElementById('faqGrid');
+      if (!grid) return;
+      grid.innerHTML = faqList.map(faq => `
+        <button class="faq-item" onclick="askFAQ('${faq.q.replace(/'/g, "\\'")}')">
+          <i class="fas ${faq.icon}"></i> ${faq.q}
+        </button>
+      `).join('');
+    }
+
+    // Global function called by FAQ buttons
+    window.askFAQ = function(question) {
+      document.getElementById('aiInput').value = question;
+      sendAI();
+    };
 
     /* ── Tab system ── */
     function initTabs() {
@@ -1227,14 +1289,12 @@
       });
     }
 
-    /* ── Organic toggle ── */
     window.toggleOrganic = function(wrapper) {
       const sw = wrapper.querySelector('.toggle-sw');
       const cb = document.getElementById('productOrganic');
       sw.classList.toggle('on'); cb.checked = sw.classList.contains('on');
     };
 
-    /* ── Events ── */
     function bindEvents() {
       $('#addProductBtn').addEventListener('click', addFarmerProduct);
       $('#placeBulkOrderBtn').addEventListener('click', placeBulkOrder);
@@ -1253,7 +1313,6 @@
       $('#cartMobBtn').addEventListener('click', openCheckout);
     }
 
-    /* ── Theme ── */
     function initThemeToggle() {
       const toggle=$('#themeToggle'), body=document.body;
       const update=()=>{
@@ -1266,7 +1325,6 @@
       update();
     }
 
-    /* ── Particles ── */
     function initParticles() {
       const canvas=document.getElementById('particleCanvas'); if(!canvas) return;
       const ctx=canvas.getContext('2d'); let pts=[];
@@ -1280,7 +1338,6 @@
       })();
     }
 
-    /* ── Featured slides ── */
     function renderFeaturedSlides() {
       const container=document.getElementById('featuredSlides');
       const featured=products.filter(p=>p.rating>=4.7).slice(0,5);
@@ -1295,7 +1352,6 @@
       if(window.Swiper) new Swiper('.mySwiper',{loop:true,autoplay:{delay:3500,disableOnInteraction:false},pagination:{el:'.swiper-pagination',clickable:true}});
     }
 
-    /* ── Marketplace ── */
     window.renderMarketplace = function() {
       let list=products.filter(p=>(activeRegion==="all"||p.region===activeRegion)&&(!organicOnly||p.organic));
       const q=$('#globalSearch')?.value.toLowerCase()||'';
@@ -1335,7 +1391,6 @@
       }).join('');
     };
 
-    /* ── Compare ── */
     window.toggleCompare=function(id,checked){
       if(checked) compareSet.add(id); else compareSet.delete(id);
       updateCompareBar(); renderMarketplace();
@@ -1376,7 +1431,6 @@
       document.getElementById('productDetailModal').classList.add('open');
     };
 
-    /* ── Product detail ── */
     window.openProductDetail=function(id){
       const p=products.find(x=>x.id===id); if(!p) return;
       const reviews=Math.floor(p.rating*10+Math.random()*30+10);
@@ -1396,7 +1450,6 @@
     };
     window.closeProductDetail=()=>document.getElementById('productDetailModal').classList.remove('open');
 
-    /* ── Cart ── */
     window.addToCart=function(id){
       const p=products.find(x=>x.id===id); if(!p) return;
       const ex=cart.find(i=>i.id===id);
@@ -1440,7 +1493,6 @@
       toast('Order placed! 🎉 Farmers notified.','success');
     };
 
-    /* ── Wishlist ── */
     window.toggleWishlist=function(id){
       if(wishlist.has(id)) wishlist.delete(id); else wishlist.add(id);
       renderMarketplace(); renderWishlistView();
@@ -1464,7 +1516,6 @@
         </div>`).join('');
     }
 
-    /* ── Orders ── */
     function renderOrders(){
       const el=document.getElementById('ordersList');
       if(!orders.length){ el.innerHTML='<div style="text-align:center;padding:2.5rem;color:var(--text-secondary);"><i class="fas fa-receipt" style="font-size:2rem;opacity:.3;display:block;margin-bottom:.8rem;"></i><p>No orders yet. Browse the marketplace to get started.</p></div>'; return; }
@@ -1480,7 +1531,6 @@
         </div>`).join('');
     }
 
-    /* ── Freight & Logistics ── */
     window.closeModal=id=>document.getElementById(id).classList.remove('open');
 
     function regionTag(t){ return t==='CA'?'🌴':t==='NY'?'🗽':t==='TX'?'⭐':t==='FL'?'🌞':t==='WA'?'🌲':'📍'; }
@@ -1506,7 +1556,6 @@
       if(avgRate && carriers.length) avgRate.textContent='$'+(carriers.reduce((a,c)=>a+c.pricePerMile,0)/carriers.length).toFixed(2);
     }
 
-    /* Active shipments list */
     function renderShipments(){
       const el=document.getElementById('pendingOrdersList');
       if(!el) return;
@@ -1522,7 +1571,6 @@
       refreshFreightBadges();
     }
 
-    /* Carrier marketplace */
     let carrierRegionFilter='all', coldChainOnly=false, carrierSort='default';
     function renderCarriers(){
       const grid=document.getElementById('carrierGrid');
@@ -1577,7 +1625,6 @@
       if(dl) dl.innerHTML=Object.keys(cityGeo).map(c=>`<option value="${c.replace(/\b\w/g,ch=>ch.toUpperCase())}">`).join('');
     }
 
-    /* Enlist a truck (carrier portal) */
     window.toggleColdChain=function(wrapper){
       const sw=wrapper.querySelector('.toggle-sw');
       const cb=document.getElementById('carrierColdChain');
@@ -1615,7 +1662,6 @@
       }
     });
 
-    /* My Fleet */
     function renderFleet(){
       const mine=carriers.filter(c=>c.mine);
       const listEl=document.getElementById('myFleetList');
@@ -1648,7 +1694,6 @@
       toast('Truck listing removed','info');
     };
 
-    /* Booking flow */
     window.openBookCarrier=function(id){
       const c=carriers.find(x=>x.id===id); if(!c) return;
       document.getElementById('bookCarrierId').value=id;
@@ -1699,7 +1744,6 @@
       ['bookShipperName','bookOrigin','bookDestination','bookCargo','bookWeight','bookDate'].forEach(f=>document.getElementById(f).value='');
     };
 
-    /* Track shipment */
     let trackMapInstance=null, trackMarker=null, trackInterval=null;
     window.trackShipment=function(id){
       const s=shipments.find(x=>x.id===id); if(!s) return;
@@ -1735,7 +1779,6 @@
       },80);
     };
 
-    /* Live freight map */
     let freightMapInstance=null, freightMarkers=[];
     function initFreightMap(){
       const mapEl=document.getElementById('freightMap');
@@ -1766,7 +1809,6 @@
       refreshFreightBadges();
     }
 
-    /* ── Farmer listing ── */
     function addFarmerProduct(){
       const name=document.getElementById('productName').value.trim();
       if(!name) return toast('Enter a product name','error');
@@ -1805,7 +1847,6 @@
       toast('Product removed','info');
     };
 
-    /* ── Institutional ── */
     function renderInstDropdown(){
       const sel=document.getElementById('instProductSelect');
       if(sel) sel.innerHTML=products.map(p=>`<option value="${p.id}">${p.name} — $${p.price}/${p.unit} (${p.qty} avail.)</option>`).join('');
@@ -1846,7 +1887,6 @@
         </div>`).join('');
     }
 
-    /* ── AI ── */
     const aiKB = {
       grant:     "FMPP offers grants up to $500k for direct marketing. LFPP supports food business enterprises. Apply at grants.usda.gov — deadline March 15. Most AgroCart farmers qualify for both. Your platform activity also counts toward eligibility documentation.",
       organic:   "Organic certification requires a 3-year transition. USDA's Cost Share reimburses up to $500/year. AgroCart partners with 12 USDA-accredited certifiers. Timeline: application → inspection → certificate typically takes 6–9 months. We can connect you with a local certifier today.",
@@ -1877,7 +1917,7 @@
         });
         const data = await res.json();
         document.querySelector('.typing-indicator')?.remove();
-        const reply = data.reply || aiKB.default; // fallback to your static KB if the call errors
+        const reply = data.reply || aiKB.default;
         msgs.innerHTML += `<div class="ai-msg bot"><div class="msg-av"><i class="fas fa-seedling"></i></div><div class="bubble">${reply}</div></div>`;
       } catch(e) {
         document.querySelector('.typing-indicator')?.remove();
@@ -1891,7 +1931,6 @@
       sendAI();
     };
 
-    /* ── Charts ── */
     let chartsInited=false;
     function initCharts(){
       if(chartsInited) return; chartsInited=true;
@@ -1917,7 +1956,6 @@
       fleetChartInstance=new Chart(canvas,{type:'bar',data:{labels:['Wk1','Wk2','Wk3','Wk4'],datasets:[{data:[40,58,71,64],backgroundColor:'rgba(96,165,250,0.75)',borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{x:{grid,ticks:tick},y:{grid,ticks:tick,max:100}}}});
     }
 
-    /* ── View switching ── */
     function switchView(view){
       $$('.view').forEach(v=>v.classList.remove('active'));
       const target=document.getElementById(`view-${view}`);
@@ -1934,7 +1972,6 @@
       if(view==='institutional') { renderInstDropdown(); renderInstOrders(); }
     }
 
-    /* ── Toast ── */
     function toast(msg,type='info'){
       const container=document.getElementById('toastContainer');
       const el=document.createElement('div');
